@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Budget-Calculator/style.css">
+    <title>Budget Calculator</title>
+</head>
+<body>
+    <h1>Budget Calculator</h1>
+    <div class="main-container">
+        <div>
+            <label for="number">Net Income</label>
+            <input id="net-income" type="number">
+        </div>
+        <div>
+            <label for="number">Save</label>
+            <input placeholder="%" id="save-option" type="number">
+        </div>
+        <div>
+            <label for="number">Mortgage Bill</label>
+            <input placeholder="%" id="mortgage-option" type="number">
+        </div>
+        <div>
+            <label for="number">Insurance Bill</label>
+            <input placeholder="%" id="insurance-option" type="number">
+        </div>
+        <div>
+            <label for="number">BGE and Water Bill</label>
+            <input placeholder="%" id="bge-water-option" type="number">
+        </div>
+        <div>
+            <label for="number">Emergencies</label>
+            <input placeholder="%" id="emergencies-option" type="number">
+        </div>
+    </div>
+    <button id="btn">Calculate</button>
+    <div>
+        <p class="calculation-results"></p>
+        <p class="calculation-results"></p>
+        <p class="calculation-results"></p>
+        <p class="calculation-results"></p>
+        <p class="calculation-results"></p>
+        <p class="calculation-results"></p>
+    </div>
+    <script src="/Budget-Calculator/script.js"></script>
+</body>
+</html>
