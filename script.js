@@ -6,48 +6,115 @@ const waterBGEOption = document.getElementById('bge-water-option');
 const emergenciesOption = document.getElementById('emergencies-option');
 const btn = document.getElementById('btn');
 const calcResults = document.querySelectorAll('.calculation-results');
+const f = [saveOption, mortgageOption, insuranceOption, waterBGEOption, emergenciesOption];
+const messages = [
+    'Save Set Aside:',
+    'Mortgage Set Aside:',
+    'Insurance Set Aside:',
+    'Water/BGE Set Aside:',
+    'Emergency Set Aside:',
+    'Net Pay:'
+];
 
 btn.addEventListener('click', () => {
-    const message = 'New Net Pay:';
     const end = calcResults.length - 1;
-    if(netIncome.value === '') {
-        alert('Must have a net income!');
-    }
-    if(!(saveOption.value === '')) {
-        const percentage = netIncome.value * (saveOption.value / 100);
-        const newNetPay = netIncome.value - percentage;
-        calcResults[0].textContent = `Save Set Aside: $${percentage.toFixed(2)}`
-        calcResults[end].textContent = `${message} $${newNetPay.toLocaleString('en-US')}`;
-    }
-    if(mortgageOption.value != '') {
-        const netPay = parseFloat(removeChar(calcResults[end].textContent.substring(14)));
-        const percentage = netPay * (mortgageOption.value / 100);
-        const newNetPay = (netPay - percentage).toLocaleString('en-US');
-        calcResults[1].textContent = `Mortgage Set Aside: $${percentage.toFixed(2)}`
-        calcResults[end].textContent = `${message} $${newNetPay}`;
-    }
-    if(insuranceOption.value != '') {
-        const netPay = parseFloat(removeChar(calcResults[end].textContent.substring(14)));
-        const percentage = netPay * (insuranceOption.value / 100);
-        const newNetPay = (netPay - percentage).toLocaleString('en-US');
-        calcResults[2].textContent = `Insurance Set Aside: $${percentage.toFixed(2)}`
-        calcResults[end].textContent = `${message} $${newNetPay}`;
-    }
-    if(waterBGEOption.value != '') {
-        const netPay = parseFloat(removeChar(calcResults[end].textContent.substring(14)));
-        const percentage = netPay * (waterBGEOption.value / 100);
-        const newNetPay = (netPay - percentage).toLocaleString('en-US');
-        calcResults[3].textContent = `Water/BGE Set Aside: $${percentage.toFixed(2)}`
-        calcResults[end].textContent = `${message} $${newNetPay}`;
-    }
-    if(emergenciesOption.value != '') {
-        const netPay = parseFloat(removeChar(calcResults[end].textContent.substring(14)));
-        const percentage = netPay * (emergenciesOption.value / 100);
-        const newNetPay = (netPay - percentage).toLocaleString('en-US');
-        calcResults[4].textContent = `Emergency Set Aside: $${percentage.toFixed(2)}`
-        calcResults[end].textContent = `${message} $${newNetPay}`;
+    const num = 10;
+    if(netIncome.value === '') { alert('Must have a net income!'); }
+    else {
+        for(let element of f) {
+            if(element.value === '') { validateSaveOption(0, end); }
+        }
+        validateSaveOption(0, end);
+        validateMortgageOption(1, end, num);
+        validateInsuranceOption(2, end, num);
+        validateWaterBGEOption(3, end, num);
+        validateEmergencyOption(4, end, num);
     }
 })
+
+function validateSaveOption(i, end) {
+    if(saveOption.value != '') {
+        const percentage = (netIncome.value * (saveOption.value / 100)).toFixed(2);
+        const newNetPay = (netIncome.value - percentage).toFixed(2);
+        displayCalcResults(newNetPay, percentage, messages[0], i, end);
+    }
+    else { 
+        const percentage = calcResults[i].textContent;
+        const newNetPay = netIncome.value + percentage;
+        displayCalcResults(newNetPay, percentage, '', i, end);
+    }
+}
+
+function validateMortgageOption(i, end, num) {
+    if(mortgageOption.value != '') {
+        const netPay = parseFloat(removeChar(calcResults[end].textContent.substring(num)));
+        const percentage = (netPay * (mortgageOption.value / 100)).toFixed(2);
+        const newNetPay = (netPay - percentage).toFixed(2);
+        displayCalcResults(newNetPay, percentage, messages[1], i, end);
+    }
+    else {
+        const netPay = parseFloat(removeChar(calcResults[end].textContent.substring(num)));
+        const percentage = netPay * (mortgageOption.value / 100);
+        const newNetPay = netPay + percentage;
+        displayCalcResults(newNetPay, percentage, '', i, end);
+    }
+}
+
+function validateInsuranceOption(i, end, num) {
+    if(insuranceOption.value != '') {
+        const netPay = parseFloat(removeChar(calcResults[end].textContent.substring(num)));
+        const percentage = (netPay * (insuranceOption.value / 100)).toFixed(2);
+        const newNetPay = (netPay - percentage).toFixed(2);
+        displayCalcResults(newNetPay, percentage, messages[2], i, end);
+    }
+    else {
+        const netPay = parseFloat(removeChar(calcResults[end].textContent.substring(num)));
+        const percentage = netPay * (insuranceOption.value / 100);
+        const newNetPay = netPay + percentage;
+        displayCalcResults(newNetPay, percentage, '', i, end);
+    }
+}
+
+function validateWaterBGEOption(i, end, num) {
+    if(waterBGEOption.value != '') {
+        const netPay = parseFloat(removeChar(calcResults[end].textContent.substring(num)));
+        const percentage = (netPay * (waterBGEOption.value / 100)).toFixed(2);
+        const newNetPay = (netPay - percentage).toFixed(2);
+        displayCalcResults(newNetPay, percentage, messages[3], i, end);
+    }
+    else {
+        const netPay = parseFloat(removeChar(calcResults[end].textContent.substring(num)));
+        const percentage = netPay * (waterBGEOption.value / 100);
+        const newNetPay = netPay + percentage;
+        displayCalcResults(newNetPay, percentage, '', i, end);
+    }
+}
+
+function validateEmergencyOption(i, end, num) {
+    if(emergenciesOption.value != '') {
+        const netPay = parseFloat(removeChar(calcResults[end].textContent.substring(num)));
+        const percentage = (netPay * (emergenciesOption.value / 100)).toFixed(2);
+        const newNetPay = (netPay - percentage).toFixed(2);
+        displayCalcResults(newNetPay, percentage, messages[4], i, end);
+    }
+    else {
+        const netPay = parseFloat(removeChar(calcResults[end].textContent.substring(num)));
+        const percentage = netPay * (emergenciesOption.value / 100);
+        const newNetPay = netPay + percentage;
+        displayCalcResults(newNetPay, percentage, '', i, end);
+    }
+}
+
+function displayCalcResults(newNetPay, percentage, message, i, end) {
+    if(message != '') {
+        calcResults[i].textContent = `${message} -$${percentage.toLocaleString('en-US')}`
+        calcResults[end].textContent = `${messages[end]} $${newNetPay.toLocaleString('en-US')}`;
+    }
+    else {
+        calcResults[i].textContent = message[i];
+        calcResults[end].textContent = `${messages[end]} $${newNetPay.toLocaleString('en-US')}`;
+    }
+}
 
 function removeChar(string) {
     let newString = '';
