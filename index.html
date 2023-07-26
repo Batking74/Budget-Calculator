@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Budget Calculator</h1>
-    <div class="main-container">
+    <div id="main-container" class="main-container">
         <div>
             <label for="number">Net Income</label>
             <input id="net-income" type="number">
@@ -18,31 +18,20 @@
             <input placeholder="%" id="save-option" type="number">
         </div>
         <div>
-            <label for="number">Mortgage Bill</label>
-            <input placeholder="%" id="mortgage-option" type="number">
-        </div>
-        <div>
-            <label for="number">Insurance Bill</label>
-            <input placeholder="%" id="insurance-option" type="number">
-        </div>
-        <div>
-            <label for="number">BGE and Water Bill</label>
-            <input placeholder="%" id="bge-water-option" type="number">
-        </div>
-        <div>
-            <label for="number">Emergencies</label>
-            <input placeholder="%" id="emergencies-option" type="number">
+            <label for="number">Bills</label>
+            <input placeholder="%" id="bills-option" type="number">
         </div>
     </div>
     <button id="btn">Calculate</button>
-    <div class="results-container">
-        <p class="calculation-results"></p>
-        <p class="calculation-results"></p>
-        <p class="calculation-results"></p>
-        <p class="calculation-results"></p>
-        <p class="calculation-results"></p>
-        <p class="calculation-results"></p>
+    <button id="clear-btn">Clear</button>
+    <button id="set-aside-btn">Add Set Aside</button>
+    <div id="results" class="results-container">
+        <h1>Results</h1>
+        <p class="calculation-results" id="save-aside-results"></p>
+        <p class="calculation-results" id="bill-saide-results"></p>
+        <p class="calculation-results" id="netpay-aside-results"></p>
+        <p class="calculation-results" id="total-percentage-kept-results"></p>
     </div>
-    <script src="/Budget-Calculator/script.js"></script>
+    <script type="module" src="/Budget-Calculator/script.js"></script>
 </body>
 </html>
