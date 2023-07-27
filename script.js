@@ -1,9 +1,9 @@
 import LinkedList from "./linkedlist.js";
 const inputOptions = new LinkedList();
 const calcResults = new LinkedList();
-const messages = new LinkedList();
+const setAsideMsg = new LinkedList();
 const mainContainer = document.getElementById('main-container');
-const netIncome = document.getElementById('net-income');
+let netIncome = document.getElementById('net-income');
 const saveOption = document.getElementById('save-option');
 const billsOption = document.getElementById('bills-option');
 const calcBtn = document.getElementById('btn');
@@ -19,26 +19,32 @@ inputOptions.insertAtHead(billsOption);
 inputOptions.insertAtHead(saveOption);
 calcResults.insertAtHead(billsResults);
 calcResults.insertAtHead(saveResults);
-messages.insertAtHead('Bills Set Aside');
-messages.insertAtHead('Save Set Aside');
+setAsideMsg.insertAtHead('Bills Set Aside');
+setAsideMsg.insertAtHead('Save Set Aside');
+const text = [
+    'All inputs must be used!',
+    'What is the name of this set aside?',
+    'Must have a net income!',
+    'user-new-setAside',
+    'calculation-results'
+]
 
 let numberOfSetAside = 0;
+const empty = '';
 let count2 = 3;
 let count3 = 2;
-const inputListLength = 2;
-const empty = '';
-const containerLength = calcResults.length;
-const end = [containerLength - 1, containerLength - 2, (containerLength - 1) + 2, (containerLength - 2) + 1];
 
 setAsideBtn.addEventListener('click', () => {
-    if(document.body.children[1].children[count2 - 1].children[1].value === empty) {
-        console.log('All inputs must be used!')
-        return;
+    if(hasNetIncome()) {
+        for(let i = 0; i < inputOptions.length; i++) {
+            if(inputOptions.getIndex(i).value.value === empty) inputOptions.getIndex(i).value.value = 0;
+        }
+        validateSetAsides();
+        addSetAside(prompt(text[1]));
     }
-    else { addSetAside(prompt('What is the name of this set aside?')); }
 })
-document.addEventListener('keyup', (key) => { if(key.key === 'Enter') calculate() });
-calcBtn.addEventListener('click', () => calculate());
+document.addEventListener('keyup', (key) => { if(key.key === 'Enter') validateSetAsides() });
+calcBtn.addEventListener('click', () => validateSetAsides());
 clearBtn.addEventListener('click', () => {
     for(let i = 0; i < inputOptions.length; i++) {
         netIncome.value = empty;
@@ -46,56 +52,48 @@ clearBtn.addEventListener('click', () => {
     }
 })
 
-function calculate() {
-    console.log(inputOptions)
-    const value = document.body.children[1].children[count2 - 1].children[1].value;
-    if(netIncome.value === empty) alert('Must have a net income!');
-    else {
-        const msg = getNodeFrom(messages, end[1]);
+function validateSetAsides() {
+    const netPayValue = netIncome.value;
+    if(hasNetIncome()) {
+        const msg = getNodeFrom(setAsideMsg, setAsideMsg.length - 2);
         const num = (msg.length) + 2;
-        netPayResults.textContent = `${msg}: $${netIncome.value}`;
-        // netPayResults.textContent = empty;
+        netPayResults.textContent = `${msg}: $${netPayValue}`;
         for(let i = 0; i < inputOptions.length; i++) {
-            const e = document.body.children[1].getElementsByTagName('div').length -1;
-            let s = document.body.children[1].getElementsByTagName('div')[inputOptions.length].childNodes[1].id;
-            console.log(s)
-
-            const t = document.body.children[1].getElementsByTagName('div')[inputOptions.l - 1];
-            if(inputOptions.length > inputListLength && value != undefined && s === 'user-new-setAside') {
-                inputOptions.getIndex(2).value = document.body.children[1].children[count2 - 1].children[1];
-                console.log(inputOptions)
-            }
-            const msgValue = getNodeFrom(messages, i);
-            let input = getNodeFrom(inputOptions, i);
-            // if(count3 > 2 && i != 0 && i != 1 && t != 'Bills') {
-            //     input = document.body.children[1].getElementsByTagName('div')[e].children[1].value;
-
-            // }
-
-            validateOptions(i, num, input, msgValue);
+            hasNewSetAsides();
+            const label = getNodeFrom(setAsideMsg, i);
+            let inputData = getNodeFrom(inputOptions, i);
+            if(inputData.value === empty) getNodeFrom(calcResults, i).textContent = empty;
+            else if(inputData.value === undefined) return;
+            else calculate(netPayValue, inputData, label, num, i);
         }
     }
 }
 
-function validateOptions(i, num, input, msgValue) {
-        if(input.value === empty) calcResults.getIndex(i).value.textContent = empty;
-        else if(input.value === null || input.value === undefined) return;
-        else {
-            // Calculating Net Pay and Set Aside Amounts
-            const netPay = parseFloat(removeChar(netPayResults.textContent.substring(num)));
-            const percentage = (netPay * (input.value / 100)).toFixed(2);
-            const newNetPay = (netPay - percentage).toFixed(2);
-            
-            // Calculating Total Percentage Saved
-            const saved = ((newNetPay / netIncome.value) * 100).toFixed(0);
-            displayCalcResults(i, newNetPay, percentage, saved, input, msgValue);
-        }
+function hasNewSetAsides() {
+    const newSetAsideValue = getNewSetAside().value;
+    let setAsideId = getInputDivs()[inputOptions.length].childNodes[1].id;
+    if(inputOptions.length > 2 && newSetAsideValue != undefined && setAsideId === text[3]) {
+        inputOptions.getIndex(2).value = mainContainer.children[count2 - 1].children[1];
+        return true;
+    }
+    else return false;
 }
 
-function displayCalcResults(i, newNetPay, percentage, saved, input, msgValue) {
-    calcResults.getIndex(i).value.textContent = `${msgValue} ${input.value}%: -$${percentage}`;
+function calculate(netPayValue, inputData, label, num, i) {
+    // Calculating Net Pay and Set Aside Amounts
+    const netPay = parseFloat(removeChar(netPayResults.textContent.substring(num)));
+    const setAsideAmount = (netPay * (inputData.value / 100)).toFixed(2);
+    const newNetPay = (netPay - setAsideAmount).toFixed(2);
+    
+    // Calculating Total Percentage Saved
+    const percentageSaved = ((newNetPay / netPayValue) * 100).toFixed(0);
+    displayCalcResults(newNetPay, inputData, label, setAsideAmount, percentageSaved, i);
+}
+    
+function displayCalcResults(newNetPay, inputData, label, setAsideAmount, percentageSaved, i) {
+    getNodeFrom(calcResults, i).textContent = `${label} ${inputData.value}%: -$${setAsideAmount}`;
     netPayResults.textContent = `Spending Money: $${newNetPay.toLocaleString()}`;
-    percentKeptResults.textContent = `You Keep ${saved}% of Your Net Pay!`
+    percentKeptResults.textContent = `You Keep ${percentageSaved}% of Your Net Pay!`;
 }
 
 function removeChar(string) {
@@ -116,23 +114,30 @@ function addSetAside(label) {
     const newLabel = document.createElement('label');
     const newInput = document.createElement('input');
     const newResultElement = document.createElement('p');
+
     mainContainer.appendChild(setAsideDiv);
     setAsideDiv.appendChild(newLabel);
     setAsideDiv.appendChild(newInput);
-    
     newInput.setAttribute('type', 'number');
     newInput.setAttribute('placeholder', '%');
-    newInput.setAttribute('id', 'user-new-setAside');
+    newInput.setAttribute('id', text[3]);
     newLabel.appendChild(newText);
-    
-    newResultElement.setAttribute('class', 'calculation-results');
+    newResultElement.setAttribute('class', text[4]);
+
     resultContainer.insertBefore(newResultElement, resultContainer.children[3]);
     calcResults.insertAtIndex(2, newResultElement);
-    messages.insertAtIndex(2, `${label} Set Aside`);
+    setAsideMsg.insertAtIndex(2, `${label} Set Aside`);
     inputOptions.insertAtIndex(2, newInput.value);
     
     numberOfSetAside++;
     count2++;
     count3++;
 }
+
 const getNodeFrom = (list, index) => { return list.getIndex(index).value; }
+function getNewSetAside() { return mainContainer.children[count2 - 1].children[1] }
+function getInputDivs() { return mainContainer.getElementsByTagName('div'); }
+function hasNetIncome() {
+    if(netIncome.value === empty) { alert(text[2]); return false; }
+    else return true;
+}
