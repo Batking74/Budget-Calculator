@@ -73,7 +73,10 @@ function hasNewSetAsides() {
     const newSetAsideValue = getNewSetAside().value;
     let setAsideId = getInputDivs()[inputOptions.length].childNodes[1].id;
     if(inputOptions.length > 2 && newSetAsideValue != undefined && setAsideId === text[3]) {
-        inputOptions.getIndex(2).value = mainContainer.children[count2 - 1].children[1];
+        inputOptions.getIndex(inputOptions.length - 1).value = mainContainer.children[count2 - 1].children[1];
+        console.log(inputOptions)
+        console.log(calcResults)
+        console.log(setAsideMsg)
         return true;
     }
     else return false;
@@ -91,6 +94,7 @@ function calculate(netPayValue, inputData, label, num, i) {
 }
     
 function displayCalcResults(newNetPay, inputData, label, setAsideAmount, percentageSaved, i) {
+    console.log(`${newNetPay}, ${inputData.value}, ${label}, ${setAsideAmount}. ${percentageSaved}, ${i}`)
     getNodeFrom(calcResults, i).textContent = `${label} ${inputData.value}%: -$${setAsideAmount}`;
     netPayResults.textContent = `Spending Money: $${newNetPay.toLocaleString()}`;
     percentKeptResults.textContent = `You Keep ${percentageSaved}% of Your Net Pay!`;
@@ -124,10 +128,12 @@ function addSetAside(label) {
     newLabel.appendChild(newText);
     newResultElement.setAttribute('class', text[4]);
 
-    resultContainer.insertBefore(newResultElement, resultContainer.children[3]);
-    calcResults.insertAtIndex(2, newResultElement);
-    setAsideMsg.insertAtIndex(2, `${label} Set Aside`);
-    inputOptions.insertAtIndex(2, newInput.value);
+    const reverse = count2 - 1;
+
+    resultContainer.insertBefore(newResultElement, resultContainer.children[count2]);
+    calcResults.insertAtIndex(count2 - 1, newResultElement);
+    setAsideMsg.insertAtIndex(count2 - 1, `${label} Set Aside`);
+    inputOptions.insertAtIndex(count2 - 1, newInput.value);
     
     numberOfSetAside++;
     count2++;
