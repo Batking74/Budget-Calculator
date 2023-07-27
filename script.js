@@ -30,9 +30,9 @@ const text = [
 ]
 
 let numberOfSetAside = 0;
-const empty = '';
 let count2 = 3;
-let count3 = 2;
+const empty = '';
+const containerLength = calcResults.length;
 
 setAsideBtn.addEventListener('click', () => {
     if(hasNetIncome()) {
@@ -55,7 +55,7 @@ clearBtn.addEventListener('click', () => {
 function validateSetAsides() {
     const netPayValue = netIncome.value;
     if(hasNetIncome()) {
-        const msg = getNodeFrom(setAsideMsg, setAsideMsg.length - 2);
+        const msg = getNodeFrom(setAsideMsg, containerLength - 2);
         const num = (msg.length) + 2;
         netPayResults.textContent = `${msg}: $${netPayValue}`;
         for(let i = 0; i < inputOptions.length; i++) {
@@ -131,7 +131,6 @@ function addSetAside(label) {
     
     numberOfSetAside++;
     count2++;
-    count3++;
 }
 
 const getNodeFrom = (list, index) => { return list.getIndex(index).value; }
