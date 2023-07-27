@@ -74,5 +74,17 @@ p {
     background: linear-gradient(90deg, #000, red, #000);
     margin-top: 40px;
     padding: 2% 0 3% 0;
+    
+}
+
+.test {
+    padding: 4px 7px 3px 7px;
+    
+    left: 100px;
+    bottom: 5px;
+}
+
+.hi {
+    position: absolute;
 
 }
