@@ -1,7 +1,4 @@
 import LinkedList from "./linkedlist.js";
-const inputOptions = new LinkedList();
-const calcResults = new LinkedList();
-const setAsideMsg = new LinkedList();
 const mainContainer = document.getElementById('main-container');
 let netIncome = document.getElementById('net-income');
 const saveOption = document.getElementById('save-option');
@@ -9,11 +6,21 @@ const billsOption = document.getElementById('bills-option');
 const calcBtn = document.getElementById('btn');
 const setAsideBtn = document.getElementById('set-aside-btn');
 const clearBtn = document.getElementById('clear-btn');
+const calcPercentageBtn1 = document.getElementById('calc-percent-btn-1');
+const calcFixedNumBtn1 = document.getElementById('calc-fixedNum-btn-1');
+const calcPercentageBtn2 = document.getElementById('calc-percent-btn-2');
+const calcFixedNumBtn2 = document.getElementById('calc-fixedNum-btn-2');
 const resultContainer = document.getElementById('results');
 const saveResults = document.getElementById('save-aside-results');
 const billsResults = document.getElementById('bill-saide-results');
 let netPayResults = document.getElementById('netpay-aside-results');
 let percentKeptResults = document.getElementById('total-percentage-kept-results');
+const inputOptions = new LinkedList();
+const calcResults = new LinkedList();
+const setAsideMsg = new LinkedList();
+
+let isPercentCalculation = [ [true, true], [true, true] ];
+let clacOption = [ [calcPercentageBtn1, calcFixedNumBtn1], [calcPercentageBtn2, calcFixedNumBtn2] ];
 
 inputOptions.insertAtHead(billsOption);
 inputOptions.insertAtHead(saveOption);
@@ -43,6 +50,7 @@ setAsideBtn.addEventListener('click', () => {
         addSetAside(prompt(text[1]));
     }
 })
+
 document.addEventListener('keyup', (key) => { if(key.key === 'Enter') validateSetAsides() });
 calcBtn.addEventListener('click', () => validateSetAsides());
 clearBtn.addEventListener('click', () => {
@@ -74,30 +82,60 @@ function hasNewSetAsides() {
     let setAsideId = getInputDivs()[inputOptions.length].childNodes[1].id;
     if(inputOptions.length > 2 && newSetAsideValue != undefined && setAsideId === text[3]) {
         inputOptions.getIndex(inputOptions.length - 1).value = mainContainer.children[count2 - 1].children[1];
-        console.log(inputOptions)
-        console.log(calcResults)
-        console.log(setAsideMsg)
         return true;
     }
     else return false;
 }
 
 function calculate(netPayValue, inputData, label, num, i) {
-    // Calculating Net Pay and Set Aside Amounts
+    clacOption[i].forEach(element => {
+        element.addEventListener('click', (e) => {
+            if(!(e.target.disabled) && e.target.id.substring(5, 12) === 'percent') {
+                isPercentCalculation[i][i] = true;
+                console.log('hoe')
+            }
+            else {
+                console.log('hoebo')
+                isPercentCalculation[i][i] = false;
+            }
+        })
+    })
+
     const netPay = parseFloat(removeChar(netPayResults.textContent.substring(num)));
-    const setAsideAmount = (netPay * (inputData.value / 100)).toFixed(2);
+    let setAsideAmount;
+    if(isPercentCalculation[i][i]) {
+        setAsideAmount = (netPay * (inputData.value / 100)).toFixed(2);
+        const value = calculateNewNetPay(netPay, netPayValue, setAsideAmount);
+        displayCalcResults(value[0], inputData, label, setAsideAmount, value[1], i);
+    }
+    else {
+        setAsideAmount = (inputData.value);
+        const value = calculateNewNetPay(netPay, netPayValue, setAsideAmount);
+        displayCalcResults(value[0], inputData, label, setAsideAmount, value[1], i);
+        
+    }
+}
+
+function calculateNewNetPay(netPay, netPayValue, setAsideAmount) {
     const newNetPay = (netPay - setAsideAmount).toFixed(2);
-    
-    // Calculating Total Percentage Saved
     const percentageSaved = ((newNetPay / netPayValue) * 100).toFixed(0);
-    displayCalcResults(newNetPay, inputData, label, setAsideAmount, percentageSaved, i);
+    const arr = [newNetPay, percentageSaved];
+    return arr;
 }
     
 function displayCalcResults(newNetPay, inputData, label, setAsideAmount, percentageSaved, i) {
-    console.log(`${newNetPay}, ${inputData.value}, ${label}, ${setAsideAmount}. ${percentageSaved}, ${i}`)
-    getNodeFrom(calcResults, i).textContent = `${label} ${inputData.value}%: -$${setAsideAmount}`;
-    netPayResults.textContent = `Spending Money: $${newNetPay.toLocaleString()}`;
-    percentKeptResults.textContent = `You Keep ${percentageSaved}% of Your Net Pay!`;
+    console.log(`${newNetPay} ${setAsideAmount}`)
+    if(isPercentCalculation[i][i]) {
+        getNodeFrom(calcResults, i).textContent = `${label} ${inputData.value}%: -$${setAsideAmount}`;
+        netPayResults.textContent = `Spending Money: $${newNetPay.toLocaleString()}`;
+        percentKeptResults.textContent = `You Keep ${percentageSaved}% of Your Net Pay!`;
+    }
+    else {
+        getNodeFrom(calcResults, i).textContent = `${label}: -$${setAsideAmount}`;
+        netPayResults.textContent = `Spending Money: $${newNetPay.toLocaleString()}`;
+        percentKeptResults.textContent = `You Keep ${percentageSaved}% of Your Net Pay!`;
+
+    }
 }
 
 function removeChar(string) {
@@ -114,26 +152,40 @@ function removeChar(string) {
 function addSetAside(label) {
     if(label === null || label === empty) return;
     const setAsideDiv = document.createElement('div');
-    const newText = document.createTextNode(label);
     const newLabel = document.createElement('label');
     const newInput = document.createElement('input');
+    const newSpan = document.createElement('span');
+    const calculatePercentbtn = document.createElement('button');
+    const calculateFixedNumbtn = document.createElement('button');
     const newResultElement = document.createElement('p');
 
-    mainContainer.appendChild(setAsideDiv);
-    setAsideDiv.appendChild(newLabel);
-    setAsideDiv.appendChild(newInput);
+    const newText = document.createTextNode(label);
+    const percentage = document.createTextNode('%');
+    const fixedNum = document.createTextNode('#');
     newInput.setAttribute('type', 'number');
     newInput.setAttribute('placeholder', '%');
     newInput.setAttribute('id', text[3]);
-    newLabel.appendChild(newText);
     newResultElement.setAttribute('class', text[4]);
+    calculateFixedNumbtn.setAttribute('class', 'test btn');
+    calculateFixedNumbtn.setAttribute('id', 'calc-fixedNum-btn');
+    calculatePercentbtn.setAttribute('class', 'test');
+    calculatePercentbtn.setAttribute('id', 'calc-percent-btn');
 
+    mainContainer.appendChild(setAsideDiv);
+    setAsideDiv.appendChild(newLabel);
+    newLabel.appendChild(newText);
+    setAsideDiv.appendChild(newInput);
+    setAsideDiv.appendChild(newSpan);
+    newSpan.appendChild(calculatePercentbtn)
+    newSpan.appendChild(calculateFixedNumbtn)
+    calculateFixedNumbtn.appendChild(fixedNum);
+    calculatePercentbtn.appendChild(percentage);
     const reverse = count2 - 1;
 
     resultContainer.insertBefore(newResultElement, resultContainer.children[count2]);
-    calcResults.insertAtIndex(count2 - 1, newResultElement);
-    setAsideMsg.insertAtIndex(count2 - 1, `${label} Set Aside`);
-    inputOptions.insertAtIndex(count2 - 1, newInput.value);
+    calcResults.insertAtIndex(reverse, newResultElement);
+    setAsideMsg.insertAtIndex(reverse, `${label} Set Aside`);
+    inputOptions.insertAtIndex(reverse, newInput.value);
     
     numberOfSetAside++;
     count2++;

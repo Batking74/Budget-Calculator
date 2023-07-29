@@ -48,7 +48,7 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-button {
+.main-option-btn {
     margin-top: 20px;
     font-size: 20px;
     padding: 12px 100px 12px 100px;
@@ -56,7 +56,7 @@ button {
     transition: 1s;
 }
 
-button:hover {
+.main-option-btn:hover {
     transform: scaleY(1.1);
     transform: scaleX(1.1);
     transform: translateY(-2px);
@@ -79,12 +79,20 @@ p {
 
 .test {
     padding: 4px 7px 3px 7px;
-    
-    left: 100px;
-    bottom: 5px;
+    position: relative;
+    left: 130px;
+    bottom: 90px;
+    background: rgb(217, 48, 14);
 }
 
-.hi {
-    position: relative;
+.btn {
+    padding: 4px 10px 3px 10px;
+    margin-left: 3px;
+}
 
+.enableBtn {
+    background: rgb(217, 48, 14);
+}
+.disableBtn {
+    background: rgba(202, 45, 14, 0.465);
 }

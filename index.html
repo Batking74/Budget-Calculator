@@ -16,15 +16,23 @@
         <div>
             <label for="number">Save</label>
             <input placeholder="%" id="save-option" type="number">
+            <span class="hi">
+                <button class="test enableBtn" id="calc-percent-btn-1">%</button>
+                <button class="test enableBtn btn" id="calc-fixedNum-btn-1">#</button>
+            </span>
         </div>
         <div>
             <label for="number">Bills</label>
             <input placeholder="%" id="bills-option" type="number">
+            <span>
+                <button class="test enableBtn" id="calc-percent-btn-2">%</button>
+                <button class="test enableBtn btn " id="calc-fixedNum-btn-2">#</button>
+            </span>
         </div>
     </div>
-    <button id="btn">Calculate</button>
-    <button id="clear-btn">Clear</button>
-    <button id="set-aside-btn">Add Set Aside</button>
+    <button class="main-option-btn" id="btn">Calculate</button>
+    <button class="main-option-btn" id="clear-btn">Clear</button>
+    <button class="main-option-btn" id="set-aside-btn">Add Set Aside</button>
     <div id="results" class="results-container">
         <h1>Results</h1>
         <p class="calculation-results" id="save-aside-results"></p>
