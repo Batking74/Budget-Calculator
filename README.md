@@ -16,6 +16,7 @@ I wanted to build something that would help me manage, and setaside/save for thi
   - Calculates the new net pay/spending money by deducting user specified amount.
   - Has the option to add as many set asides as needed.
   - Has the option to clear all inputs.
+  - Has the option to remove user added setasides.
 
 ### Technologies Used
 - HTML
