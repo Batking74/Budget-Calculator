@@ -1,89 +1,70 @@
-import {mainContainer, netIncome, resultContainer, inputOptions, calcResults, setAsideMsg, percentCalc, fixedNumCalc, empty, text, setAttributes, appendNodes, insertNodes, getNodeFrom, getNewSetAside, getInputDivs, hasNetIncome, removeChar} from '../Javascript/functions.js';
-
-const saveOption = document.getElementById('save-option');
-const billsOption = document.getElementById('bills-option');
-const calcBtn = document.getElementById('btn');
+import {mainContainer, createElements, netIncome, resultContainer, inputOptions, calcResults, setAsideMsg, percentCalc, fixedNumCalc, empty, text, setAttributes, appendNodes, addToList, getNodeFrom, getNewSetAside, getInputDivs, hasNetIncome, limitNotReached, removeChar, removeFromList} from './ExtraTools.js';
+const setAsides = document.querySelectorAll('[data-setAside]');
+const calcPercentageBtns = document.querySelectorAll('[data-calc-percentage]');
+const calcWholeNumBtns = document.querySelectorAll('[data-calc-whole-num]');
+const logResultsBtn = document.getElementById('log-btn');
 const setAsideBtn = document.getElementById('set-aside-btn');
 const clearBtn = document.getElementById('clear-btn');
-const calcPercentageBtn1 = document.getElementById('calc-percent-btn-1');
-const calcFixedNumBtn1 = document.getElementById('calc-fixedNum-btn-1');
-const calcPercentageBtn2 = document.getElementById('calc-percent-btn-2');
-const calcFixedNumBtn2 = document.getElementById('calc-fixedNum-btn-2');
-const saveResults = document.getElementById('save-aside-results');
-const billsResults = document.getElementById('bill-saide-results');
+const results = document.querySelectorAll('[data-results]');
+let logContainer = document.getElementById('log-container');
 let netPayResults = document.getElementById('netpay-aside-results');
 let percentKeptResults = document.getElementById('total-percentage-kept-results');
+const logs = await (await fetch('/logs')).json();
 
-percentCalc.insertAtHead(calcPercentageBtn2);
-percentCalc.insertAtHead(calcPercentageBtn1);
-fixedNumCalc.insertAtHead(calcFixedNumBtn2);
-fixedNumCalc.insertAtHead(calcFixedNumBtn1);
-inputOptions.insertAtHead(billsOption);
-inputOptions.insertAtHead(saveOption);
-calcResults.insertAtHead(billsResults);
-calcResults.insertAtHead(saveResults);
+for(let i = 1; i >= 0; i--) {
+    inputOptions.insertAtIndex(0, setAsides[i]);
+    percentCalc.insertAtIndex(0, calcPercentageBtns[i]);
+    fixedNumCalc.insertAtIndex(0, calcWholeNumBtns[i]);
+    calcResults.insertAtIndex(0, results[i]);
+}
+const calcOptions = [percentCalc, fixedNumCalc];
 setAsideMsg.insertAtHead('Bills Set Aside');
 setAsideMsg.insertAtHead('Save Set Aside');
-
-let numberOfSetAside = 0;
+export let numberOfSetAside = 1;
 export let counter = 3;
-const containerLength = calcResults.length;
-const clacOption = [percentCalc, fixedNumCalc];
-
 listenForCalcOption();
-setAsideBtn.addEventListener('click', () => {
-    if(hasNetIncome()) {
-        for(let i = 0; i < inputOptions.length; i++) {
-            if(inputOptions.getIndex(i).value.value === empty) inputOptions.getIndex(i).value.value = 0;
-        }
-        validateSetAsides();
-        addSetAside(prompt(text[1]));
-    }
-})
+listenForUserInput(0);
 
+setAsideBtn.addEventListener('click', () => {
+    if(hasNetIncome() && limitNotReached()) addSetAside(prompt(text[1]));
+});
 document.addEventListener('keyup', (key) => { if(key.key === 'Enter') validateSetAsides() });
-calcBtn.addEventListener('click', () => validateSetAsides());
 clearBtn.addEventListener('click', () => {
     for(let i = 0; i < inputOptions.length; i++) {
         netIncome.value = empty;
         inputOptions.getIndex(i).value.value = empty;
     }
 })
+console.log(Object.keys(logs[0].SetAsides)[0])
+logResultsBtn.addEventListener('click', () => {
+    for(let i = 0; i < logs.length; i++) {
+        const element = document.createElement('p');
+        element.append(Object.keys(logs[i].SetAsides)[0]);
+        logContainer.append(element);
+    }
+})
 
 function validateSetAsides() {
-    const netPayValue = netIncome.value;
     if(hasNetIncome()) {
-        const msg = getNodeFrom(setAsideMsg, containerLength - 2);
+        const msg = 'Spending Money';
         const num = (msg.length) + 2;
-        netPayResults.textContent = `${msg}: $${netPayValue}`;
+        netPayResults.textContent = `${msg}: $${netIncome.value}`;
         for(let i = 0; i < inputOptions.length; i++) {
-            hasNewSetAsides();
             const label = getNodeFrom(setAsideMsg, i);
             let inputData = getNodeFrom(inputOptions, i);
             if(inputData.value === empty) getNodeFrom(calcResults, i).textContent = empty;
-            else if(inputData.value === undefined) return;
-            else calculate(netPayValue, inputData, label, num, i);
+            else calculate(netIncome.value, inputData, label, num, i);
         }
     }
 }
 
-function hasNewSetAsides() {
-    const newSetAsideValue = getNewSetAside().value;
-    let setAsideId = getInputDivs()[inputOptions.length].childNodes[1].id;
-    if(inputOptions.length > 2 && newSetAsideValue != undefined && setAsideId === text[3]) {
-        inputOptions.getIndex(inputOptions.length - 1).value = mainContainer.children[counter - 1].children[1];
-        return true;
-    }
-    else return false;
-}
-
 function calculate(netPayValue, inputData, label, num, i) {
     const netPay = parseFloat(removeChar(netPayResults.textContent.substring(num)));
-    const isPercentCalculation = percentCalc.getIndex(i).value.autofocus;
+    const isPercentCalculation = percentCalc.getIndex(i).value.dataset.isactive;
     let setAsideAmount = (inputData.value);
     let value = calculateNewNetPay(netPay, netPayValue, setAsideAmount);
     let string = `${label}: -$${setAsideAmount}`;
-    if(!(isPercentCalculation)) displayCalcResults(value[0], value[1], string, i);
+    if(!(isPercentCalculation === 'true')) displayCalcResults(value[0], value[1], string, i);
     else {
         setAsideAmount = (netPay * (inputData.value / 100)).toFixed(2);
         string = `${label} ${inputData.value}%: -$${setAsideAmount}`;
@@ -93,49 +74,74 @@ function calculate(netPayValue, inputData, label, num, i) {
 }
 
 function calculateNewNetPay(netPay, netPayValue, setAsideAmount) {
-    const newNetPay = (netPay - setAsideAmount).toFixed(2);
+    const newNetPay = parseInt(netPay - setAsideAmount);
     const percentageSaved = ((newNetPay / netPayValue) * 100).toFixed(0);
-    const arr = [newNetPay, percentageSaved];
+    const arr = [newNetPay.toLocaleString(), percentageSaved];
+    console.log()
     return arr;
 }
-    
+
 function displayCalcResults(newNetPay, percentageSaved, string, i) {
     getNodeFrom(calcResults, i).textContent = string;
-    netPayResults.textContent = `Spending Money: $${newNetPay.toLocaleString()}`;
+    netPayResults.textContent = `Spending Money: $${newNetPay}`;
     percentKeptResults.textContent = `You Keep ${percentageSaved}% of Your Net Pay!`;
 }
 
 function addSetAside(label) {
     if(label === null || label === empty) return;
-    const setAsideDiv = document.createElement('div');
-    const newInput = document.createElement('input');
-    const newCalcPercentBtn = document.createElement('button');
-    const newCalcFixedNumBtn = document.createElement('button');
-    const newResultElement = document.createElement('p');
-    setAttributes(newInput, newResultElement, newCalcPercentBtn, newCalcFixedNumBtn);
-    appendNodes(newInput, setAsideDiv, newCalcPercentBtn, newCalcFixedNumBtn, label);
-    insertNodes(newInput, newResultElement, newCalcPercentBtn, newCalcFixedNumBtn, label);
+    const element = createElements();
+    setAttributes(element[1], element[5], element[2], element[3], element[4], label);
+    appendNodes(element[1], element[0], element[2], element[3], label, element[4]);
+    addToList(element[1], element[5], element[2], element[3], label);
+    listenForDeleteSetAside(element[4], element[2], element[3]);
     listenForCalcOption();
-    
-    numberOfSetAside++;
+    listenForUserInput(2);
     counter++;
+    numberOfSetAside++;
+}
+
+function listenForDeleteSetAside(deleteBtn, percentBtn, wholeNumBtn) {
+    deleteBtn.addEventListener('click', (e) => {
+        const element = e.target.id - 1;
+        console.log(resultContainer.childNodes)
+        // calcResults.getIndex(element).value.remove()
+        calcResults.removeIndex(element);
+        setAsideMsg.removeIndex(element);
+        inputOptions.removeIndex(element);
+        percentCalc.removeIndex(element);
+        fixedNumCalc.removeIndex(element);
+        e.target.parentElement.remove();
+        counter--;
+        numberOfSetAside--;
+        for(let i = 2; i < fixedNumCalc.length; i++) {
+            let decrementIDs1 = fixedNumCalc.getIndex(i).value.dataset;
+            let decrementIDs2 = percentCalc.getIndex(i).value.dataset;
+            decrementIDs1.calcWholeNum = decrementIDs1.calcWholeNum - 1;
+            decrementIDs2.calcWholeNum = decrementIDs2.calcWholeNum - 1;
+        }
+        validateSetAsides();
+    });
+}
+
+function listenForUserInput(start) {
+    for(let i = start; i < inputOptions.length; i++) {
+        inputOptions.getIndex(i).value.addEventListener('input', () => { validateSetAsides(); })
+    }
 }
 
 function listenForCalcOption() {
     for(let i = 0; i < percentCalc.length; i++) {
-        clacOption.forEach(element => {
+        calcOptions.forEach(element => {
             element.getIndex(i).value.addEventListener('click', (e) => {
-                if(e.target.id.substring(5, 12) === 'percent') {
-                    e.target.autofocus = true;
-                    e.target.nextElementSibling.autofocus = false;
+                if(e.target.dataset.isactive === 'false' && parseInt(e.target.id) == 0) {
+                    e.target.dataset.isactive = true;
+                    e.target.nextElementSibling.dataset.isactive = false;
+                    validateSetAsides();
                 }
-                else if(parseInt(e.target.id.substring(18)) > 2) {
-                    e.target.autofocus = true;
-                    e.target.previousSibling.autofocus = false;
-                }
-                else {
-                    e.target.autofocus = true;
-                    e.target.nextSibling.parentElement.childNodes[1].autofocus = false;
+                else if(e.target.dataset.isactive === 'false' && parseInt(e.target.id) == 1) {
+                    e.target.dataset.isactive = true;
+                    e.target.previousElementSibling.dataset.isactive = false;
+                    validateSetAsides();
                 }
             })
         })

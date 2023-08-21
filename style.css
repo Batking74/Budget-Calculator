@@ -9,7 +9,7 @@ body {
     text-align: center;
 }
 
-h1 {
+.title {
     font-size: 50px;
     color: #fff;
     background: linear-gradient(90deg, #000, red, #000);
@@ -17,25 +17,16 @@ h1 {
 }
 
 .main-container {
-    margin-top: 70px;
-    display: flex;
+    margin-top: 50px;
     display: grid;
-    grid-template: repeat(2, 100px) / repeat(3, 400px);
-    column-gap: 50px;
-    justify-content: center;
+    grid-template: repeat(2, 100px) / repeat(3, 270px);
 }
 
-div {
-    margin-top: 15px;
-}
-
-label {
-    font-size: 21px;
-}
+label { font-size: 20px; }
 
 input {
-    font-size: 30px;
-    border-radius: 30px;
+    font-size: 18px;
+    border-radius: 10px;
     padding: 10px;
 }
 
@@ -45,7 +36,7 @@ input {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+    -webkit-appearance: none;
 }
 
 .main-option-btn {
@@ -54,6 +45,21 @@ input::-webkit-inner-spin-button {
     padding: 12px 100px 12px 100px;
     background: rgb(217, 48, 14);
     transition: 1s;
+}
+.result-heading {
+    font-size: 50px;
+    color: #fff;
+    background: linear-gradient(90deg, #000, red, #000);
+    padding: 25px 0 25px 0;
+}
+
+#log-container {
+    background-color: blue;
+    color: white;
+    display: inline-block;
+}
+.log-heading {
+    font-size: 30px;
 }
 
 .main-option-btn:hover {
@@ -74,8 +80,9 @@ p {
     background: linear-gradient(90deg, #000, red, #000);
     margin-top: 40px;
     padding: 2% 0 3% 0;
-    
+    width: 200px;
 }
+
 
 .test {
     padding: 4px 7px 3px 7px;
@@ -90,9 +97,19 @@ p {
     margin-left: 3px;
 }
 
+
 .enableBtn {
     background: rgb(217, 48, 14);
 }
 .disableBtn {
     background: rgba(202, 45, 14, 0.465);
+}
+
+.delete-set-aside {
+    background: red;
+    position: relative;
+    bottom: 45px;
+    left: 185px;
+    border-radius: 40px;
+    padding: 5px 10px 5px 10px;
 }

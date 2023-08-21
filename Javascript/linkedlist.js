@@ -41,9 +41,9 @@ export default class LinkedList {
     }
 
     removeIndex(index) {
-        if(index == 0) return this.removeHead();
-        let prevNode = this.getIndex(index - 1);
-        if(prevNode == null) return null;
+        if(index === 0) return this.removeHead();
+        const prevNode = this.getIndex(index - 1);
+        if(prevNode === null) return null;
         prevNode.nextNode = prevNode.nextNode.nextNode;
         this.length--;
     }

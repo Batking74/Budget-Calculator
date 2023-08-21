@@ -3,43 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Budget-Calculator/style.css">
+    <link rel="stylesheet" href="/style.css">
     <title>Budget Calculator</title>
 </head>
 <body>
-    <h1>Budget Calculator</h1>
+    <h1 class="title">Budget Calculator</h1>
     <div id="main-container" class="main-container">
-        <div>
+        <div class="input-container">
             <label for="number">Net Pay</label>
             <input id="net-income" type="number">
         </div>
-        <div>
+        <div class="input-container">
             <label for="number">Save</label>
-            <input placeholder="%" id="save-option" type="number">
+            <input data-setAside="savings" placeholder="%" id="save-option" type="number">
             <span class="hi">
-                <button class="test enableBtn" id="calc-percent-btn-1">%</button>
-                <button class="test enableBtn btn" id="calc-fixedNum-btn-1">#</button>
+                <button id="0" class="test enableBtn" data-calc-percentage="1" data-isActive="true">%</button>
+                <button id="1" class="test enableBtn btn" data-calc-whole-num="1" data-isActive="false">#</button>
             </span>
         </div>
-        <div>
+        <div class="input-container">
             <label for="number">Bills</label>
-            <input placeholder="%" id="bills-option" type="number">
+            <input data-setAside="bills" placeholder="%" id="bills-option" type="number">
             <span>
-                <button class="test enableBtn" id="calc-percent-btn-2">%</button>
-                <button class="test enableBtn btn " id="calc-fixedNum-btn-2">#</button>
+                <button id="0" class="test enableBtn" data-calc-percentage="2" data-isActive="true">%</button>
+                <button id="1" class="test enableBtn btn" data-calc-whole-num="2" data-isActive="false">#</button>
             </span>
         </div>
     </div>
-    <button class="main-option-btn" id="btn">Calculate</button>
+    <button class="main-option-btn" id="log-btn">Log Results</button>
     <button class="main-option-btn" id="clear-btn">Clear</button>
     <button class="main-option-btn" id="set-aside-btn">Add Set Aside</button>
     <div id="results" class="results-container">
-        <h1>Results</h1>
-        <p class="calculation-results" id="save-aside-results"></p>
-        <p class="calculation-results" id="bill-saide-results"></p>
+        <h1 class="result-heading">Results</h1>
+        <p class="calculation-results" data-results="savings" id="save-aside-results"></p>
+        <p class="calculation-results" data-results="bills" id="bill-saide-results"></p>
         <p class="calculation-results" id="netpay-aside-results"></p>
         <p class="calculation-results" id="total-percentage-kept-results"></p>
     </div>
-    <script type="module" src="/Budget-Calculator/Javascript/script.js"></script>
+    <div id="log-container">
+        <h2 class="log-heading">Logs</h2>
+    </div>
+    <script type="module" src="/Javascript/script.js"></script>
 </body>
 </html>
