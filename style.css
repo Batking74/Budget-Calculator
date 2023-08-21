@@ -30,14 +30,10 @@ input {
     padding: 10px;
 }
 
-::-webkit-input-placeholder {
-    text-align: end;
-}
+::-webkit-input-placeholder { text-align: end; }
 
 input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
+input::-webkit-inner-spin-button { -webkit-appearance: none; }
 
 .main-option-btn {
     margin-top: 20px;
@@ -46,6 +42,14 @@ input::-webkit-inner-spin-button {
     background: rgb(217, 48, 14);
     transition: 1s;
 }
+
+.main-option-btn:hover {
+    transform: scaleY(1.1);
+    transform: scaleX(1.1);
+    transform: translateY(-2px);
+    cursor: pointer;
+}
+
 .result-heading {
     font-size: 50px;
     color: #fff;
@@ -60,13 +64,6 @@ input::-webkit-inner-spin-button {
 }
 .log-heading {
     font-size: 30px;
-}
-
-.main-option-btn:hover {
-    transform: scaleY(1.1);
-    transform: scaleX(1.1);
-    transform: translateY(-2px);
-    cursor: pointer;
 }
 
 p {
