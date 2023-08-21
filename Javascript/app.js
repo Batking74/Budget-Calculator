@@ -1,9 +1,9 @@
-const express = require('express');
-const fs = require('fs');
 const { createConnection } = require('mysql2');
+const express = require('express');
 require('dotenv').config();
-const app = express();
+const fs = require('fs');
 const temp = new Date();
+const app = express();
 app.use(express.static('../public'));
 
 const database = createConnection({
@@ -37,12 +37,6 @@ app.get('/', (req, res) => {
 app.get('/logs', async (req, res) => {
     res.send(await getAllRecords());
 });
-
-app.get('/', (req, res) => {
-    fs.readFile('./index.html', 'utf8', (err, HTML) => {
-        res.send(HTML);
-    })
-})
 
 app.listen(7000, () => {
     console.log('Listening on port 7000')
