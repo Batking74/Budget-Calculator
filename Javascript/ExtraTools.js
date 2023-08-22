@@ -20,9 +20,12 @@ export const text = [
 export function setAttributes(newDiv, newInput, newCalcOptionBtn, deleteBtn, newResult) {
     newDiv.setAttribute('class', 'new-setaside')
     newInput.setAttribute('type', 'number');
+    newInput.setAttribute('data-setaside', 'newSetaside');
+    newInput.setAttribute('id', counter - 1);
     newResult.setAttribute('class', text[5]);
     newResult.setAttribute('id', numberOfSetAside);
     newCalcOptionBtn.setAttribute('class', 'calc-option-btn');
+    newCalcOptionBtn.setAttribute('data-calc-option', 'newBtn');
     deleteBtn.setAttribute('class', 'delete-set-aside');
     deleteBtn.setAttribute('id', numberOfSetAside);
 }

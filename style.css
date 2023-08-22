@@ -18,14 +18,13 @@ body {
 
 .main-container {
     display: grid;
-    max-height: fit-content;
     grid-template-columns: repeat(2, 900px);
 }
 
 #setaside-container {
     margin-top: 50px;
     display: grid;
-    grid-template: repeat(2, 100px) / repeat(3, 270px);
+    grid-template: repeat(5, 100px) / repeat(3, 270px);
 }
 
 #results-container {
@@ -33,7 +32,7 @@ body {
     margin-top: 40px;
     padding: 2% 0 6% 0;
     border-radius: 40px;
-    width: 600px;
+    width: 550px;
 }
 
 input {
@@ -59,7 +58,7 @@ input {
 }
 
 .result-heading {
-    font-size: 50px;
+    font-size: 30px;
     color: #fff;
     padding: 25px 0 25px 0;
 }
@@ -67,10 +66,11 @@ input {
 #log-container {
     background-color: white;
     color: black;
+    height: 500px;
 }
 
 .calculation-results {
-    font-size: 30px;
+    font-size: 25px;
     transition: 2s;
     margin-top: 20px;
     color: yellow;
@@ -90,6 +90,12 @@ input {
     /* left: 105px; */
     /* border-radius: 40px;
     padding: 5px 10px 5px 10px; */
+}
+
+.new-setaside {
+
+    height: 60px;
+    margin-left: 13px;
 }
 
 .log-heading { font-size: 30px; }

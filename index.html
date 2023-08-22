@@ -8,6 +8,9 @@
 </head>
 <body>
     <h1 class="title">Budget Calculator</h1>
+    <button class="main-option-btn" id="log-btn">Log Results</button>
+    <button class="main-option-btn" id="clear-btn">Clear</button>
+    <button class="main-option-btn" id="set-aside-btn">Add Set Aside</button>
     <div class="main-container">
         <div id="setaside-container">
             <div class="input-container">
@@ -16,12 +19,12 @@
             </div>
             <div class="input-container">
                 <label for="number">Save</label>
-                <input data-setAside="savings" type="number">
+                <input id="0" data-setAside="savings" type="number">
                 <span><button class="calc-option-btn" data-calc-option="">%</button></span>
             </div>
             <div class="input-container">
                 <label for="number">Bills</label>
-                <input data-setAside="bills" type="number">
+                <input id="1" data-setAside="bills" type="number">
                 <span><button class="calc-option-btn" data-calc-option="">%</button></span>
             </div>
         </div>
@@ -33,9 +36,6 @@
             <p class="calculation-results" id="total-percentage-kept-results"></p>
         </div>
     </div>
-    <button class="main-option-btn" id="log-btn">Log Results</button>
-    <button class="main-option-btn" id="clear-btn">Clear</button>
-    <button class="main-option-btn" id="set-aside-btn">Add Set Aside</button>
     <div id="log-container">
         <h2 class="log-heading">Logs</h2>
     </div>

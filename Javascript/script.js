@@ -25,13 +25,13 @@ for(let i = 0; i < logs.length; i++) {
     element.append(Object.keys(logs[i].SetAsides)[0]);
     logContainer.append(element);
 }
-listenForCalcOption();
-listenForUserInput(0);
+listenForCalcOption(0, 2);
+listenForUserInput(0, 2);
 
 setAsideBtn.addEventListener('click', () => {
     if(hasNetIncome() && limitNotReached()) addSetAside(prompt(text[1]));
 });
-document.addEventListener('keyup', (key) => { if(key.key === 'Enter') validateSetAsides() });
+// document.addEventListener('keyup', (key) => { if(key.key === 'Enter') validateSetAsides() });
 clearBtn.addEventListener('click', () => {
     for(let i = 0; i < inputOptions.length; i++) {
         netIncome.value = empty;
@@ -40,6 +40,18 @@ clearBtn.addEventListener('click', () => {
 })
 
 logResultsBtn.addEventListener('click', async () => {
+    let t = calcResults.getIndex(2).value.textContent.indexOf('Set Aside');
+    const f = calcResults.getIndex(2).value.textContent.substring(0,t);
+    console.log(f)
+    for(let i = 0; i < calcResults.length; i++) {
+
+    }
+    // for(let i = 0; i < logs.length; i++) {
+    //     const g = Object.values(logs[0])[1]
+    //     console.log(g)
+    //     console.log(Object.values(g))
+
+    // }
     // for(let i = 0; i < calcResults.length; i++) {
 
     // }
@@ -52,7 +64,9 @@ logResultsBtn.addEventListener('click', async () => {
     //     body: JSON.stringify()})
 })
 
-function validateSetAsides() {
+function validateSetAsides(element) {
+    console.log(element.value)
+    console.log(inputOptions)
     if(hasNetIncome()) {
         const msg = 'Spending Money';
         const num = (msg.length) + 2;
@@ -101,8 +115,8 @@ function addSetAside(label) {
     appendNodes(node[0], node[1], node[2], node[3], node[4], node[5], node[7], node[8], label);
     addToList(node[2], node[4], node[6], label);
     listenForDeleteSetAside(node[5]);
-    listenForCalcOption();
-    listenForUserInput(2);
+    listenForCalcOption(2, calcOption.length);
+    listenForUserInput(2, inputOptions.length);
     counter++;
     numberOfSetAside++;
 }
@@ -110,27 +124,45 @@ function addSetAside(label) {
 function listenForDeleteSetAside(deleteBtn) {
     deleteBtn.addEventListener('click', (e) => {
         for(let i = 0; i < resultContainer.children.length; i++) {
-            if(resultContainer.children[i].id === e.target.id) removeFromList(i);
+            if(resultContainer.children[i].id === e.target.id) {
+                e.target.parentElement.remove();
+                e.target.remove();
+                removeFromList(i);
+                // listenForCalcOption(2, calcOption.length);
+                validateSetAsides(e.target);
+                numberOfSetAside--;
+                counter--;
+            }
         }
-        numberOfSetAside--;
-        counter--;
-        e.target.parentElement.remove();
-        listenForCalcOption();
-        validateSetAsides();
     });
 }
 
-function listenForUserInput(start) {
-    for(let i = start; i < inputOptions.length; i++) {
-        inputOptions.getIndex(i).value.addEventListener('input', () => { validateSetAsides(); })
+function listenForUserInput(start, end) {
+    for(let i = start; i < end; i++) {
+        inputOptions.getIndex(i).value.addEventListener('input', (e) => {
+            validateSetAsides(e.target);
+            // if(e.target.dataset.setaside === 'newSetaside') validateSetAsides(2, calcOption.length);
+            // else validateSetAsides(0, 2);
+        })
     }
 }
 
-function listenForCalcOption() {
-    for(let i = 0; i < calcOption.length; i++) {
+function listenForCalcOption(start, end) {
+    for(let i = start; i < end; i++) {
         calcOption.getIndex(i).value.addEventListener('click', (e) => {
-                if(!(e.target.textContent === '#')) { e.target.textContent = '#'; validateSetAsides(); }
-                else e.target.textContent = '%'; validateSetAsides();
-            })
-        }
+            if(!(e.target.textContent === '#')) {
+                e.target.textContent = '#';
+                validateSetAsides(e.target);
+                // console.log(e.target.dataset.calcoption)
+                // if(e.target.dataset.calcoption === 'newBtn') validateSetAsides(2, calcOption.length);
+                // else validateSetAsides(0, 2);
+            }
+            else {
+                e.target.textContent = '%';
+                validateSetAsides(e.target);
+                // if(e.target.dataset.calcoption === 'newBtn') validateSetAsides(2, calcOption.length);
+                // else validateSetAsides(0, 2);
+            }
+        })
+    }
 }
