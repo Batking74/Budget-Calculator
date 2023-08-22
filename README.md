@@ -22,3 +22,5 @@ I wanted to build something that would help me manage, and setaside/save for thi
 - HTML
 - CSS
 - JavaScript
+- Node.js
+- SQL
