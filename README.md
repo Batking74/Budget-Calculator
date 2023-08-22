@@ -6,17 +6,19 @@ I wanted to build something that would help me manage, and setaside/save for thi
 
 ## How it works
   1. The user must have a Net Income.
-  2. Choose where you want to setaside money to, and choose if you want to setaside a percentage or fixed amount (you can add a setAside if needed).
+  2. Choose where you want to setaside money to, and choose if you want to setaside a percentage or whole number amount by clickinh the button next to the input feild (you can add a setAside if needed).
   3. Click the calculate button, then you will see the results output where it says "Results".
   4. Your new net pay aka "Spending Money" will get lower the more setasides you put towards.
 
 
 ## This Project does the following
-  - Takes away a percentage or fixed number specified by the user for setasides.
+  - Takes away a percentage or whole number specified by the user for setasides.
   - Calculates the new net pay/spending money by deducting user specified amount.
-  - Has the option to add as many set asides as needed.
+  - Has the option to add up to 12 extra setasides if needed.
   - Has the option to clear all inputs.
-  - Has the option to remove user added setasides.
+  - Has the option to remove added setasides.
+  - Has the option to log setaside results with the date of when it was logged.
+  - Has the option to delete logs.
 
 ### Technologies Used
 - HTML
