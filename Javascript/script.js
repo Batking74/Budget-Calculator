@@ -1,18 +1,20 @@
-import {createElements, netIncome, resultContainer, inputOptions, calcResults, setAsideMsg, empty, text, setAttributes, appendNodes, addToList, getNodeFrom, hasNetIncome, limitNotReached, calcOption, removeChar, removeFromList} from './ExtraTools.js';
+import {createElements, netIncome, resultContainer, inputOptions, calcResults, setAsideMsg, empty, text, setAttributes, appendNodes, displayLoggedSetAsides, getCalcResults, addToList, getNodeFrom, hasNetIncome, limitNotReached, calcOption, removeChar, removeFromList} from './ExtraTools.js';
 let percentKeptResults = document.getElementById('total-percentage-kept-results');
 let netPayResults = document.getElementById('netpay-aside-results');
 const calcOptions = document.querySelectorAll('[data-calc-option]');
 const setAsides = document.querySelectorAll('[data-setAside]');
 const setAsideBtn = document.getElementById('set-aside-btn');
+const collapseBody = document.querySelectorAll('disabled-collapse');
 const results = document.querySelectorAll('[data-results]');
-let logContainer = document.getElementById('log-container');
+export let logContainer = document.getElementById('log-container');
 const logResultsBtn = document.getElementById('log-btn');
 const clearBtn = document.getElementById('clear-btn');
-const logs = await (await fetch('/logs')).json();
+export const logs = await (await fetch('/setAside')).json();
 setAsideMsg.insertAtHead('Bills Set Aside');
 setAsideMsg.insertAtHead('Save Set Aside');
 export let numberOfSetAside = 1;
 export let counter = 3;
+displayLoggedSetAsides();
 
 for(let i = 1; i >= 0; i--) {
     inputOptions.insertAtIndex(0, setAsides[i]);
@@ -20,18 +22,36 @@ for(let i = 1; i >= 0; i--) {
     calcResults.insertAtIndex(0, results[i]);
 }
 
-for(let i = 0; i < logs.length; i++) {
-    const element = document.createElement('p');
-    element.append(Object.keys(logs[i].SetAsides)[0]);
-    logContainer.append(element);
+export function s(container) {
+    logs.forEach(setAside => {
+        const div = document.createElement('div');
+        const element = document.createElement('p');
+        container.append(div);
+        div.append(element);
+        element.append(setAside.Date + '   ');
+        element.append(setAside.Netpay + '   ');
+        setAside.SetAsides.forEach(recordValue => {
+            div.setAttribute('class', 'log-dropDown');
+            element.append(recordValue.SetAside_Name + '   ');
+            element.append(recordValue.SetAside_Percentage + '   ');
+            element.append(recordValue.Percentage_Amount)
+        })
+        // console.log(setAside)
+        element.append(setAside.Spending_Money + ' ');
+        element.append(setAside.Total_Percentage_Kept);
+    })
 }
+
+s(logContainer);
+
+
 listenForCalcOption(0, 2);
 listenForUserInput(0, 2);
 
 setAsideBtn.addEventListener('click', () => {
     if(hasNetIncome() && limitNotReached()) addSetAside(prompt(text[1]));
 });
-// document.addEventListener('keyup', (key) => { if(key.key === 'Enter') validateSetAsides() });
+document.addEventListener('keyup', (key) => { if(key.key === 'Enter') validateSetAsides() });
 clearBtn.addEventListener('click', () => {
     for(let i = 0; i < inputOptions.length; i++) {
         netIncome.value = empty;
@@ -40,33 +60,35 @@ clearBtn.addEventListener('click', () => {
 })
 
 logResultsBtn.addEventListener('click', async () => {
-    let t = calcResults.getIndex(2).value.textContent.indexOf('Set Aside');
-    const f = calcResults.getIndex(2).value.textContent.substring(0,t);
-    console.log(f)
-    for(let i = 0; i < calcResults.length; i++) {
-
+    const index4 = netPayResults.textContent.indexOf('$');
+    const index3 = percentKeptResults.textContent.indexOf('p');
+    const index5 = percentKeptResults.textContent.indexOf('of');
+    const leftOver = netPayResults.textContent.substring(index4);
+    const kept = percentKeptResults.textContent.substring(index3 + 2, index5 - 1);
+    const arr = getSetAsides();
+    if(!(arr.length == 0)) {
+        const response = (await fetch('/setAside', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            Netpay: netIncome.value,
+            SetAsides: arr,
+            Spending_Money: leftOver,
+            Percentage_Kept: kept })})).json();
+        location.reload();
     }
-    // for(let i = 0; i < logs.length; i++) {
-    //     const g = Object.values(logs[0])[1]
-    //     console.log(g)
-    //     console.log(Object.values(g))
-
-    // }
-    // for(let i = 0; i < calcResults.length; i++) {
-
-    // }
-    // const data = {
-
-    // }
-    // const response = await fetch('/logs', {
-    //     method: 'POST',
-    //     headers: {'Content-Type': 'application/json'},
-    //     body: JSON.stringify()})
 })
 
-function validateSetAsides(element) {
-    console.log(element.value)
-    console.log(inputOptions)
+function getSetAsides() {
+    const setAsides = [];
+    for(let i = 0; i < calcResults.length; i++) {
+        const object = getCalcResults(i);
+        if(!(object === null)) setAsides.push(object);
+    }
+    return setAsides;
+}
+
+function validateSetAsides() {
     if(hasNetIncome()) {
         const msg = 'Spending Money';
         const num = (msg.length) + 2;
@@ -128,8 +150,8 @@ function listenForDeleteSetAside(deleteBtn) {
                 e.target.parentElement.remove();
                 e.target.remove();
                 removeFromList(i);
-                // listenForCalcOption(2, calcOption.length);
-                validateSetAsides(e.target);
+                listenForCalcOption(2, calcOption.length);
+                validateSetAsides();
                 numberOfSetAside--;
                 counter--;
             }
@@ -139,11 +161,7 @@ function listenForDeleteSetAside(deleteBtn) {
 
 function listenForUserInput(start, end) {
     for(let i = start; i < end; i++) {
-        inputOptions.getIndex(i).value.addEventListener('input', (e) => {
-            validateSetAsides(e.target);
-            // if(e.target.dataset.setaside === 'newSetaside') validateSetAsides(2, calcOption.length);
-            // else validateSetAsides(0, 2);
-        })
+        inputOptions.getIndex(i).value.addEventListener('input', (e) => { validateSetAsides(); })
     }
 }
 
@@ -152,17 +170,9 @@ function listenForCalcOption(start, end) {
         calcOption.getIndex(i).value.addEventListener('click', (e) => {
             if(!(e.target.textContent === '#')) {
                 e.target.textContent = '#';
-                validateSetAsides(e.target);
-                // console.log(e.target.dataset.calcoption)
-                // if(e.target.dataset.calcoption === 'newBtn') validateSetAsides(2, calcOption.length);
-                // else validateSetAsides(0, 2);
+                validateSetAsides();
             }
-            else {
-                e.target.textContent = '%';
-                validateSetAsides(e.target);
-                // if(e.target.dataset.calcoption === 'newBtn') validateSetAsides(2, calcOption.length);
-                // else validateSetAsides(0, 2);
-            }
+            else { e.target.textContent = '%'; validateSetAsides(); }
         })
     }
 }

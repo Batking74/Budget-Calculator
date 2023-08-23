@@ -8,25 +8,32 @@
 </head>
 <body>
     <h1 class="title">Budget Calculator</h1>
-    <button class="main-option-btn" id="log-btn">Log Results</button>
-    <button class="main-option-btn" id="clear-btn">Clear</button>
-    <button class="main-option-btn" id="set-aside-btn">Add Set Aside</button>
     <div class="main-container">
-        <div id="setaside-container">
-            <div class="input-container">
-                <label for="number">Net Pay</label>
-                <input id="net-income" type="number">
+        <div>
+            <div id="setaside-container">
+                <div class="input-container">
+                    <label for="number">Net Pay</label>
+                    <input id="net-income" type="number">
+                </div>
+                <div class="input-container">
+                    <label for="number">Save</label>
+                    <input id="0" data-setAside="savings" type="number">
+                    <span><button class="calc-option-btn" data-calc-option="">%</button></span>
+                </div>
+                <div class="input-container">
+                    <label for="number">Bills</label>
+                    <input id="1" data-setAside="bills" type="number">
+                    <span><button class="calc-option-btn" data-calc-option="">%</button></span>
+                </div>
             </div>
-            <div class="input-container">
-                <label for="number">Save</label>
-                <input id="0" data-setAside="savings" type="number">
-                <span><button class="calc-option-btn" data-calc-option="">%</button></span>
-            </div>
-            <div class="input-container">
-                <label for="number">Bills</label>
-                <input id="1" data-setAside="bills" type="number">
-                <span><button class="calc-option-btn" data-calc-option="">%</button></span>
-            </div>
+            <span id="main-btn-container">
+                <button class="main-btn" id="log-btn">Log Results</button>
+                <button class="main-btn" id="clear-btn">Clear</button>
+                <button class="main-btn" id="set-aside-btn">Add Set Aside</button>
+            </span>
+            <span class="log-info">
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque, nulla odio dolore fuga architecto enim iste, quasi temporibus reprehenderit corrupti fugiat laudantium aliquid quod omnis facere. Facilis saepe doloremque autem!</p>
+            </span>
         </div>
         <div id="results-container">
             <h1 class="result-heading">Results</h1>
@@ -36,9 +43,7 @@
             <p class="calculation-results" id="total-percentage-kept-results"></p>
         </div>
     </div>
-    <div id="log-container">
-        <h2 class="log-heading">Logs</h2>
-    </div>
+    <div id="log-container"><h2 class="log-heading">Logs</h2></div>
     <script type="module" src="/Javascript/script.js"></script>
 </body>
 </html>
