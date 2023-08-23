@@ -5,7 +5,7 @@
 }
 
 body {
-    background: gold;
+    background: linear-gradient(90deg, #bf3333, gold, #bf3333);
     text-align: center;
 }
 
@@ -24,7 +24,55 @@ body {
 #setaside-container {
     margin-top: 50px;
     display: grid;
-    grid-template: repeat(5, 100px) / repeat(3, 270px);
+    grid-template-columns: repeat(3, 270px);
+    row-gap: 40px;
+}
+
+input {
+    font-size: 18px;
+    width: 180px;
+    padding: 10px 0 10px 5px;
+}
+
+.new-setaside {
+    height: 60px;
+    margin-left: 13px;
+    padding: 9px 0 10px 5px;
+}
+
+input, .calc-option-btn { border: solid #000 2px; }
+.calc-option-btn {
+    position: relative;
+    right: 4px;
+    font-size: 17px;
+    padding: 11px 10px 10px 10px;
+    border-left: none;
+    background: rgb(217, 48, 14);
+}
+
+.delete-set-aside {
+    background: red;
+    padding: 4px 5px 4px 5px;
+}
+
+#main-btn-container {
+    column-gap: 20px;
+    margin-right: 55px;
+}
+
+.main-btn {
+    margin-top: 70px;
+    height: 50px;
+    font-size: 15px;
+    padding: 5px 70px 5px 70px;
+    background: rgb(217, 48, 14);
+    transition: 1s;
+    overflow-wrap: break-word;
+}
+
+.main-btn:hover {
+    transform: translateY(-2px);
+    cursor: pointer;
 }
 
 #results-container {
@@ -35,38 +83,10 @@ body {
     width: 550px;
 }
 
-input {
-    font-size: 18px;
-    width: 180px;
-    padding: 10px 0 10px 5px;
-}
-
-
-.main-option-btn {
-    margin-top: 20px;
-    font-size: 20px;
-    padding: 12px 100px 12px 100px;
-    background: rgb(217, 48, 14);
-    transition: 1s;
-}
-
-.main-option-btn:hover {
-    transform: scaleY(1.1);
-    transform: scaleX(1.1);
-    transform: translateY(-2px);
-    cursor: pointer;
-}
-
 .result-heading {
     font-size: 30px;
     color: #fff;
     padding: 25px 0 25px 0;
-}
-
-#log-container {
-    background-color: white;
-    color: black;
-    height: 500px;
 }
 
 .calculation-results {
@@ -76,27 +96,40 @@ input {
     color: yellow;
 }
 
-.calc-option-btn {
-    position: relative;
-    right: 4px;
-    font-size: 18px;
-    padding: 10px;
-    background: rgb(217, 48, 14);
+#log-container {
+    margin-top: 200px;
+    background-color: white;
+    color: black;
+    height: 100%;
 }
 
-.delete-set-aside {
-    background: red;
-    /* bottom: 45px; */
-    /* left: 105px; */
-    /* border-radius: 40px;
-    padding: 5px 10px 5px 10px; */
+.disabled-collapse {
+    display:inline;
 }
 
-.new-setaside {
-
-    height: 60px;
-    margin-left: 13px;
+.log-dropDown {
+    padding: 20px 0 20px 0;
 }
+
+.active {
+    padding: 200px;
+    display: block;
+    transition: 0.8s;
+}
+
+.log-collapse-btn {
+    display: block;
+    width: 100%;
+    padding: 20px 0 20px 0;
+    font-size: 20px;
+}
+
+
+
+.log-collapse-btn:hover {
+    cursor: pointer;
+}
+
 
 .log-heading { font-size: 30px; }
 label { font-size: 20px; display: block; }

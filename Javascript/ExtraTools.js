@@ -1,5 +1,5 @@
 import LinkedList from '../Javascript/linkedlist.js';
-import {numberOfSetAside, counter} from '../Javascript/script.js';
+import {numberOfSetAside, counter, logContainer, logs, s} from '../Javascript/script.js';
 export const setasideContainer = document.getElementById('setaside-container');
 export const resultContainer = document.getElementById('results-container');
 export let netIncome = document.getElementById('net-income');
@@ -7,6 +7,7 @@ export const inputOptions = new LinkedList();
 export const calcResults = new LinkedList();
 export const setAsideMsg = new LinkedList();
 export const calcOption = new LinkedList();
+const date = new Date();
 export const empty = '';
 export const text = [
     'All inputs must be used!',
@@ -83,6 +84,44 @@ export function removeChar(string) {
         else newString += letter;
     }
     return newString;
+}
+
+export function getCalcResults(i) {
+    if(inputOptions.getIndex(i).value.value == empty) return null;
+    const index1 = calcResults.getIndex(i).value.textContent.indexOf('-');
+    const index2 = calcResults.getIndex(i).value.textContent.indexOf('Set Aside');
+    const deduction = calcResults.getIndex(i).value.textContent.substring(index1);
+    let percentage = calcResults.getIndex(i).value.textContent.substring(index2 + 10, index1 - 2);
+    const name = calcResults.getIndex(i).value.textContent.substring(0, index2 - 1);
+    const option = calcOption.getIndex(i).value.textContent;
+    if(option === '#') percentage = 'None';
+    return { SetAside_Name: name, SetAside_Percentage: percentage, Percentage_Amount: deduction };
+}
+
+export function displayLoggedSetAsides() {
+    const months = [];
+    for (let i = 0; i < 12; i++) {
+        date.setMonth(i);
+        months.push(date.toLocaleString("en-US", { month: 'long' }));
+    }
+    logs.forEach(setAside => {
+        months.forEach(month => {
+            const monthBtn = document.createElement('button');
+            const div = document.createElement('div');
+            div.setAttribute('class', 'disabled-collapse');
+            monthBtn.setAttribute('class', 'log-collapse-btn');
+            monthBtn.textContent = month;
+            logContainer.append(monthBtn);
+            logContainer.append(div);
+            monthBtn.addEventListener('click', (e) => {
+                e.target.nextElementSibling.classList.toggle('active')
+                if(e.target.textContent.substring(0, 3) === setAside.Date.substring(8, 11)) {
+                    s(e.target.nextElementSibling);
+                    console.log(e.target.textContent)
+                }
+            })
+        })
+    })
 }
 
 export function getNodeFrom(list, index) { { return list.getIndex(index).value; } }
