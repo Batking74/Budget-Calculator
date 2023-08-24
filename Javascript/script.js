@@ -1,4 +1,4 @@
-import {createElements, netIncome, resultContainer, inputOptions, calcResults, setAsideMsg, empty, text, setAttributes, appendNodes, displayLoggedSetAsides, getCalcResults, addToList, getNodeFrom, hasNetIncome, limitNotReached, calcOption, removeChar, removeFromList} from './ExtraTools.js';
+import {netIncome, resultContainer, inputOptions, calcResults, setAsideMsg, empty, text, setAttributes, appendNodes, displayLoggedSetAsides, getElement, getCalcResults, addToList, getNodeFrom, hasNetIncome, limitNotReached, calcOption, removeChar, removeFromList} from './ExtraTools.js';
 let percentKeptResults = document.getElementById('total-percentage-kept-results');
 let netPayResults = document.getElementById('netpay-aside-results');
 const calcOptions = document.querySelectorAll('[data-calc-option]');
@@ -14,7 +14,7 @@ setAsideMsg.insertAtHead('Bills Set Aside');
 setAsideMsg.insertAtHead('Save Set Aside');
 export let numberOfSetAside = 1;
 export let counter = 3;
-displayLoggedSetAsides();
+// displayLoggedSetAsides();
 
 for(let i = 1; i >= 0; i--) {
     inputOptions.insertAtIndex(0, setAsides[i]);
@@ -22,29 +22,26 @@ for(let i = 1; i >= 0; i--) {
     calcResults.insertAtIndex(0, results[i]);
 }
 
-export function s(container) {
+export function displayAllLogs(container) {
     logs.forEach(setAside => {
-        const div = document.createElement('div');
-        const element = document.createElement('p');
-        container.append(div);
-        div.append(element);
-        element.append(setAside.Date + '   ');
-        element.append(setAside.Netpay + '   ');
+        const element = getElement();
+        container.children[0].insertAdjacentElement('afterend', element[0])
+        element[0].append(element[6]);
+        element[0].append(element[7]);
+        element[0].append(element[8]);
+        element[6].append(`${setAside.Date}`);
+        element[7].append(`${setAside.Netpay}`);
         setAside.SetAsides.forEach(recordValue => {
-            div.setAttribute('class', 'log-dropDown');
-            element.append(recordValue.SetAside_Name + '   ');
-            element.append(recordValue.SetAside_Percentage + '   ');
-            element.append(recordValue.Percentage_Amount)
+            element[0].setAttribute('class', 'log-dropDown');
+            element[8].append(`${recordValue.SetAside_Name} `);
+            element[8].append(`${recordValue.SetAside_Percentage} `);
+            element[8].append(`${recordValue.Percentage_Amount} `)
         })
-        // console.log(setAside)
-        element.append(setAside.Spending_Money + ' ');
-        element.append(setAside.Total_Percentage_Kept);
+        element[8].append(`${setAside.Spending_Money} `);
+        element[8].append(`${setAside.Total_Percentage_Kept}`);
     })
 }
-
-s(logContainer);
-
-
+displayAllLogs(logContainer);
 listenForCalcOption(0, 2);
 listenForUserInput(0, 2);
 
@@ -71,7 +68,7 @@ logResultsBtn.addEventListener('click', async () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            Netpay: netIncome.value,
+            Netpay: `$${netIncome.value}`,
             SetAsides: arr,
             Spending_Money: leftOver,
             Percentage_Kept: kept })})).json();
@@ -84,8 +81,7 @@ function getSetAsides() {
     for(let i = 0; i < calcResults.length; i++) {
         const object = getCalcResults(i);
         if(!(object === null)) setAsides.push(object);
-    }
-    return setAsides;
+    } return setAsides;
 }
 
 function validateSetAsides() {
@@ -132,11 +128,11 @@ function displayCalcResults(newNetPay, percentageSaved, string, i) {
 
 function addSetAside(label) {
     if(label === null || label === empty) return;
-    const node = createElements();
-    setAttributes(node[0], node[2], node[4], node[5], node[6]);
-    appendNodes(node[0], node[1], node[2], node[3], node[4], node[5], node[7], node[8], label);
-    addToList(node[2], node[4], node[6], label);
-    listenForDeleteSetAside(node[5]);
+    const newElement = getElement();
+    const node = setAttributes(newElement[0], newElement[2], newElement[4], newElement[5], newElement[6]);
+    appendNodes(node[0], newElement[1], node[1], newElement[3], node[2], node[3], label);
+    addToList(node[1], node[2], node[4], label);
+    listenForDeleteSetAside(node[3]);
     listenForCalcOption(2, calcOption.length);
     listenForUserInput(2, inputOptions.length);
     counter++;
@@ -161,6 +157,7 @@ function listenForDeleteSetAside(deleteBtn) {
 
 function listenForUserInput(start, end) {
     for(let i = start; i < end; i++) {
+        inputOptions.getIndex(i).value.setAttribute('onkeypress', 'if(this.value.length==8) return false;');
         inputOptions.getIndex(i).value.addEventListener('input', (e) => { validateSetAsides(); })
     }
 }
