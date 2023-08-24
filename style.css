@@ -9,11 +9,44 @@ body {
     text-align: center;
 }
 
-.title {
-    font-size: 50px;
-    color: #fff;
+.nav-container {
     background: linear-gradient(90deg, #000, red, #000);
-    padding: 25px 0 25px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    position: relative;
+    top: 16px;
+    left: 50px;
+    font-variant: small-caps;
+    font-size: 25px;
+    color: #fff;
+}
+
+.nav-link-container {
+    display: grid;
+    grid-template-columns: repeat(4, 200px);
+}
+
+.nav-grouper {
+    padding: 20px;
+    font-size: 20px;
+}
+.nav-grouper:hover {
+    background-color: #ac940c;
+    cursor: pointer;
+    transition: 0.8s;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    text-decoration: none;
+    color: #fff;
 }
 
 .main-container {
@@ -79,7 +112,9 @@ input, .calc-option-btn { border: solid #000 2px; }
     background: linear-gradient(90deg, #000, red, #000);
     margin-top: 40px;
     padding: 2% 0 6% 0;
-    border-radius: 40px;
+    border-radius: 5px;
+    border: solid 10px #ffd90092;
+    height: min-content;
     width: 550px;
 }
 
@@ -96,6 +131,12 @@ input, .calc-option-btn { border: solid #000 2px; }
     color: yellow;
 }
 
+.log-info {
+    position: relative;
+    top: 50px;
+
+}
+
 #log-container {
     margin-top: 200px;
     background-color: white;
@@ -104,17 +145,21 @@ input, .calc-option-btn { border: solid #000 2px; }
 }
 
 .disabled-collapse {
-    display:inline;
+    padding: 200px;
+    opacity: 0;
+    display: none;
 }
 
 .log-dropDown {
-    padding: 20px 0 20px 0;
+    padding: 40px 0 10px 0;
+    border-top: solid #000 3px;
+    display: grid;
+    font-size: 19px;
+    grid-template: repeat(1, 50px) / repeat(3, 400px);
 }
 
 .active {
-    padding: 200px;
     display: block;
-    transition: 0.8s;
 }
 
 .log-collapse-btn {
@@ -124,12 +169,9 @@ input, .calc-option-btn { border: solid #000 2px; }
     font-size: 20px;
 }
 
-
-
 .log-collapse-btn:hover {
     cursor: pointer;
 }
-
 
 .log-heading { font-size: 30px; }
 label { font-size: 20px; display: block; }

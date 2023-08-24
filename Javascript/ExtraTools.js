@@ -18,6 +18,19 @@ export const text = [
     'calculation-results'
 ];
 
+export function getElement() {
+    const div = document.createElement('div');
+    const label = document.createElement('label');
+    const input = document.createElement('input');
+    const span = document.createElement('span');
+    const btn = document.createElement('button');
+    const btn2 = document.createElement('button');
+    const p = document.createElement('p');
+    const p2 = document.createElement('p');
+    const p3 = document.createElement('p');
+    return [div, label, input, span, btn, btn2, p, p2, p3];
+}
+
 export function setAttributes(newDiv, newInput, newCalcOptionBtn, deleteBtn, newResult) {
     newDiv.setAttribute('class', 'new-setaside')
     newInput.setAttribute('type', 'number');
@@ -29,32 +42,19 @@ export function setAttributes(newDiv, newInput, newCalcOptionBtn, deleteBtn, new
     newCalcOptionBtn.setAttribute('data-calc-option', 'newBtn');
     deleteBtn.setAttribute('class', 'delete-set-aside');
     deleteBtn.setAttribute('id', numberOfSetAside);
+    return [newDiv, newInput, newCalcOptionBtn, deleteBtn, newResult];
 }
 
-export function appendNodes(newDiv, newLabel, newInput, newSpan, newCalcOptionBtn, deleteBtn, btnText, deleteText, label) {
-    const newLabelText = document.createTextNode(label);
+export function appendNodes(newDiv, newLabel, newInput, newSpan, newCalcOptionBtn, deleteBtn, label) {
     setasideContainer.appendChild(newDiv);
     newDiv.appendChild(newLabel);
-    newLabel.appendChild(newLabelText);
     newDiv.appendChild(newInput);
     newDiv.appendChild(newSpan);
     newSpan.appendChild(newCalcOptionBtn);
-    newCalcOptionBtn.appendChild(btnText);
     newDiv.appendChild(deleteBtn);
-    deleteBtn.appendChild(deleteText);
-}
-
-export function createElements() {
-    const newDiv = document.createElement('div');
-    const newLabel = document.createElement('label');
-    const newInput = document.createElement('input');
-    const newSpan = document.createElement('span');
-    const newCalcOptionBtn = document.createElement('button');
-    const deleteBtn = document.createElement('button');
-    const newResult = document.createElement('p');
-    const btnText = document.createTextNode('%');
-    const deleteText = document.createTextNode('X');
-    return [newDiv, newLabel, newInput, newSpan, newCalcOptionBtn, deleteBtn, newResult, btnText, deleteText];
+    newCalcOptionBtn.textContent = '%';
+    newLabel.textContent = label;
+    deleteBtn.textContent = 'X';
 }
 
 export function addToList(newInput, newCalcOptionBtn, newResult, label) {
@@ -82,8 +82,7 @@ export function removeChar(string) {
         if(letter === ',') letter = '';
         else if(letter === '$') letter = '';
         else newString += letter;
-    }
-    return newString;
+    } return newString;
 }
 
 export function getCalcResults(i) {
@@ -94,32 +93,22 @@ export function getCalcResults(i) {
     let percentage = calcResults.getIndex(i).value.textContent.substring(index2 + 10, index1 - 2);
     const name = calcResults.getIndex(i).value.textContent.substring(0, index2 - 1);
     const option = calcOption.getIndex(i).value.textContent;
-    if(option === '#') percentage = 'None';
+    if(option === '#') percentage = 'Whole Number';
     return { SetAside_Name: name, SetAside_Percentage: percentage, Percentage_Amount: deduction };
 }
 
 export function displayLoggedSetAsides() {
-    const months = [];
-    for (let i = 0; i < 12; i++) {
-        date.setMonth(i);
-        months.push(date.toLocaleString("en-US", { month: 'long' }));
-    }
-    logs.forEach(setAside => {
-        months.forEach(month => {
-            const monthBtn = document.createElement('button');
-            const div = document.createElement('div');
-            div.setAttribute('class', 'disabled-collapse');
-            monthBtn.setAttribute('class', 'log-collapse-btn');
-            monthBtn.textContent = month;
-            logContainer.append(monthBtn);
-            logContainer.append(div);
-            monthBtn.addEventListener('click', (e) => {
-                e.target.nextElementSibling.classList.toggle('active')
-                if(e.target.textContent.substring(0, 3) === setAside.Date.substring(8, 11)) {
-                    s(e.target.nextElementSibling);
-                    console.log(e.target.textContent)
-                }
-            })
+    const months = getMonths();
+    months.forEach(month => {
+        const element = getElement();
+        element[0].setAttribute('class', 'disabled-collapse');
+        element[4].setAttribute('class', 'log-collapse-btn');
+        element[4].textContent = month;
+        logContainer.append(element[4]);
+        logContainer.append(element[0]);
+        element[4].addEventListener('click', (e) => {
+            e.target.nextElementSibling.classList.toggle('active');
+            displayOldLog(e);
         })
     })
 }
@@ -128,10 +117,21 @@ export function getNodeFrom(list, index) { { return list.getIndex(index).value; 
 export function getNewSetAside() { return setasideContainer.children[counter - 1].children[1] }
 export function getInputDivs() { return setasideContainer.getElementsByTagName('div'); }
 export function hasNetIncome() {
-    if(netIncome.value === empty) { alert(text[2]); return false; }
-    else return true;
+    if(netIncome.value === empty) { alert(text[2]); return false; } else return true;
 }
+
 export function limitNotReached() {
-    if(!(numberOfSetAside <= 12)) { alert(text[3]); return false; }
-    else return true;
+    if(!(numberOfSetAside <= 12)) { alert(text[3]); return false; } else return true;
+}
+
+export function getMonths() {
+    const months = [];
+    for (let i = 0; i < 12; i++) {
+        date.setMonth(i);
+        months.push(date.toLocaleString("en-US", { month: 'long' }));
+    } return months;
+}
+
+function displayOldLog(e) {
+    // Add condition to display old logs in collapse element
 }
