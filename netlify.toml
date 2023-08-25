@@ -1,0 +1,4 @@
+[build]
+cammand = 'npm run build'
+functions = 'functions'
+publish = 'dist'

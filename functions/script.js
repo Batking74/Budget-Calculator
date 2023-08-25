@@ -9,12 +9,13 @@ const results = document.querySelectorAll('[data-results]');
 export let logContainer = document.getElementById('log-container');
 const logResultsBtn = document.getElementById('log-btn');
 const clearBtn = document.getElementById('clear-btn');
-export const logs = await (await fetch('/setAside')).json();
+// async function g() { return await (await fetch('/')).json(); }
 setAsideMsg.insertAtHead('Bills Set Aside');
 setAsideMsg.insertAtHead('Save Set Aside');
 export let numberOfSetAside = 1;
 export let counter = 3;
 // displayLoggedSetAsides();
+// const logs  = g().then(res => {console.log(res)})
 
 for(let i = 1; i >= 0; i--) {
     inputOptions.insertAtIndex(0, setAsides[i]);

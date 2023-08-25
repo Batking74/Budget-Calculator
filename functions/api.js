@@ -1,10 +1,14 @@
 const express = require('express');
 const fs = require('fs');
+const serverless = require('serverless-http');
 const { createConnection } = require('mysql2');
 require('dotenv').config();
 const app = express();
+const router = express.Router();
+
 app.use(express.static('../public'));
 app.use(express.json());
+app.use('/.netlify/functions/api', router);
 
 const database = createConnection({
     host: process.env.DB_HOST,
@@ -13,17 +17,10 @@ const database = createConnection({
     database: process.env.DATABASE
 }).promise();
 
-app.get('/', (req, res) => { fs.readFile('./index.html', 'utf8', (err, HTML) => res.send(HTML)); });
-app.route('/setAside')
+router.get('/', (req, res) => { fs.readFile('./index.html', 'utf8', (err, HTML) => res.send(HTML)); });
+router.route('/setAsides')
 .get(async (req, res) => res.send(await getAllRecords()))
-.post((req, res) => {
-    createNewRecord(req.body);
-    res.send(JSON.stringify("Aria botoy hole!"));
-});
-
-app.listen(7000, () => {
-    console.log('Listening on port 7000')
-})
+.post((req, res) => { createNewRecord(req.body); });
 
 async function getAllRecords() {
     const res = await database.execute(`SELECT * FROM ${process.env.TABLE_NAME}`); return res[0];
@@ -42,3 +39,10 @@ function getDate() {
     const date = new Date();
     return `${date.toUTCString().substring(0, 3)} ${date.toLocaleString()}`;
 } setInterval(getDate, 1000);
+
+exports.handler = async (event, context) => {
+    return {
+        statusCode: 200,
+        body: JSON.stringify({message: 'Hello'})
+    }
+}
