@@ -25,7 +25,7 @@ for(let i = 1; i >= 0; i--) {
 export function displayAllLogs(container) {
     logs.forEach(setAside => {
         const element = getElement();
-        container.children[0].insertAdjacentElement('afterend', element[0])
+        container.append(element[0])
         element[0].append(element[6]);
         element[0].append(element[7]);
         element[0].append(element[8]);

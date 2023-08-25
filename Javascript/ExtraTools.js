@@ -1,5 +1,5 @@
 import LinkedList from '../Javascript/linkedlist.js';
-import {numberOfSetAside, counter, logContainer, logs, s} from '../Javascript/script.js';
+import {numberOfSetAside, counter, logContainer, logs, displayAllLogs} from '../Javascript/script.js';
 export const setasideContainer = document.getElementById('setaside-container');
 export const resultContainer = document.getElementById('results-container');
 export let netIncome = document.getElementById('net-income');
