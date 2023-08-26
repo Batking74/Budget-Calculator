@@ -1,4 +1,3 @@
 [build]
-cammand = 'npm run build'
 functions = 'backend'
 publish = 'dist_frontend'
