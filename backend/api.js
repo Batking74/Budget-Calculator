@@ -6,7 +6,6 @@ require('dotenv').config();
 const app = express();
 const router = express.Router();
 
-app.use(express.static('../public'));
 app.use(express.json());
 app.use('/.netlify/functions/api', router);
 
@@ -40,9 +39,4 @@ function getDate() {
     return `${date.toUTCString().substring(0, 3)} ${date.toLocaleString()}`;
 } setInterval(getDate, 1000);
 
-exports.handler = async (event, context) => {
-    return {
-        statusCode: 200,
-        body: JSON.stringify({message: 'Hello'})
-    }
-}
+module.exports.handler = serverless(app);
