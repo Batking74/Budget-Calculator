@@ -25,22 +25,30 @@ for(let i = 1; i >= 0; i--) {
 export function displayAllLogs(container) {
     logs.forEach(setAside => {
         const element = getElement();
-        container.append(element[0])
+        element[0].setAttribute('class', 'log-dropDown');
+        element[4].setAttribute('class', 'delete-log-btn');
+        container.children[0].insertAdjacentElement('afterend', element[0])
         element[0].append(element[6]);
         element[0].append(element[7]);
+        element[0].append(element[9]);
         element[0].append(element[8]);
+        element[0].append(element[4]);
         element[6].append(`${setAside.Date}`);
         element[7].append(`${setAside.Netpay}`);
-        setAside.SetAsides.forEach(recordValue => {
-            element[0].setAttribute('class', 'log-dropDown');
-            element[8].append(`${recordValue.SetAside_Name} `);
-            element[8].append(`${recordValue.SetAside_Percentage} `);
-            element[8].append(`${recordValue.Percentage_Amount} `)
-        })
+        for(let i = 0; i < setAside.SetAsides.length; i++) {
+            const ele = document.createElement('p');
+            ele.append(`${setAside.SetAsides[i].SetAside_Name}: `);
+            ele.append(`${setAside.SetAsides[i].Percentage_Amount} `);
+            ele.append(`(${setAside.SetAsides[i].SetAside_Percentage})`);
+            element[9].append(ele);
+        }
         element[8].append(`${setAside.Spending_Money} `);
         element[8].append(`${setAside.Total_Percentage_Kept}`);
+        element[4].append(`Delete`);
     })
 }
+
+// console.log(logContainer.insertAdjacentElement('afterbegin', element[4]))
 displayAllLogs(logContainer);
 listenForCalcOption(0, 2);
 listenForUserInput(0, 2);
