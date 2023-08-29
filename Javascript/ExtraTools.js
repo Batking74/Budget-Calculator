@@ -12,7 +12,7 @@ export const empty = '';
 export const text = [
     'All inputs must be used!',
     'What is the name of this set aside?',
-    'Must have a net income!',
+    'Must have a Net Pay!',
     'SetAside Limit Reached!',
     'new-setAside',
     'calculation-results'
@@ -22,6 +22,7 @@ export function getElement() {
     const div1 = document.createElement('div');
     const div2 = document.createElement('div');
     const div3 = document.createElement('div');
+    const div4 = document.createElement('div');
     const label = document.createElement('label');
     const input = document.createElement('input');
     const span = document.createElement('span');
@@ -30,7 +31,8 @@ export function getElement() {
     const p1 = document.createElement('p');
     const p2 = document.createElement('p');
     const p3 = document.createElement('p');
-    return [div1, label, input, span, btn, btn2, p1, p2, p3, div2, div3];
+    const p4 = document.createElement('p');
+    return [div1, label, input, span, btn, btn2, p1, p2, p3, div2, div3, p4, div4];
 }
 
 export function setAttributes(newDiv, newInput, newCalcOptionBtn, deleteBtn, newResult) {

@@ -31,10 +31,12 @@ export function displayAllLogs(container) {
         element[0].append(element[6]);
         element[0].append(element[7]);
         element[0].append(element[9]);
-        element[0].append(element[8]);
+        element[0].append(element[12]);
+        element[12].append(element[8]);
+        element[12].append(element[11]);
         element[0].append(element[4]);
         element[6].append(`${setAside.Date}`);
-        element[7].append(`${setAside.Netpay}`);
+        element[7].append(`Net Pay: ${setAside.Netpay}`);
         for(let i = 0; i < setAside.SetAsides.length; i++) {
             const ele = document.createElement('p');
             ele.append(`${setAside.SetAsides[i].SetAside_Name}: `);
@@ -42,13 +44,12 @@ export function displayAllLogs(container) {
             ele.append(`(${setAside.SetAsides[i].SetAside_Percentage})`);
             element[9].append(ele);
         }
-        element[8].append(`${setAside.Spending_Money} `);
-        element[8].append(`${setAside.Total_Percentage_Kept}`);
+        element[8].append(`Spending Money: ${setAside.Spending_Money} `);
+        element[11].append(`Percentage of Netpay kept: ${setAside.Total_Percentage_Kept}`);
         element[4].append(`Delete`);
     })
 }
 
-// console.log(logContainer.insertAdjacentElement('afterbegin', element[4]))
 displayAllLogs(logContainer);
 listenForCalcOption(0, 2);
 listenForUserInput(0, 2);

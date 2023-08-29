@@ -139,10 +139,11 @@ input, .calc-option-btn { border: solid #000 2px; }
 
 #log-container {
     margin-top: 200px;
-    background-color: white;
+    background: #ffffff;
+    padding: 15px 0 0 0;
     color: black;
     height: 100%;
-    border: 10px solid gray;
+    border: 10px solid rgb(173, 173, 173);
 }
 
 .disabled-collapse {
@@ -153,17 +154,21 @@ input, .calc-option-btn { border: solid #000 2px; }
 
 .log-dropDown {
     padding: 40px 0 10px 0;
+    height: 125px;
     border-top: solid #000 3px;
     display: grid;
     font-size: 19px;
-    grid-template: repeat(1, 50px) / repeat(5, 260px);
+    grid-template: repeat(1, 50px) / repeat(5, 200px);
+    display: flex;
+    justify-content: space-around;
     overflow: auto;
-    /* max-height: fit-content; */
 }
 
 .delete-log-btn {
-    padding: 10px 40px 10px 0px;
-    width: 50px;
+    width: 60px;
+    height: 30px;
+    border-radius: 20px;
+    background: #d9300e;
 }
 
 .active {
