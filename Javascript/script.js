@@ -12,6 +12,7 @@ const clearBtn = document.getElementById('clear-btn');
 export const logs = await (await fetch('/setAside')).json();
 setAsideMsg.insertAtHead('Bills Set Aside');
 setAsideMsg.insertAtHead('Save Set Aside');
+let netpays = [];
 export let numberOfSetAside = 1;
 export let counter = 3;
 // displayLoggedSetAsides();
@@ -39,9 +40,10 @@ export function displayAllLogs(container) {
         element[7].append(`Net Pay: ${setAside.Netpay}`);
         for(let i = 0; i < setAside.SetAsides.length; i++) {
             const ele = document.createElement('p');
-            ele.append(`${setAside.SetAsides[i].SetAside_Name}: `);
-            ele.append(`${setAside.SetAsides[i].Percentage_Amount} `);
-            ele.append(`(${setAside.SetAsides[i].SetAside_Percentage})`);
+            const path = setAside.SetAsides[i];
+            ele.append(`${path.SetAside_Name}: `);
+            ele.append(`${path.Percentage_Amount} `);
+            ele.append(`(${path.SetAside_Percentage} of $${path.SetAside_Netpay})`);
             element[9].append(ele);
         }
         element[8].append(`Spending Money: ${setAside.Spending_Money} `);
@@ -74,26 +76,28 @@ logResultsBtn.addEventListener('click', async () => {
     const arr = getSetAsides();
     if(!(arr.length == 0)) {
         const response = (await fetch('/setAside', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            Netpay: `$${netIncome.value}`,
-            SetAsides: arr,
-            Spending_Money: leftOver,
-            Percentage_Kept: kept })})).json();
-        location.reload();
-    }
-})
-
-function getSetAsides() {
-    const setAsides = [];
-    for(let i = 0; i < calcResults.length; i++) {
-        const object = getCalcResults(i);
-        if(!(object === null)) setAsides.push(object);
-    } return setAsides;
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                Netpay: `$${netIncome.value}`,
+                SetAsides: arr,
+                Spending_Money: leftOver,
+                Percentage_Kept: kept })})).json();
+                location.reload();
+            }
+        })
+        
+        
+        function getSetAsides() {
+            const setAsides = [];
+            for(let i = 0; i < calcResults.length; i++) {
+                const object = getCalcResults(i, netpays);
+                if(!(object === null)) setAsides.push(object);
+            } return setAsides;
 }
 
 function validateSetAsides() {
+    netpays.length = inputOptions.length + 1;
     if(hasNetIncome()) {
         const msg = 'Spending Money';
         const num = (msg.length) + 2;
@@ -109,6 +113,7 @@ function validateSetAsides() {
 
 function calculate(netPayValue, inputData, label, num, i) {
     const netPay = parseFloat(removeChar(netPayResults.textContent.substring(num)));
+    netpays[i] = netPay;
     const iscalcOptionulation = calcOption.getIndex(i).value.textContent;
     let setAsideAmount = (inputData.value);
     let value = calculateNewNetPay(netPay, netPayValue, setAsideAmount);
@@ -181,4 +186,18 @@ function listenForCalcOption(start, end) {
             else { e.target.textContent = '%'; validateSetAsides(); }
         })
     }
+}
+
+function binarySearch(array, target) {
+    let start = 0;
+    let end = array.length - 1;
+
+    while(start <= end) {
+        let middlePosition = Math.floor((start + end) / 2);
+        let middleNumber = array[middlePosition];
+        if(middleNumber == target) return middleNumber - 1;
+        if(target < middleNumber) end = middlePosition - 1;
+        else start = middlePosition + 1;
+    }
+    return -1;
 }

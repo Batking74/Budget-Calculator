@@ -89,7 +89,7 @@ export function removeChar(string) {
     } return newString;
 }
 
-export function getCalcResults(i) {
+export function getCalcResults(i, netpays) {
     if(inputOptions.getIndex(i).value.value == empty) return null;
     const index1 = calcResults.getIndex(i).value.textContent.indexOf('-');
     const index2 = calcResults.getIndex(i).value.textContent.indexOf('Set Aside');
@@ -98,7 +98,7 @@ export function getCalcResults(i) {
     const name = calcResults.getIndex(i).value.textContent.substring(0, index2 - 1);
     const option = calcOption.getIndex(i).value.textContent;
     if(option === '#') percentage = 'Whole Number';
-    return { SetAside_Name: name, SetAside_Percentage: percentage, Percentage_Amount: deduction };
+    return { SetAside_Name: name, SetAside_Netpay: netpays[i], SetAside_Percentage: percentage, Percentage_Amount: deduction };
 }
 
 export function displayLoggedSetAsides() {
