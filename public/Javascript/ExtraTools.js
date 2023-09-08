@@ -44,6 +44,7 @@ export function setAttributes(newDiv, newInput, newCalcOptionBtn, deleteBtn, new
     newResult.setAttribute('id', numberOfSetAside);
     newCalcOptionBtn.setAttribute('class', 'calc-option-btn');
     newCalcOptionBtn.setAttribute('data-calc-option', 'newBtn');
+    newCalcOptionBtn.setAttribute('id', counter);
     deleteBtn.setAttribute('class', 'delete-set-aside');
     deleteBtn.setAttribute('id', numberOfSetAside);
     return [newDiv, newInput, newCalcOptionBtn, deleteBtn, newResult];
