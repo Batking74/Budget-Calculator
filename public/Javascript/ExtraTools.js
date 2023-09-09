@@ -1,5 +1,5 @@
 import LinkedList from '../Javascript/linkedlist.js';
-import {numberOfSetAside, counter, logContainer, logs, displayAllLogs} from '../Javascript/script.js';
+import * as tool from '../Javascript/script.js';
 export const setasideContainer = document.getElementById('setaside-container');
 export const resultContainer = document.getElementById('results-container');
 export let netIncome = document.getElementById('net-income');
@@ -12,36 +12,43 @@ export const empty = '';
 export const text = [
     'All inputs must be used!',
     'What is the name of this set aside?',
-    'Must have a net income!',
+    'Must have a Net Pay!',
     'SetAside Limit Reached!',
     'new-setAside',
-    'calculation-results'
+    'calculation-results',
+    'Spending Money',
+    'Are you sure you want to delete this setAside log? You will not be able to recover this log once this action is done.'
 ];
 
 export function getElement() {
-    const div = document.createElement('div');
+    const div1 = document.createElement('div');
+    const div2 = document.createElement('div');
+    const div3 = document.createElement('div');
+    const div4 = document.createElement('div');
     const label = document.createElement('label');
     const input = document.createElement('input');
     const span = document.createElement('span');
-    const btn = document.createElement('button');
+    const btn1 = document.createElement('button');
     const btn2 = document.createElement('button');
-    const p = document.createElement('p');
+    const p1 = document.createElement('p');
     const p2 = document.createElement('p');
     const p3 = document.createElement('p');
-    return [div, label, input, span, btn, btn2, p, p2, p3];
+    const p4 = document.createElement('p');
+    return [div1, label, input, span, btn1, btn2, p1, p2, p3, div2, div3, p4, div4];
 }
 
 export function setAttributes(newDiv, newInput, newCalcOptionBtn, deleteBtn, newResult) {
     newDiv.setAttribute('class', 'new-setaside')
     newInput.setAttribute('type', 'number');
     newInput.setAttribute('data-setaside', 'newSetaside');
-    newInput.setAttribute('id', counter - 1);
+    newInput.setAttribute('id', tool.counter - 1);
     newResult.setAttribute('class', text[5]);
-    newResult.setAttribute('id', numberOfSetAside);
+    newResult.setAttribute('id', tool.numberOfSetAside);
     newCalcOptionBtn.setAttribute('class', 'calc-option-btn');
     newCalcOptionBtn.setAttribute('data-calc-option', 'newBtn');
+    newCalcOptionBtn.setAttribute('id', tool.counter);
     deleteBtn.setAttribute('class', 'delete-set-aside');
-    deleteBtn.setAttribute('id', numberOfSetAside);
+    deleteBtn.setAttribute('id', tool.numberOfSetAside);
     return [newDiv, newInput, newCalcOptionBtn, deleteBtn, newResult];
 }
 
@@ -58,8 +65,8 @@ export function appendNodes(newDiv, newLabel, newInput, newSpan, newCalcOptionBt
 }
 
 export function addToList(newInput, newCalcOptionBtn, newResult, label) {
-    const reverse = counter - 1;
-    resultContainer.insertBefore(newResult, resultContainer.children[counter]);
+    const reverse = tool.counter - 1;
+    resultContainer.insertBefore(newResult, resultContainer.children[tool.counter]);
     calcResults.insertAtIndex(reverse, newResult);
     setAsideMsg.insertAtIndex(reverse, `${label} Set Aside`);
     inputOptions.insertAtIndex(reverse, newInput);
@@ -85,16 +92,22 @@ export function removeChar(string) {
     } return newString;
 }
 
-export function getCalcResults(i) {
+export function getCalcResults(i, netpays) {
     if(inputOptions.getIndex(i).value.value == empty) return null;
-    const index1 = calcResults.getIndex(i).value.textContent.indexOf('-');
-    const index2 = calcResults.getIndex(i).value.textContent.indexOf('Set Aside');
-    const deduction = calcResults.getIndex(i).value.textContent.substring(index1);
-    let percentage = calcResults.getIndex(i).value.textContent.substring(index2 + 10, index1 - 2);
-    const name = calcResults.getIndex(i).value.textContent.substring(0, index2 - 1);
+    const ele = calcResults.getIndex(i).value;
+    const index1 = ele.textContent.indexOf('-');
+    const index2 = ele.textContent.indexOf('Set Aside');
+    const deduction = ele.textContent.substring(index1);
+    let percentage = ele.textContent.substring(index2 + 10, index1 - 2);
+    const name = ele.textContent.substring(0, index2 - 1);
     const option = calcOption.getIndex(i).value.textContent;
-    if(option === '#') percentage = 'Whole Number';
-    return { SetAside_Name: name, SetAside_Percentage: percentage, Percentage_Amount: deduction };
+    if(option === '#') percentage = '#';
+    return {
+        SetAside_Name: name,
+        SetAside_Netpay: netpays[i],
+        SetAside_Percentage: percentage,
+        Percentage_Amount: deduction
+    };
 }
 
 export function displayLoggedSetAsides() {
@@ -104,8 +117,8 @@ export function displayLoggedSetAsides() {
         element[0].setAttribute('class', 'disabled-collapse');
         element[4].setAttribute('class', 'log-collapse-btn');
         element[4].textContent = month;
-        logContainer.append(element[4]);
-        logContainer.append(element[0]);
+        tool.logContainer.append(element[4]);
+        tool.logContainer.append(element[0]);
         element[4].addEventListener('click', (e) => {
             e.target.nextElementSibling.classList.toggle('active');
             displayOldLog(e);
@@ -114,14 +127,14 @@ export function displayLoggedSetAsides() {
 }
 
 export function getNodeFrom(list, index) { { return list.getIndex(index).value; } }
-export function getNewSetAside() { return setasideContainer.children[counter - 1].children[1] }
+export function getNewSetAside() { return setasideContainer.children[tool.counter - 1].children[1] }
 export function getInputDivs() { return setasideContainer.getElementsByTagName('div'); }
 export function hasNetIncome() {
     if(netIncome.value === empty) { alert(text[2]); return false; } else return true;
 }
 
 export function limitNotReached() {
-    if(!(numberOfSetAside <= 12)) { alert(text[3]); return false; } else return true;
+    if(!(tool.numberOfSetAside <= 12)) { alert(text[3]); return false; } else return true;
 }
 
 export function getMonths() {

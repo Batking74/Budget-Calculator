@@ -80,7 +80,7 @@ input, .calc-option-btn { border: solid #000 2px; }
     font-size: 17px;
     padding: 11px 10px 10px 10px;
     border-left: none;
-    background: rgb(217, 48, 14);
+    background: #d9300e;
 }
 
 .delete-set-aside {
@@ -115,7 +115,7 @@ input, .calc-option-btn { border: solid #000 2px; }
     border-radius: 5px;
     border: solid 10px #ffd90092;
     height: min-content;
-    width: 550px;
+    width: 450px;
 }
 
 .result-heading {
@@ -134,14 +134,16 @@ input, .calc-option-btn { border: solid #000 2px; }
 .log-info {
     position: relative;
     top: 50px;
-
+    
 }
 
 #log-container {
     margin-top: 200px;
-    background-color: white;
+    background: #ffffff;
+    padding: 15px 0 0 0;
     color: black;
     height: 100%;
+    border: 10px solid rgb(173, 173, 173);
 }
 
 .disabled-collapse {
@@ -152,10 +154,21 @@ input, .calc-option-btn { border: solid #000 2px; }
 
 .log-dropDown {
     padding: 40px 0 10px 0;
+    height: 125px;
     border-top: solid #000 3px;
     display: grid;
     font-size: 19px;
-    grid-template: repeat(1, 50px) / repeat(3, 400px);
+    grid-template: repeat(1, 50px) / repeat(5, 200px);
+    display: flex;
+    justify-content: space-around;
+    overflow: auto;
+}
+
+.delete-log-btn {
+    width: 60px;
+    height: 30px;
+    border-radius: 20px;
+    background: #d9300e;
 }
 
 .active {
@@ -179,3 +192,8 @@ label { font-size: 20px; display: block; }
 ::-webkit-input-placeholder { text-align: end; }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+footer {
+    padding: 20px;
+    background: linear-gradient(90deg, #000, red, #000);
+}
