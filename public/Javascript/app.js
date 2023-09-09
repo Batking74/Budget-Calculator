@@ -1,17 +1,11 @@
 const express = require('express');
 const fs = require('fs');
-<<<<<<<< HEAD:backend/api.js
-const serverless = require('serverless-http');
-========
 const bcrypt = require('bcrypt');
->>>>>>>> 0a10839a58a46981e19c813cc9f5bbb6fd0dce78:public/Javascript/app.js
 const { createConnection } = require('mysql2');
 require('dotenv').config();
 const app = express();
-const router = express.Router();
-
+app.use(express.static('../public'));
 app.use(express.json());
-app.use('/.netlify/functions/api', router);
 
 const database = createConnection({
     host: process.env.DB_HOST,
@@ -20,12 +14,9 @@ const database = createConnection({
     database: process.env.DATABASE
 }).promise();
 
-router.get('/', (req, res) => { fs.readFile('./index.html', 'utf8', (err, HTML) => res.send(HTML)); });
-router.route('/setAsides')
+app.get('/', (req, res) => { fs.readFile('./index.html', 'utf8', (err, HTML) => res.send(HTML)); });
+app.route('/setAside')
 .get(async (req, res) => res.send(await getAllRecords()))
-<<<<<<<< HEAD:backend/api.js
-.post((req, res) => { createNewRecord(req.body); });
-========
 .post((req, res) => {
     createNewRecord(req.body);
     res.send(JSON.stringify("Aria botoy hole!"));
@@ -39,7 +30,6 @@ app.delete('/setAside/:id', (req, res) => {
 app.listen(7000, () => {
     console.log('Listening on port 7000');
 })
->>>>>>>> 0a10839a58a46981e19c813cc9f5bbb6fd0dce78:public/Javascript/app.js
 
 async function getAllRecords() {
     const res = await database.execute(`SELECT * FROM ${process.env.TABLE_NAME}`); return res[0];
@@ -58,5 +48,3 @@ function getDate() {
     const date = new Date();
     return `${date.toUTCString().substring(0, 3)} ${date.toLocaleString()}`;
 } setInterval(getDate, 1000);
-
-module.exports.handler = serverless(app);
