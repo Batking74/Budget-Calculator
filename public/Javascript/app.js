@@ -1,5 +1,6 @@
 const express = require('express');
 const fs = require('fs');
+const bcrypt = require('bcrypt');
 const { createConnection } = require('mysql2');
 require('dotenv').config();
 const app = express();
@@ -19,10 +20,15 @@ app.route('/setAside')
 .post((req, res) => {
     createNewRecord(req.body);
     res.send(JSON.stringify("Aria botoy hole!"));
-});
+})
+
+app.delete('/setAside/:id', (req, res) => {
+    deleteRecord(parseInt(req.params.id));
+    res.send(JSON.stringify('Deleted Sucessfully!'));
+})
 
 app.listen(7000, () => {
-    console.log('Listening on port 7000')
+    console.log('Listening on port 7000');
 })
 
 async function getAllRecords() {
@@ -34,8 +40,8 @@ async function createNewRecord(newSetAside) {
     database.execute(`INSERT INTO ${process.env.TABLE_NAME} (Date, Netpay, SetAsides, Spending_Money, Total_Percentage_Kept) VALUES('${date}', ${JSON.stringify(newSetAside.Netpay)}, '${JSON.stringify(newSetAside.SetAsides)}', ${JSON.stringify(newSetAside.Spending_Money)}, ${JSON.stringify(newSetAside.Percentage_Kept)});`);
 }
 
-async function deleteRecord() {
-    const res = await database.execute(`SELECT * FROM ${process.env.TABLE_NAME}`);
+async function deleteRecord(id) {
+    const res = await database.execute(`DELETE FROM ${process.env.TABLE_NAME} WHERE id=${id}`);
 }
 
 function getDate() {
