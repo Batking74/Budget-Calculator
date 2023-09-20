@@ -20,6 +20,7 @@ export const text = [
     'Are you sure you want to delete this setAside log? You will not be able to recover this log once this action is done.'
 ];
 
+// Creating Dynamic Reusable HTML Elements 
 export function getElement() {
     const div1 = document.createElement('div');
     const div2 = document.createElement('div');
@@ -37,6 +38,7 @@ export function getElement() {
     return [div1, label, input, span, btn1, btn2, p1, p2, p3, div2, div3, p4, div4];
 }
 
+// Setting new SetAside Attributes
 export function setAttributes(newDiv, newInput, newCalcOptionBtn, deleteBtn, newResult) {
     newDiv.setAttribute('class', 'new-setaside')
     newInput.setAttribute('type', 'number');
@@ -52,6 +54,7 @@ export function setAttributes(newDiv, newInput, newCalcOptionBtn, deleteBtn, new
     return [newDiv, newInput, newCalcOptionBtn, deleteBtn, newResult];
 }
 
+// Adds the new SetAside to HTML document when user creates a new setAside
 export function appendNodes(newDiv, newLabel, newInput, newSpan, newCalcOptionBtn, deleteBtn, label) {
     setasideContainer.appendChild(newDiv);
     newDiv.appendChild(newLabel);
@@ -64,6 +67,7 @@ export function appendNodes(newDiv, newLabel, newInput, newSpan, newCalcOptionBt
     deleteBtn.textContent = 'X';
 }
 
+// Adds Setaside info to all Linked lists when user creates a new setAside
 export function addToList(newInput, newCalcOptionBtn, newResult, label) {
     const reverse = tool.counter - 1;
     resultContainer.insertBefore(newResult, resultContainer.children[tool.counter]);
@@ -73,6 +77,7 @@ export function addToList(newInput, newCalcOptionBtn, newResult, label) {
     calcOption.insertAtIndex(reverse, newCalcOptionBtn);
 }
 
+// Removes SetAside info from all linked lists when user decides to delete one
 export function removeFromList(i) {
     const index = i - 1;
     resultContainer.children[i].remove();
@@ -82,6 +87,7 @@ export function removeFromList(i) {
     calcOption.removeIndex(index);
 }
 
+// Removes all none numbers from the string parameter
 export function removeChar(string) {
     let newString = '';
     for(let i = 0; i < string.length; i++) {
@@ -92,6 +98,7 @@ export function removeChar(string) {
     } return newString;
 }
 
+// Returns an object of all the new SetAsides details before creating a new record in Database
 export function getCalcResults(i, netpays) {
     if(inputOptions.getIndex(i).value.value == empty) return null;
     const ele = calcResults.getIndex(i).value;
@@ -129,6 +136,8 @@ export function displayLoggedSetAsides() {
 export function getNodeFrom(list, index) { { return list.getIndex(index).value; } }
 export function getNewSetAside() { return setasideContainer.children[tool.counter - 1].children[1] }
 export function getInputDivs() { return setasideContainer.getElementsByTagName('div'); }
+
+// Validates netpay input feild
 export function hasNetIncome() {
     if(netIncome.value === empty) { alert(text[2]); return false; } else return true;
 }
@@ -137,6 +146,7 @@ export function limitNotReached() {
     if(!(tool.numberOfSetAside <= 12)) { alert(text[3]); return false; } else return true;
 }
 
+// Returns all the months in the year
 export function getMonths() {
     const months = [];
     for (let i = 0; i < 12; i++) {

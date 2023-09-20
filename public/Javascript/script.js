@@ -15,12 +15,14 @@ export let counter = 3;
 let netpays = [];
 // displayLoggedSetAsides();
 
+// Filling in Linked lists with elements
 for(let i = 1; i >= 0; i--) {
     tools.inputOptions.insertAtIndex(0, setAsides[i]);
     tools.calcOption.insertAtIndex(0, calcOptions[i]);
     tools.calcResults.insertAtIndex(0, results[i]);
 }
 
+// Displaying All Record Log SetAsides in Database
 export function displayAllLogs(container) {
     logs.forEach(setAside => {
         const element = tools.getElement();
@@ -57,13 +59,17 @@ export function displayAllLogs(container) {
 }
 
 displayAllLogs(logContainer);
+
+// Activating EventListeners
 listenForCalcOption(0, 2);
 listenForUserInput(0, 2);
 
+// When you click on "Add SetAside" it will validate then add a new SetAside
 document.getElementById('set-aside-btn').addEventListener('click', () => {
     if(tools.hasNetIncome() && tools.limitNotReached()) addSetAside(prompt(tools.text[1]));
 });
 
+// When you click on a "Delete" Button in the SetAside Log Section it will delete the specified SetAside
 document.querySelectorAll('.delete-log-btn').forEach(btn => {
     btn.addEventListener('click', async (e) => {
         if(confirm(tools.text[7])) {
@@ -77,6 +83,8 @@ document.querySelectorAll('.delete-log-btn').forEach(btn => {
 })
 
 document.addEventListener('keyup', (key) => { if(key.key === 'Enter') validateSetAsides() });
+
+// onClick Clear all input in SetAsides
 document.getElementById('clear-btn').addEventListener('click', () => {
     for(let i = 0; i < tools.inputOptions.length; i++) {
         tools.netIncome.value = tools.empty;
@@ -84,6 +92,7 @@ document.getElementById('clear-btn').addEventListener('click', () => {
     }
 })
 
+// Sends a POST request to create a new SetAside Record in SQL Database
 logResultsBtn.addEventListener('click', async () => {
     const finalResults = getFinalNetPay();
     const arr = getSetAsides();
@@ -101,6 +110,7 @@ logResultsBtn.addEventListener('click', async () => {
         }
     )
 
+// Retreiving output results in the result/output section
 function getFinalNetPay() {
     const index4 = netPayResults.textContent.indexOf('$');
     const index3 = percentKeptResults.textContent.indexOf('p');
@@ -109,8 +119,8 @@ function getFinalNetPay() {
     const $kept = percentKeptResults.textContent.substring(index3 + 2, index5 - 1);
     return [spending$, $kept];
 }
-        
-        
+
+// Returns all new SetAside data before creating a record in SQL Database
 function getSetAsides() {
     const setAsides = [];
     for(let i = 0; i < tools.calcResults.length; i++) {
@@ -119,6 +129,8 @@ function getSetAsides() {
     } return setAsides;
 }
 
+
+// This function makes sure the user has a Netpay before calculating
 function validateSetAsides() {
     netpays.length = tools.inputOptions.length + 1;
     if(tools.hasNetIncome()) {
@@ -134,6 +146,7 @@ function validateSetAsides() {
     }
 }
 
+// This function calculates all new setAsides, and their setAside preference
 function calculate(netPayValue, inputData, label, num, i) {
     const netPay = parseFloat(tools.removeChar(netPayResults.textContent.substring(num)));
     netpays[i] = netPay;
@@ -150,6 +163,7 @@ function calculate(netPayValue, inputData, label, num, i) {
     }
 }
 
+// Calculates and returns the new Netpay and new overall percentage of netpay kept
 function calculateNewNetPay(netPay, netPayValue, setAsideAmount) {
     const newNetPay = parseFloat((netPay - setAsideAmount).toFixed(2));
     const percentageSaved = ((newNetPay / netPayValue) * 100).toFixed(0);
@@ -157,12 +171,14 @@ function calculateNewNetPay(netPay, netPayValue, setAsideAmount) {
     return arr;
 }
 
+// This function displays all new calculations to the output/results section
 function displayCalcResults(newNetPay, percentageSaved, string, i) {
     tools.getNodeFrom(tools.calcResults, i).textContent = string;
     netPayResults.textContent = `Spending Money: $${newNetPay}`;
     percentKeptResults.textContent = `You Keep ${percentageSaved}% of Your Net Pay!`;
 }
 
+// This function creates a new SetAside Specified by user
 function addSetAside(label) {
     if(label === null || label === tools.empty) return;
     const newElement = tools.getElement();
@@ -176,6 +192,7 @@ function addSetAside(label) {
     numberOfSetAside++;
 }
 
+// Delete setaside buttons eventlisteners
 function listenForDeleteSetAside(deleteBtn) {
     deleteBtn.addEventListener('click', (e) => {
         for(let i = 0; i < tools.resultContainer.children.length; i++) {
@@ -192,6 +209,7 @@ function listenForDeleteSetAside(deleteBtn) {
     });
 }
 
+// Listeners for user input in SetAside Inputs
 function listenForUserInput(start, end) {
     tools.netIncome.setAttribute('onkeypress', 'if(this.value.length==10) return false;')
     for(let i = start; i < end; i++) {
@@ -200,6 +218,7 @@ function listenForUserInput(start, end) {
     }
 }
 
+// Listeners for user calculation preference change
 function listenForCalcOption(start, end) {
     for(let i = start; i < end; i++) {
         tools.calcOption.getIndex(i).value.addEventListener('click', (e) => {
@@ -210,12 +229,14 @@ function listenForCalcOption(start, end) {
     )}
 }
 
+// Algorithm for changing the users calulation preference (calcOption)
 function changeCalcOption(e) {
     const isfixedNumCalculation = !(e.target.textContent === '#');
     if(isfixedNumCalculation) { e.target.textContent = '#'; validateSetAsides(); }
     else { e.target.textContent = '%'; validateSetAsides(); }
 }
 
+// Binary Search Algorithm (Better time complexity when searching O(Log n))
 function binarySearch(array, target) {
     let start = 0;
     let end = array.length - 1;

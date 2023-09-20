@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./assets/style.css">
     <title>Budget Calculator</title>
     <script src="https://kit.fontawesome.com/f2eb731954.js" crossorigin="anonymous"></script>
 </head>
 <body>
+
+    <!-- Start of Navigation -->
     <nav class="nav-container">
         <span><h1 class="title">Budget Calculator</h1></span>
         <div class="nav-link-container">
@@ -23,24 +25,34 @@
             </span>
         </div>
     </nav>
-    <div class="main-container">
-        <div>
+
+    <!-- Start of Main Section -->
+    <main class="main-container">
+        <section>
+
+            <!-- SetAside Container -->
             <div id="setaside-container">
                 <div class="input-container">
                     <label for="number">Net Pay</label>
                     <input id="net-income" type="number">
                 </div>
+
+                <!-- SetAside 1 -->
                 <div class="input-container">
                     <label for="number">Save</label>
                     <input id="0" data-setAside="savings" type="number">
                     <span><button class="calc-option-btn" data-calc-option="">%</button></span>
                 </div>
+
+                <!-- SetAside 2 -->
                 <div class="input-container">
                     <label for="number">Bills</label>
                     <input id="1" data-setAside="bills" type="number">
                     <span><button class="calc-option-btn" data-calc-option="">%</button></span>
                 </div>
             </div>
+
+            <!-- Start of Main Buttons Container -->
             <span id="main-btn-container">
                 <button class="main-btn" id="log-btn">Log Results</button>
                 <button class="main-btn" id="clear-btn">Clear</button>
@@ -49,18 +61,22 @@
             <span class="log-info">
                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque, nulla odio dolore fuga architecto enim iste, quasi temporibus reprehenderit corrupti fugiat laudantium aliquid quod omnis facere. Facilis saepe doloremque autem!</p>
             </span>
-        </div>
-        <div id="results-container">
+        </section>
+
+        <!-- Start of Results/Output Section -->
+        <section id="results-container">
             <h1 class="result-heading">Results</h1>
             <p class="calculation-results" data-results="savings"></p>
             <p class="calculation-results" data-results="bills"></p>
             <p class="calculation-results" id="netpay-aside-results"></p>
             <p class="calculation-results" id="total-percentage-kept-results"></p>
-        </div>
-    </div>
-    <div id="log-container">
+        </section>
+    </main>
+
+    <!-- Start of Log Display Section -->
+    <section id="log-container">
         <h1>SetAside Logs</h1>
-    </div>
+    </section>
     <footer>
         <p>Nazir Knuckles copyright 2023</p>
     </footer>
