@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const { createConnection } = require('mysql2');
 require('dotenv').config();
 const app = express();
-app.use(express.static('../public'));
+app.use(express.static('../Budget-Calculator'));
 app.use(express.json());
 
 // Connecting to mySQL Database
