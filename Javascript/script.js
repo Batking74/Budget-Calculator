@@ -22,6 +22,7 @@ for(let i = 1; i >= 0; i--) {
     tools.calcResults.insertAtIndex(0, results[i]);
 }
 
+
 // Displaying All Record Log SetAsides in Database
 export function displayAllLogs(container) {
     logs.forEach(setAside => {
@@ -43,12 +44,12 @@ export function displayAllLogs(container) {
             const ele = document.createElement('p');
             const path = setAside.SetAsides[i];
             ele.append(`${path.SetAside_Name}: `);
-            ele.append(`${path.Percentage_Amount} `);
-            if(path.SetAside_Percentage === '#') {
-                ele.append(` of $${(path.SetAside_Netpay).toLocaleString()}`);
+            ele.append(`${path.Calculation_Amount} `);
+            if(path.Calculation_Type === '#') {
+                ele.append(` of ${(path.SetAside_Netpay).toLocaleString()}`);
             }
             else {
-                ele.append(`(${path.SetAside_Percentage} of $${(path.SetAside_Netpay).toLocaleString()})`);
+                ele.append(`(${path.Calculation_Type} of ${(path.SetAside_Netpay).toLocaleString()})`);
             }
             element[9].append(ele);
         }
@@ -57,6 +58,7 @@ export function displayAllLogs(container) {
         element[4].append(`Delete`);
     })
 }
+console.log(logs)
 
 displayAllLogs(logContainer);
 

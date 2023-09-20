@@ -105,15 +105,16 @@ export function getCalcResults(i, netpays) {
     const index1 = ele.textContent.indexOf('-');
     const index2 = ele.textContent.indexOf('Set Aside');
     const deduction = ele.textContent.substring(index1);
-    let percentage = ele.textContent.substring(index2 + 10, index1 - 2);
+    let calcType = ele.textContent.substring(index2 + 10, index1 - 2);
     const name = ele.textContent.substring(0, index2 - 1);
     const option = calcOption.getIndex(i).value.textContent;
-    if(option === '#') percentage = '#';
+    console.log(netpays[i])
+    if(option === '#') calcType = '#';
     return {
         SetAside_Name: name,
-        SetAside_Netpay: netpays[i],
-        SetAside_Percentage: percentage,
-        Percentage_Amount: deduction
+        SetAside_Netpay: `$${parseFloat(netpays[i]).toLocaleString()}`,
+        Calculation_Type: calcType,
+        Calculation_Amount: deduction
     };
 }
 
