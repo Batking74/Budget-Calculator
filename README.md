@@ -30,3 +30,12 @@ I wanted to build something that would help me manage, and setaside/save for thi
 - JavaScript
 - Node.js
 - SQL
+
+### Libraries Used
+- Nodemailer
+- Mailgen
+- Mysql2
+- Express
+- fs
+- bcrypt
+- dotenv
