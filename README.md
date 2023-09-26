@@ -1,5 +1,6 @@
 # Budget-Calculator
 
+### Description
 This is a Budget Calculator Application that will help you manage your net income and expenses.
 I wanted to build something that would help me manage, and setaside/save for things easily.
 
