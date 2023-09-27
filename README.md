@@ -1,8 +1,10 @@
 # Budget-Calculator
 
+### Description
 This is a Budget Calculator Application that will help you manage your net income and expenses.
 I wanted to build something that would help me manage, and setaside/save for things easily.
 
+![Image of Nazir's Budget Calculator Project](./Assets/IMG/Budget_Calculator_Project.png)
 
 ## How it works
   1. The user must have a Net Income.
@@ -20,6 +22,7 @@ I wanted to build something that would help me manage, and setaside/save for thi
   - Has the option to remove added setasides.
   - Has the option to log setaside results with the date of when it was logged.
   - Has the option to delete logs.
+  
 
 ### Technologies Used
 - HTML
@@ -27,3 +30,17 @@ I wanted to build something that would help me manage, and setaside/save for thi
 - JavaScript
 - Node.js
 - SQL
+
+### Libraries Used
+- Nodemailer
+- Mailgen
+- Mysql2
+- Express
+- fs
+- bcrypt
+- dotenv
+
+
+Deployed Site: https://batking74.github.io/Budget-Calculator/
+
+GitHub Repo: https://github.com/Batking74/Budget-Calculator/tree/frontend
