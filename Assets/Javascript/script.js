@@ -5,15 +5,93 @@ const calcOptions = document.querySelectorAll('[data-calc-option]');
 const setAsides = document.querySelectorAll('[data-setAside]');
 const collapseBody = document.querySelectorAll('disabled-collapse');
 const results = document.querySelectorAll('[data-results]');
+const hamburgerMenu = document.querySelector('.menu');
+const navbar = document.querySelector('.nav-container');
 export let logContainer = document.getElementById('log-container');
 const logResultsBtn = document.getElementById('log-btn');
-export const logs = await (await fetch('/setAside')).json();
 tools.setAsideMsg.insertAtHead('Bills Set Aside');
 tools.setAsideMsg.insertAtHead('Save Set Aside');
 export let numberOfSetAside = 1;
 export let counter = 3;
+const msg = tools.text[6];
+const num = (msg.length) + 2;
 let netpays = [];
-// displayLoggedSetAsides();
+let i = localStorage.length - 1;
+
+
+// Displaying All Record SetAsides from localstorage
+while(i > 0) {
+    const key = localStorage.key(i);
+    const setAside = localStorage.getItem(key);
+    const log = JSON.parse(setAside);
+    const element = tools.getElement();
+    element[0].setAttribute('class', 'log-dropDown');
+    logContainer.children[0].insertAdjacentElement('afterend', element[0]);
+    appendElements(element);
+    displayElements(element, log, key);
+    i--;
+}
+
+
+// Appends All log elements to the document
+function appendElements(element) {
+    element[0].append(element[6]);
+    element[0].append(element[7]);
+    element[0].append(element[9]);
+    element[0].append(element[12]);
+    element[12].append(element[8]);
+    element[12].append(element[11]);
+    element[0].append(element[4]);
+}
+
+
+// Displays All Records of SetAsides in the log Section
+function displayElements(element, log, key) {
+    
+    // Date Element
+    element[6].setAttribute('class', 'date-log');
+    element[6].append(`${log.Log.Date}`);
+    
+    // Net Pay Element
+    element[7].setAttribute('class', 'netpay-log');
+    element[7].append(`Net Pay: ${log.Log.Netpay}`);
+    
+    // Displaying Each SetAside
+    for(let i = 0; i < log.Log.SetAsides.length; i++) {
+        const setAsideElement = document.createElement('p');
+        const path = log.Log.SetAsides[i];
+        setAsideElement.append(`${path.SetAside_Name}: `);
+        setAsideElement.append(`${path.Calculation_Amount} `);
+        if(path.Calculation_Type === '#') {
+            setAsideElement.append(` of ${(path.SetAside_Netpay).toLocaleString()}`);
+        }
+        else setAsideElement.append(`(${path.Calculation_Type} of ${(path.SetAside_Netpay).toLocaleString()})`);
+        //  checkCalcOption(log, ele);
+        element[9].setAttribute('class', 'setAside-log-container');
+        element[9].append(setAsideElement);
+    }
+    
+    
+    // Displaying Spending Money/Percentage Kept Elements
+    element[12].setAttribute('class', 'overall-calc-leftovers-container-log');
+    element[8].append(`Spending Money: ${log.Log.Spending_Money} `);
+    element[11].append(`Percentage of Netpay kept: ${log.Log.Percentage_Kept}`);
+    
+    // Displaying Delete Btn
+    element[4].setAttribute('class', 'delete-log-btn');
+    element[4].setAttribute('id', key);
+    element[4].append(`Delete`);
+}
+
+
+// Setting Eventlisteners
+document.getElementById('set-aside-btn').addEventListener('click', addSetAside);
+document.addEventListener('keyup', (key) => { if(key.key === 'Enter') validateSetAsides() });
+document.getElementById('clear-btn').addEventListener('click', clearInputs);
+document.querySelectorAll('.delete-log-btn').forEach(deleteSetAsideLog);
+tools.netIncome.addEventListener('keyup', validateNetIncome);
+logResultsBtn.addEventListener('click', createNewLogRecord);
+hamburgerMenu.addEventListener('click', () => {navbar.classList.toggle('active')});
 
 // Filling in Linked lists with elements
 for(let i = 1; i >= 0; i--) {
@@ -23,94 +101,57 @@ for(let i = 1; i >= 0; i--) {
 }
 
 
-// Displaying All Record Log SetAsides in Database
-export function displayAllLogs(container) {
-    logs.forEach(setAside => {
-        const element = tools.getElement();
-        element[0].setAttribute('class', 'log-dropDown');
-        element[4].setAttribute('class', 'delete-log-btn');
-        element[4].setAttribute('id', setAside.id);
-        container.children[0].insertAdjacentElement('afterend', element[0]);
-        element[0].append(element[6]);
-        element[0].append(element[7]);
-        element[0].append(element[9]);
-        element[0].append(element[12]);
-        element[12].append(element[8]);
-        element[12].append(element[11]);
-        element[0].append(element[4]);
-        element[6].append(`${setAside.Date}`);
-        element[7].append(`Net Pay: ${setAside.Netpay}`);
-        for(let i = 0; i < setAside.SetAsides.length; i++) {
-            const ele = document.createElement('p');
-            const path = setAside.SetAsides[i];
-            ele.append(`${path.SetAside_Name}: `);
-            ele.append(`${path.Calculation_Amount} `);
-            if(path.Calculation_Type === '#') {
-                ele.append(` of ${(path.SetAside_Netpay).toLocaleString()}`);
-            }
-            else {
-                ele.append(`(${path.Calculation_Type} of ${(path.SetAside_Netpay).toLocaleString()})`);
-            }
-            element[9].append(ele);
-        }
-        element[8].append(`Spending Money: ${setAside.Spending_Money} `);
-        element[11].append(`Percentage of Netpay kept: ${setAside.Total_Percentage_Kept}`);
-        element[4].append(`Delete`);
-    })
-}
-console.log(logs)
-
-displayAllLogs(logContainer);
-
 // Activating EventListeners
 listenForCalcOption(0, 2);
 listenForUserInput(0, 2);
 
+
+
 // When you click on "Add SetAside" it will validate then add a new SetAside
-document.getElementById('set-aside-btn').addEventListener('click', () => {
-    if(tools.hasNetIncome() && tools.limitNotReached()) addSetAside(prompt(tools.text[1]));
-});
+function addSetAside() {
+    if(tools.hasNetIncome() && tools.limitNotReached()) createSetAside(prompt(tools.text[1]));
+}
+
 
 // When you click on a "Delete" Button in the SetAside Log Section it will delete the specified SetAside
-document.querySelectorAll('.delete-log-btn').forEach(btn => {
-    btn.addEventListener('click', async (e) => {
+function deleteSetAsideLog(btn) {
+    btn.addEventListener('click', (e) => {
         if(confirm(tools.text[7])) {
-            const res = (await (await fetch(`/setAside/${e.target.id}`, {
-                method: 'DELETE',
-                headers: { 'Content-type': 'application/json' }
-            })).json())
-            e.target.parentElement.remove()
+            localStorage.removeItem(e.target.id)
+            e.target.parentElement.remove();
         }
     })
-})
+}
 
-document.addEventListener('keyup', (key) => { if(key.key === 'Enter') validateSetAsides() });
 
 // onClick Clear all input in SetAsides
-document.getElementById('clear-btn').addEventListener('click', () => {
+function clearInputs() {
     for(let i = 0; i < tools.inputOptions.length; i++) {
         tools.netIncome.value = tools.empty;
         tools.inputOptions.getIndex(i).value.value = tools.empty;
     }
-})
+}
 
-// Sends a POST request to create a new SetAside Record in SQL Database
-logResultsBtn.addEventListener('click', async () => {
+
+// Creates a new SetAside Record in Localstorage
+function createNewLogRecord() {
     const finalResults = getFinalNetPay();
     const arr = getSetAsides();
     if(!(arr.length == 0)) {
-        const response = (await fetch('/setAside', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
+        localStorage.setItem(parseInt(Math.random() * 9999999), JSON.stringify({
+            Log: {
+                Date: getDate(),
                 Netpay: `$${parseFloat(tools.netIncome.value).toLocaleString()}`,
                 SetAsides: arr,
                 Spending_Money: finalResults[0],
-                Percentage_Kept: finalResults[1] })})).json();
-                location.reload();
+                Percentage_Kept: finalResults[1]
             }
         }
-    )
+        ));
+        location.reload();
+    }
+}
+
 
 // Retreiving output results in the result/output section
 function getFinalNetPay() {
@@ -121,6 +162,7 @@ function getFinalNetPay() {
     const $kept = percentKeptResults.textContent.substring(index3 + 2, index5 - 1);
     return [spending$, $kept];
 }
+
 
 // Returns all new SetAside data before creating a record in SQL Database
 function getSetAsides() {
@@ -136,20 +178,19 @@ function getSetAsides() {
 function validateSetAsides() {
     netpays.length = tools.inputOptions.length + 1;
     if(tools.hasNetIncome()) {
-        const msg = tools.text[6];
-        const num = (msg.length) + 2;
         netPayResults.textContent = `${msg}: $${tools.netIncome.value}`;
         for(let i = 0; i < tools.inputOptions.length; i++) {
             const label = tools.getNodeFrom(tools.setAsideMsg, i);
             let inputData = tools.getNodeFrom(tools.inputOptions, i);
             if(inputData.value === tools.empty) tools.getNodeFrom(tools.calcResults, i).textContent = tools.empty;
-            else calculate(tools.netIncome.value, inputData, label, num, i);
+            else calculate(tools.netIncome.value, inputData, label, i);
         }
     }
 }
 
+
 // This function calculates all new setAsides, and their setAside preference
-function calculate(netPayValue, inputData, label, num, i) {
+function calculate(netPayValue, inputData, label, i) {
     const netPay = parseFloat(tools.removeChar(netPayResults.textContent.substring(num)));
     netpays[i] = netPay;
     const calcOptionSysmbol = tools.calcOption.getIndex(i).value.textContent;
@@ -165,13 +206,17 @@ function calculate(netPayValue, inputData, label, num, i) {
     }
 }
 
+
 // Calculates and returns the new Netpay and new overall percentage of netpay kept
 function calculateNewNetPay(netPay, netPayValue, setAsideAmount) {
+    let arr;
     const newNetPay = parseFloat((netPay - setAsideAmount).toFixed(2));
     const percentageSaved = ((newNetPay / netPayValue) * 100).toFixed(0);
-    const arr = [(newNetPay).toLocaleString(), percentageSaved];
+    if(newNetPay <= 0) arr = [0, 0];
+    else arr = [(newNetPay).toLocaleString(), percentageSaved];
     return arr;
 }
+
 
 // This function displays all new calculations to the output/results section
 function displayCalcResults(newNetPay, percentageSaved, string, i) {
@@ -180,8 +225,9 @@ function displayCalcResults(newNetPay, percentageSaved, string, i) {
     percentKeptResults.textContent = `You Keep ${percentageSaved}% of Your Net Pay!`;
 }
 
+
 // This function creates a new SetAside Specified by user
-function addSetAside(label) {
+function createSetAside(label) {
     if(label === null || label === tools.empty) return;
     const newElement = tools.getElement();
     const node = tools.setAttributes(newElement[0], newElement[2], newElement[4], newElement[5], newElement[6]);
@@ -193,6 +239,14 @@ function addSetAside(label) {
     counter++;
     numberOfSetAside++;
 }
+
+
+// Calculates when user inputs a new netIncome under 1 condition.
+function validateNetIncome() {
+    const netPay = parseFloat(tools.removeChar(netPayResults.textContent.substring(num)));
+    if((netPay >= 0)) validateSetAsides();
+}
+
 
 // Delete setaside buttons eventlisteners
 function listenForDeleteSetAside(deleteBtn) {
@@ -211,14 +265,16 @@ function listenForDeleteSetAside(deleteBtn) {
     });
 }
 
+
 // Listeners for user input in SetAside Inputs
 function listenForUserInput(start, end) {
-    tools.netIncome.setAttribute('onkeypress', 'if(this.value.length==10) return false;')
+    tools.netIncome.setAttribute('onkeypress', 'if(this.value.length==6) return false;')
     for(let i = start; i < end; i++) {
-        tools.inputOptions.getIndex(i).value.setAttribute('onkeypress', 'if(this.value.length==8) return false;');
+        tools.inputOptions.getIndex(i).value.setAttribute('onkeypress', 'if(this.value.length==6) return false;');
         tools.inputOptions.getIndex(i).value.addEventListener('input', (e) => { validateSetAsides(); })
     }
 }
+
 
 // Listeners for user calculation preference change
 function listenForCalcOption(start, end) {
@@ -234,21 +290,18 @@ function listenForCalcOption(start, end) {
 // Algorithm for changing the users calulation preference (calcOption)
 function changeCalcOption(e) {
     const isfixedNumCalculation = !(e.target.textContent === '#');
-    if(isfixedNumCalculation) { e.target.textContent = '#'; validateSetAsides(); }
-    else { e.target.textContent = '%'; validateSetAsides(); }
+    if(isfixedNumCalculation) change(e, '#', '36.1px');
+    else change(e, '%', '37px');
 }
 
-// Binary Search Algorithm (Better time complexity when searching O(Log n))
-function binarySearch(array, target) {
-    let start = 0;
-    let end = array.length - 1;
-
-    while(start <= end) {
-        let middlePosition = Math.floor((start + end) / 2);
-        let middleNumber = array[middlePosition];
-        if(middleNumber == target) return middleNumber - 1;
-        if(target < middleNumber) end = middlePosition - 1;
-        else start = middlePosition + 1;
-    }
-    return -1;
+function change(e, option, width) {
+    e.target.style.width = width;
+    e.target.textContent = option; validateSetAsides();
 }
+
+
+// Returns the current date and Time
+function getDate() {
+    const date = new Date();
+    return `${date.toUTCString().substring(0, 3)} ${date.toLocaleString()}`;
+} setInterval(getDate, 1000);

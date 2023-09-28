@@ -28,17 +28,6 @@ I wanted to build something that would help me manage, and setaside/save for thi
 - HTML
 - CSS
 - JavaScript
-- Node.js
-- SQL
-
-### Libraries Used
-- Nodemailer
-- Mailgen
-- Mysql2
-- Express
-- fs
-- bcrypt
-- dotenv
 
 
 Deployed Site: https://batking74.github.io/Budget-Calculator/

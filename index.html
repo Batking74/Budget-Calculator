@@ -10,6 +10,13 @@
 </head>
 <body>
 
+    <!-- Hamburger Menu -->
+    <span class="menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </span>
+
     <!-- Start of Navigation -->
     <nav class="nav-container">
         <span><h1 class="title">Budget Calculator</h1></span>
@@ -18,8 +25,8 @@
                 <i class="fa-solid fa-calculator" style="color: #000;"></i>
                 <a class="nav-link" href="/">Budget</a>
             </span>
-            <span class="nav-grouper"><a class="nav-link" href="#">How to use</a></span>
-            <span class="nav-grouper"><a class="nav-link" href="#">Contact</a></span>
+            <span class="nav-grouper"><a class="nav-link" href="https://github.com/Batking74/Budget-Calculator/blob/frontend/README.md">How to use</a></span>
+            <span class="nav-grouper"><a class="nav-link" href="mailto: nazirknuckles@gmail.com">Contact</a></span>
             <span class="nav-grouper">
                 <a class="nav-link" href="/logs">All Logs </a>
                 <i class="fa-solid fa-calendar-days" style="color: #000;"></i>
@@ -42,14 +49,14 @@
                 <div class="input-container">
                     <label for="Save">Save</label>
                     <input id="0" data-setAside="savings" type="number">
-                    <span><button class="calc-option-btn" data-calc-option="">%</button></span>
+                    <span><button class="calc-option-btn" data-calc-option="save">%</button></span>
                 </div>
 
                 <!-- SetAside 2 -->
                 <div class="input-container">
                     <label for="Bills">Bills</label>
                     <input id="1" data-setAside="bills" type="number">
-                    <span><button class="calc-option-btn" data-calc-option="">%</button></span>
+                    <span><button class="calc-option-btn" data-calc-option="bills">%</button></span>
                 </div>
             </div>
 
@@ -59,7 +66,7 @@
                 <button class="main-btn" id="clear-btn">Clear</button>
                 <button class="main-btn" id="set-aside-btn">Add Set Aside</button>
             </span>
-            <span class="log-info">
+            <span class="paragraph">
                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque, nulla odio dolore fuga architecto enim iste, quasi temporibus reprehenderit corrupti fugiat laudantium aliquid quod omnis facere. Facilis saepe doloremque autem!</p>
             </span>
         </section>
