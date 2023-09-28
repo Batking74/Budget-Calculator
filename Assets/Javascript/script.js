@@ -22,6 +22,7 @@ let i = 0;
 // Displaying All Record SetAsides from localstorage
 while(i < localStorage.length) {
     const key = localStorage.key(i);
+    console.log(key)
     const setAside = localStorage.getItem(key);
     const log = JSON.parse(setAside);
     const element = tools.getElement();
