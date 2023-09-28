@@ -16,11 +16,11 @@ export let counter = 3;
 const msg = tools.text[6];
 const num = (msg.length) + 2;
 let netpays = [];
-let i = localStorage.length - 1;
+let i = 0;
 
 
 // Displaying All Record SetAsides from localstorage
-while(i > 0) {
+while(i < localStorage.length) {
     const key = localStorage.key(i);
     const setAside = localStorage.getItem(key);
     const log = JSON.parse(setAside);
@@ -29,7 +29,7 @@ while(i > 0) {
     logContainer.children[0].insertAdjacentElement('afterend', element[0]);
     appendElements(element);
     displayElements(element, log, key);
-    i--;
+    i++;
 }
 
 
