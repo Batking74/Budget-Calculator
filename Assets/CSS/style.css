@@ -16,6 +16,7 @@
 body {
     background: linear-gradient(90deg, #bf3333, gold, #bf3333);
     text-align: center;
+    width: 100%;
     overflow-x: hidden;
 }
 
@@ -184,8 +185,20 @@ input, .calc-option-btn { border: solid #000 2px; }
     margin-top: 210px;
     background: var(--white);
     padding: 15px 0 0 0;
+    height: 200px;
     color: #000;
     border: 10px solid #adadad;
+}
+
+#log-container h1 {
+    font-size: 30px;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.empty-log-container-msg {
+    font-size: 30px;
+    margin-top: 30px;
+    opacity: 0.6;
 }
 
 .disabled-collapse {
@@ -210,6 +223,10 @@ input, .calc-option-btn { border: solid #000 2px; }
     height: 30px;
     border-radius: 20px;
     background: #d9300e;
+}
+
+.delete-log-btn:hover {
+    cursor: pointer;
 }
 
 /* .active {

@@ -22,10 +22,11 @@ let i = 0;
 // Displaying All Record SetAsides from localstorage
 while(i < localStorage.length) {
     const key = localStorage.key(i);
-    console.log(key)
     const setAside = localStorage.getItem(key);
     const log = JSON.parse(setAside);
     const element = tools.getElement();
+    logContainer.children[1].style.display = 'none';
+    logContainer.style.height = 'fit-content';
     element[0].setAttribute('class', 'log-dropDown');
     logContainer.children[0].insertAdjacentElement('afterend', element[0]);
     appendElements(element);
@@ -118,8 +119,12 @@ function addSetAside() {
 function deleteSetAsideLog(btn) {
     btn.addEventListener('click', (e) => {
         if(confirm(tools.text[7])) {
-            localStorage.removeItem(e.target.id)
+            localStorage.removeItem(e.target.id);
             e.target.parentElement.remove();
+            if(localStorage.length == 0) {
+                logContainer.children[1].style.display = 'block';
+                logContainer.style.height = '200px';
+            }
         }
     })
 }
