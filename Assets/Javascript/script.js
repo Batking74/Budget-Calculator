@@ -7,6 +7,7 @@ const collapseBody = document.querySelectorAll('disabled-collapse');
 const results = document.querySelectorAll('[data-results]');
 const hamburgerMenu = document.querySelector('.menu');
 const navbar = document.querySelector('.nav-container');
+const logEmptyMsg = document.querySelector('.empty-log-container-msg');
 export let logContainer = document.getElementById('log-container');
 const logResultsBtn = document.getElementById('log-btn');
 tools.setAsideMsg.insertAtHead('Bills Set Aside');
@@ -25,10 +26,10 @@ while(i < localStorage.length) {
     const setAside = localStorage.getItem(key);
     const log = JSON.parse(setAside);
     const element = tools.getElement();
-    logContainer.children[1].style.display = 'none';
+    logContainer.children[0].insertAdjacentElement('afterend', element[0]);
+    logEmptyMsg.style.display = 'none';
     logContainer.style.height = 'fit-content';
     element[0].setAttribute('class', 'log-dropDown');
-    logContainer.children[0].insertAdjacentElement('afterend', element[0]);
     appendElements(element);
     displayElements(element, log, key);
     i++;
@@ -68,7 +69,7 @@ function displayElements(element, log, key) {
             setAsideElement.append(` of ${(path.SetAside_Netpay).toLocaleString()}`);
         }
         else setAsideElement.append(`(${path.Calculation_Type} of ${(path.SetAside_Netpay).toLocaleString()})`);
-        //  checkCalcOption(log, ele);
+
         element[9].setAttribute('class', 'setAside-log-container');
         element[9].append(setAsideElement);
     }
@@ -91,7 +92,8 @@ document.getElementById('set-aside-btn').addEventListener('click', addSetAside);
 document.addEventListener('keyup', (key) => { if(key.key === 'Enter') validateSetAsides() });
 document.getElementById('clear-btn').addEventListener('click', clearInputs);
 document.querySelectorAll('.delete-log-btn').forEach(deleteSetAsideLog);
-tools.netIncome.addEventListener('keyup', validateNetIncome);
+// tools.netIncome.addEventListener('keyup', validateNetIncome);
+tools.netIncome.addEventListener('input', validateNetIncome);
 logResultsBtn.addEventListener('click', createNewLogRecord);
 hamburgerMenu.addEventListener('click', () => {navbar.classList.toggle('active')});
 
@@ -122,7 +124,7 @@ function deleteSetAsideLog(btn) {
             localStorage.removeItem(e.target.id);
             e.target.parentElement.remove();
             if(localStorage.length == 0) {
-                logContainer.children[1].style.display = 'block';
+                logEmptyMsg.style.display = 'block';
                 logContainer.style.height = '200px';
             }
         }
@@ -147,7 +149,7 @@ function createNewLogRecord() {
         localStorage.setItem(parseInt(Math.random() * 9999999), JSON.stringify({
             Log: {
                 Date: getDate(),
-                Netpay: `$${parseFloat(tools.netIncome.value).toLocaleString()}`,
+                Netpay: `$${tools.netIncome.value}`,
                 SetAsides: arr,
                 Spending_Money: finalResults[0],
                 Percentage_Kept: finalResults[1]
@@ -184,12 +186,13 @@ function getSetAsides() {
 function validateSetAsides() {
     netpays.length = tools.inputOptions.length + 1;
     if(tools.hasNetIncome()) {
-        netPayResults.textContent = `${msg}: $${tools.netIncome.value}`;
+        const netPay = tools.removeChar(tools.netIncome.value);
+        netPayResults.textContent = `${msg}: $${netPay.toLocaleString()}`;
         for(let i = 0; i < tools.inputOptions.length; i++) {
             const label = tools.getNodeFrom(tools.setAsideMsg, i);
             let inputData = tools.getNodeFrom(tools.inputOptions, i);
             if(inputData.value === tools.empty) tools.getNodeFrom(tools.calcResults, i).textContent = tools.empty;
-            else calculate(tools.netIncome.value, inputData, label, i);
+            else calculate(netPay, inputData, label, i);
         }
     }
 }
@@ -197,7 +200,7 @@ function validateSetAsides() {
 
 // This function calculates all new setAsides, and their setAside preference
 function calculate(netPayValue, inputData, label, i) {
-    const netPay = parseFloat(tools.removeChar(netPayResults.textContent.substring(num)));
+    const netPay = tools.removeChar(netPayResults.textContent.substring(num));
     netpays[i] = netPay;
     const calcOptionSysmbol = tools.calcOption.getIndex(i).value.textContent;
     let setAsideAmount = (inputData.value);
@@ -248,9 +251,11 @@ function createSetAside(label) {
 
 
 // Calculates when user inputs a new netIncome under 1 condition.
-function validateNetIncome() {
-    const netPay = parseFloat(tools.removeChar(netPayResults.textContent.substring(num)));
-    if((netPay >= 0)) validateSetAsides();
+function validateNetIncome(e) {
+    const newNetPay = tools.removeChar(netPayResults.textContent.substring(num));
+    if(newNetPay >= 0) validateSetAsides();
+    const netPay = tools.removeChar(e.target.value);
+    if(!(isNaN(netPay))) tools.netIncome.value = Number(netPay).toLocaleString();
 }
 
 
@@ -274,9 +279,9 @@ function listenForDeleteSetAside(deleteBtn) {
 
 // Listeners for user input in SetAside Inputs
 function listenForUserInput(start, end) {
-    tools.netIncome.setAttribute('onkeypress', 'if(this.value.length==6) return false;')
+    tools.netIncome.setAttribute('onkeypress', 'if(this.value.length==8) return false;')
     for(let i = start; i < end; i++) {
-        tools.inputOptions.getIndex(i).value.setAttribute('onkeypress', 'if(this.value.length==6) return false;');
+        tools.inputOptions.getIndex(i).value.setAttribute('onkeypress', 'if(this.value.length==7) return false;');
         tools.inputOptions.getIndex(i).value.addEventListener('input', (e) => { validateSetAsides(); })
     }
 }
@@ -290,13 +295,15 @@ function listenForCalcOption(start, end) {
             if(isForNewSetAside) changeCalcOption(e);
             if(!(isForNewSetAside) && i < 2) changeCalcOption(e);
         }
-    )}
-}
-
-// Algorithm for changing the users calulation preference (calcOption)
-function changeCalcOption(e) {
-    const isfixedNumCalculation = !(e.target.textContent === '#');
-    if(isfixedNumCalculation) change(e, '#', '36.1px');
+        )}
+    }
+    
+    // Algorithm for changing the users calulation preference (calcOption)
+    function changeCalcOption(e) {
+        const isfixedNumCalculation = !(e.target.textContent === '#');
+    if(isfixedNumCalculation) {
+        change(e, '#', '36.1px');
+    }
     else change(e, '%', '37px');
 }
 

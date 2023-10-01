@@ -88,14 +88,14 @@ export function removeFromList(i) {
 }
 
 // Removes all none numbers from the string parameter
-export function removeChar(string) {
-    let newString = '';
-    for(let i = 0; i < string.length; i++) {
-        let letter = string.substring(i, i + 1);
+export function removeChar(stringInt) {
+    let newInt = '';
+    for(let i = 0; i < stringInt.length; i++) {
+        let letter = stringInt.substring(i, i + 1);
         if(letter === ',') letter = '';
         else if(letter === '$') letter = '';
-        else newString += letter;
-    } return newString;
+        else newInt += letter;
+    } return parseFloat(newInt);
 }
 
 // Returns an object of all the new SetAsides details before creating a new record in Database
@@ -108,7 +108,6 @@ export function getCalcResults(i, netpays) {
     let calcType = ele.textContent.substring(index2 + 10, index1 - 2);
     const name = ele.textContent.substring(0, index2 - 1);
     const option = calcOption.getIndex(i).value.textContent;
-    console.log(netpays[i])
     if(option === '#') calcType = '#';
     return {
         SetAside_Name: name,
