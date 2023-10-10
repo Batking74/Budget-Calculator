@@ -256,8 +256,7 @@ footer {
     background: var(--bg);
 }
 
-/* Responsive Web Design: Tablet View */
-
+/* Responsive Web Design: Desktop View */
 @media screen and (max-width: 1295px) {
     #results-container {
         position: relative;
@@ -265,8 +264,10 @@ footer {
     }
 }
 
-@media screen and (max-width: 1100px) {
 
+/* Desktop View */
+@media screen and (max-width: 1100px) {
+    
     /* Start of SetAside-Input Container */
     #setaside-container {
         margin-top: var(--main-sections-margin);
@@ -274,7 +275,7 @@ footer {
         grid-template-columns: repeat(3, 270px);
         row-gap: 40px;
     }
-
+    
     label {
         position: relative;
         right: 20px;
@@ -285,7 +286,7 @@ footer {
         width: 180px;
         padding: 10px 0 10px 5px;
     }
-
+    
     .new-setaside input {
         border-right: none;
         border-radius: 0 4px 4px 0;
@@ -294,7 +295,7 @@ footer {
         position: relative;
         left: 27px;
     }
-
+    
     input, .calc-option-btn { border: solid #000 2px; }
     
     
@@ -320,7 +321,7 @@ footer {
         background: red;
         padding: 4px 5px 4px 5px;
     }
-
+    
     
     /* Start of Main buttons Container Styles (Log Results, Clear, Add SetAside) */
     #main-btn-container {
@@ -344,14 +345,14 @@ footer {
         transform: translateY(-2px);
         cursor: pointer;
     }
-
+    
     /* Start of Result Container Styles */
     .result-heading {
         font-size: 30px;
         color: var(--white);
         padding: 25px 0 25px 0;
     }
-
+    
     .calculation-results {
         font-size: 25px;
         transition: 2s;
@@ -397,7 +398,7 @@ footer {
     }
 }
 
-/* Navigation Break */
+/* Desktop View and Navigation Break */
 @media screen and (max-width: 1000px) {
     
     /* Start of Navigation/Header Styles */
@@ -414,7 +415,7 @@ footer {
     }
 }
 
-/* Mobile View */
+/* Tabet and Mobile View */
 @media screen and (max-width: 820px) and (min-width: 0px) {
     .menu {
         display: grid;
@@ -459,7 +460,7 @@ footer {
         position: initial;
         font-size: 33px;
     }
-
+    
     .nav-link-container {
         flex-direction: column;
         margin-top: 25px;
@@ -474,11 +475,11 @@ footer {
         flex-direction: column;
         position: relative;
     }
-
+    
     label {
         position: initial;
     }
-
+    
     input {
         font-size: 25px;
         width: var(--input-container-items-width);
@@ -538,7 +539,7 @@ footer {
     .paragraph {
         left: 20px;
     }
-
+    
     .paragraph p {
         position: relative;
         right: 5px;
@@ -549,16 +550,16 @@ footer {
     #results-container {
         width: 350px;
     }
-
+    
     #results-container p {
         font-size: 18px;
     }
-
+    
     /* Start of Log Container Styles */
     .date-log { font-size: 23px; }
     
     .netpay-log { font-size: 22px; }
-
+    
     .setAside-log-container { font-size: 20px; }
     
     .overall-calc-leftovers-container-log { font-size: 23px; }
