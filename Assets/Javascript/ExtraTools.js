@@ -40,7 +40,7 @@ export function getElement() {
 
 // Setting new SetAside Attributes
 export function setAttributes(newDiv, newInput, newCalcOptionBtn, deleteBtn, newResult) {
-    newDiv.setAttribute('class', 'new-setaside')
+    newDiv.setAttribute('class', 'new-setaside');
     newInput.setAttribute('type', 'number');
     newInput.setAttribute('data-setaside', 'newSetaside');
     newInput.setAttribute('id', tool.counter - 1);
@@ -143,7 +143,7 @@ export function hasNetIncome() {
 }
 
 export function limitNotReached() {
-    if(!(tool.numberOfSetAside <= 12)) { alert(text[3]); return false; } else return true;
+    if(!(tool.numberOfSetAside <= 21)) { alert(text[3]); return false; } else return true;
 }
 
 // Returns all the months in the year

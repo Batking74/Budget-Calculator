@@ -21,7 +21,7 @@ let i = 0;
 
 
 // Displaying All Record SetAsides from localstorage
-while(i < localStorage.length) {
+while(i < localStorage.length && !(localStorage.length >= 30)) {
     const key = localStorage.key(i);
     const setAside = localStorage.getItem(key);
     const log = JSON.parse(setAside);
@@ -92,6 +92,7 @@ document.getElementById('set-aside-btn').addEventListener('click', addSetAside);
 document.addEventListener('keyup', (key) => { if(key.key === 'Enter') validateSetAsides() });
 document.getElementById('clear-btn').addEventListener('click', clearInputs);
 document.querySelectorAll('.delete-log-btn').forEach(deleteSetAsideLog);
+
 // tools.netIncome.addEventListener('keyup', validateNetIncome);
 tools.netIncome.addEventListener('input', validateNetIncome);
 logResultsBtn.addEventListener('click', createNewLogRecord);
