@@ -1,108 +1,63 @@
-import * as tools from './ExtraTools.js';
+import * as tools1 from './ExtraTools.js';
+import * as tools2 from './Extra_Tools_2.js';
 let percentKeptResults = document.getElementById('total-percentage-kept-results');
 let netPayResults = document.getElementById('netpay-aside-results');
 const calcOptions = document.querySelectorAll('[data-calc-option]');
 const setAsides = document.querySelectorAll('[data-setAside]');
-const collapseBody = document.querySelectorAll('disabled-collapse');
 const results = document.querySelectorAll('[data-results]');
 const hamburgerMenu = document.querySelector('.menu');
 const navbar = document.querySelector('.nav-container');
 const logEmptyMsg = document.querySelector('.empty-log-container-msg');
 export let logContainer = document.getElementById('log-container');
 const logResultsBtn = document.getElementById('log-btn');
-tools.setAsideMsg.insertAtHead('Bills Set Aside');
-tools.setAsideMsg.insertAtHead('Save Set Aside');
+tools1.setAsideMsg.insertAtHead('Bills Set Aside');
+tools1.setAsideMsg.insertAtHead('Save Set Aside');
 export let numberOfSetAside = 1;
 export let counter = 3;
-const msg = tools.text[6];
+const msg = tools1.text[6];
 const num = (msg.length) + 2;
 let netpays = [];
 let i = 0;
 
+// Recursive function that displays all setasides in Localstorage
+function displayLoggedSetAsides(i) {
 
-// Displaying All Record SetAsides from localstorage
-while(i < localStorage.length && !(localStorage.length >= 30)) {
-    const key = localStorage.key(i);
-    const setAside = localStorage.getItem(key);
-    const log = JSON.parse(setAside);
-    const element = tools.getElement();
+    // Base Case
+    if(localStorage.length <= i && !(localStorage.length >= 20)) {
+        console.log('Log Successfuly Loaded!');
+        return;
+    }
+
+    // Recursive Case
+    let key = localStorage.key(i);
+    let setAside = localStorage.getItem(key);
+    let log = JSON.parse(setAside);
+    let element = tools1.getElement();
     logContainer.children[0].insertAdjacentElement('afterend', element[0]);
     logEmptyMsg.style.display = 'none';
     logContainer.style.height = 'fit-content';
     element[0].setAttribute('class', 'log-dropDown');
-    appendElements(element);
-    displayElements(element, log, key);
-    i++;
+    tools2.appendElements(element);
+    tools2.displayElements(element, log, key);
+    displayLoggedSetAsides(i + 1);
 }
 
-
-// Appends All log elements to the document
-function appendElements(element) {
-    element[0].append(element[6]);
-    element[0].append(element[7]);
-    element[0].append(element[9]);
-    element[0].append(element[12]);
-    element[12].append(element[8]);
-    element[12].append(element[11]);
-    element[0].append(element[4]);
-}
-
-
-// Displays All Records of SetAsides in the log Section
-function displayElements(element, log, key) {
-    
-    // Date Element
-    element[6].setAttribute('class', 'date-log');
-    element[6].append(`${log.Log.Date}`);
-    
-    // Net Pay Element
-    element[7].setAttribute('class', 'netpay-log');
-    element[7].append(`Net Pay: ${log.Log.Netpay}`);
-    
-    // Displaying Each SetAside
-    for(let i = 0; i < log.Log.SetAsides.length; i++) {
-        const setAsideElement = document.createElement('p');
-        const path = log.Log.SetAsides[i];
-        setAsideElement.append(`${path.SetAside_Name}: `);
-        setAsideElement.append(`${path.Calculation_Amount} `);
-        if(path.Calculation_Type === '#') {
-            setAsideElement.append(` of ${(path.SetAside_Netpay).toLocaleString()}`);
-        }
-        else setAsideElement.append(`(${path.Calculation_Type} of ${(path.SetAside_Netpay).toLocaleString()})`);
-
-        element[9].setAttribute('class', 'setAside-log-container');
-        element[9].append(setAsideElement);
-    }
-    
-    
-    // Displaying Spending Money/Percentage Kept Elements
-    element[12].setAttribute('class', 'overall-calc-leftovers-container-log');
-    element[8].append(`Spending Money: ${log.Log.Spending_Money} `);
-    element[11].append(`Percentage of Netpay kept: ${log.Log.Percentage_Kept}`);
-    
-    // Displaying Delete Btn
-    element[4].setAttribute('class', 'delete-log-btn');
-    element[4].setAttribute('id', key);
-    element[4].append(`Delete`);
-}
-
+displayLoggedSetAsides(0);
 
 // Setting Eventlisteners
 document.getElementById('set-aside-btn').addEventListener('click', addSetAside);
 document.addEventListener('keyup', (key) => { if(key.key === 'Enter') validateSetAsides() });
 document.getElementById('clear-btn').addEventListener('click', clearInputs);
 document.querySelectorAll('.delete-log-btn').forEach(deleteSetAsideLog);
-
-// tools.netIncome.addEventListener('keyup', validateNetIncome);
-tools.netIncome.addEventListener('input', validateNetIncome);
+tools1.netIncome.addEventListener('input', validateNetIncome);
 logResultsBtn.addEventListener('click', createNewLogRecord);
 hamburgerMenu.addEventListener('click', () => {navbar.classList.toggle('active')});
 
 // Filling in Linked lists with elements
 for(let i = 1; i >= 0; i--) {
-    tools.inputOptions.insertAtIndex(0, setAsides[i]);
-    tools.calcOption.insertAtIndex(0, calcOptions[i]);
-    tools.calcResults.insertAtIndex(0, results[i]);
+    tools1.inputOptions.insertAtIndex(0, setAsides[i]);
+    tools1.calcOption.insertAtIndex(0, calcOptions[i]);
+    tools1.calcResults.insertAtIndex(0, results[i]);
 }
 
 
@@ -114,14 +69,14 @@ listenForUserInput(0, 2);
 
 // When you click on "Add SetAside" it will validate then add a new SetAside
 function addSetAside() {
-    if(tools.hasNetIncome() && tools.limitNotReached()) createSetAside(prompt(tools.text[1]));
+    if(tools1.hasNetIncome() && tools1.limitNotReached()) createSetAside(prompt(tools1.text[1]));
 }
 
 
 // When you click on a "Delete" Button in the SetAside Log Section it will delete the specified SetAside
 function deleteSetAsideLog(btn) {
     btn.addEventListener('click', (e) => {
-        if(confirm(tools.text[7])) {
+        if(confirm(tools1.text[7])) {
             localStorage.removeItem(e.target.id);
             e.target.parentElement.remove();
             if(localStorage.length == 0) {
@@ -133,24 +88,24 @@ function deleteSetAsideLog(btn) {
 }
 
 
-// onClick Clear all input in SetAsides
+// Clears all SetAside input feilds
 function clearInputs() {
-    for(let i = 0; i < tools.inputOptions.length; i++) {
-        tools.netIncome.value = tools.empty;
-        tools.inputOptions.getIndex(i).value.value = tools.empty;
+    for(let i = 0; i < tools1.inputOptions.length; i++) {
+        tools1.netIncome.value = '';
+        tools1.inputOptions.getIndex(i).value.value = '';
     }
 }
 
 
 // Creates a new SetAside Record in Localstorage
 function createNewLogRecord() {
-    const finalResults = getFinalNetPay();
-    const arr = getSetAsides();
+    const finalResults = tools2.getFinalNetPay(netPayResults, percentKeptResults);
+    const arr = tools2.getSetAsides(netpays);
     if(!(arr.length == 0)) {
         localStorage.setItem(parseInt(Math.random() * 9999999), JSON.stringify({
             Log: {
                 Date: getDate(),
-                Netpay: `$${tools.netIncome.value}`,
+                Netpay: `$${tools1.netIncome.value}`,
                 SetAsides: arr,
                 Spending_Money: finalResults[0],
                 Percentage_Kept: finalResults[1]
@@ -162,65 +117,47 @@ function createNewLogRecord() {
 }
 
 
-// Retreiving output results in the result/output section
-function getFinalNetPay() {
-    const index4 = netPayResults.textContent.indexOf('$');
-    const index3 = percentKeptResults.textContent.indexOf('p');
-    const index5 = percentKeptResults.textContent.indexOf('of');
-    const spending$ = netPayResults.textContent.substring(index4);
-    const $kept = percentKeptResults.textContent.substring(index3 + 2, index5 - 1);
-    return [spending$, $kept];
-}
-
-
-// Returns all new SetAside data before creating a record in SQL Database
-function getSetAsides() {
-    const setAsides = [];
-    for(let i = 0; i < tools.calcResults.length; i++) {
-        const object = tools.getCalcResults(i, netpays);
-        if(!(object === null)) setAsides.push(object);
-    } return setAsides;
-}
-
-
 // This function makes sure the user has a Netpay before calculating
 function validateSetAsides() {
-    netpays.length = tools.inputOptions.length + 1;
-    if(tools.hasNetIncome()) {
-        const netPay = tools.removeChar(tools.netIncome.value);
+    netpays.length = tools1.inputOptions.length + 1;
+    if(tools1.hasNetIncome()) {
+        const netPay = tools1.removeChar(tools1.netIncome.value);
         netPayResults.textContent = `${msg}: $${netPay.toLocaleString()}`;
-        for(let i = 0; i < tools.inputOptions.length; i++) {
-            const label = tools.getNodeFrom(tools.setAsideMsg, i);
-            let inputData = tools.getNodeFrom(tools.inputOptions, i);
-            if(inputData.value === tools.empty) tools.getNodeFrom(tools.calcResults, i).textContent = tools.empty;
+        for(let i = 0; i < tools1.inputOptions.length; i++) {
+            const label = tools1.getNodeFrom(tools1.setAsideMsg, i);
+            let inputData = tools1.getNodeFrom(tools1.inputOptions, i);
+            if(inputData.value === '') tools1.getNodeFrom(tools1.calcResults, i).textContent = '';
             else calculate(netPay, inputData, label, i);
         }
     }
 }
 
 
-// This function calculates all new setAsides, and their setAside preference
+// This function calculates all new setAsides, and their setAside preference (% or #)
 function calculate(netPayValue, inputData, label, i) {
-    const netPay = tools.removeChar(netPayResults.textContent.substring(num));
-    netpays[i] = netPay;
-    const calcOptionSysmbol = tools.calcOption.getIndex(i).value.textContent;
+
+    // Collects all netpays
+    netpays[i] = netPayValue;
+    
+    const calcOptionSysmbol = tools1.calcOption.getIndex(i).value.textContent;
     let setAsideAmount = (inputData.value);
-    let value = calculateNewNetPay(netPay, netPayValue, setAsideAmount);
+    let value = calculateNewNetPay(netPayValue, setAsideAmount);
     let string = `${label}: -$${parseFloat(setAsideAmount).toLocaleString()}`;
+    // console.log(netPayValue)
     if(!(calcOptionSysmbol === '%')) displayCalcResults(value[0], value[1], string, i);
     else {
-        setAsideAmount = (netPay * (inputData.value / 100)).toFixed(2);
+        setAsideAmount = (netPayValue * (inputData.value / 100)).toFixed(2);
         string = `${label} ${inputData.value}%: -$${parseFloat(setAsideAmount).toLocaleString()}`;
-        value = calculateNewNetPay(netPay, netPayValue, setAsideAmount);
+        value = calculateNewNetPay(netPayValue, setAsideAmount);
         displayCalcResults(value[0], value[1], string, i);
     }
 }
 
 
 // Calculates and returns the new Netpay and new overall percentage of netpay kept
-function calculateNewNetPay(netPay, netPayValue, setAsideAmount) {
+function calculateNewNetPay(netPayValue, setAsideAmount) {
     let arr;
-    const newNetPay = parseFloat((netPay - setAsideAmount).toFixed(2));
+    const newNetPay = parseFloat((netPayValue - setAsideAmount).toFixed(2));
     const percentageSaved = ((newNetPay / netPayValue) * 100).toFixed(0);
     if(newNetPay <= 0) arr = [0, 0];
     else arr = [(newNetPay).toLocaleString(), percentageSaved];
@@ -230,7 +167,7 @@ function calculateNewNetPay(netPay, netPayValue, setAsideAmount) {
 
 // This function displays all new calculations to the output/results section
 function displayCalcResults(newNetPay, percentageSaved, string, i) {
-    tools.getNodeFrom(tools.calcResults, i).textContent = string;
+    tools1.getNodeFrom(tools1.calcResults, i).textContent = string;
     netPayResults.textContent = `Spending Money: $${newNetPay}`;
     percentKeptResults.textContent = `You Keep ${percentageSaved}% of Your Net Pay!`;
 }
@@ -238,14 +175,14 @@ function displayCalcResults(newNetPay, percentageSaved, string, i) {
 
 // This function creates a new SetAside Specified by user
 function createSetAside(label) {
-    if(label === null || label === tools.empty) return;
-    const newElement = tools.getElement();
-    const node = tools.setAttributes(newElement[0], newElement[2], newElement[4], newElement[5], newElement[6]);
-    tools.appendNodes(node[0], newElement[1], node[1], newElement[3], node[2], node[3], label);
-    tools.addToList(node[1], node[2], node[4], label);
+    if(label === null || label === '') return;
+    const newElement = tools1.getElement();
+    const node = tools1.setAttributes(newElement[0], newElement[2], newElement[4], newElement[5], newElement[6]);
+    tools1.appendNodes(node[0], newElement[1], node[1], newElement[3], node[2], node[3], label);
+    tools1.addToList(node[1], node[2], node[4], label);
     listenForDeleteSetAside(node[3]);
-    listenForCalcOption(2, tools.calcOption.length);
-    listenForUserInput(2, tools.inputOptions.length);
+    listenForCalcOption(2, tools1.calcOption.length);
+    listenForUserInput(2, tools1.inputOptions.length);
     counter++;
     numberOfSetAside++;
 }
@@ -253,22 +190,20 @@ function createSetAside(label) {
 
 // Calculates when user inputs a new netIncome under 1 condition.
 function validateNetIncome(e) {
-    const newNetPay = tools.removeChar(netPayResults.textContent.substring(num));
+    const newNetPay = tools1.removeChar(netPayResults.textContent.substring(num));
     if(newNetPay >= 0) validateSetAsides();
-    const netPay = tools.removeChar(e.target.value);
-    if(!(isNaN(netPay))) tools.netIncome.value = Number(netPay).toLocaleString();
 }
 
 
 // Delete setaside buttons eventlisteners
 function listenForDeleteSetAside(deleteBtn) {
     deleteBtn.addEventListener('click', (e) => {
-        for(let i = 0; i < tools.resultContainer.children.length; i++) {
-            if(tools.resultContainer.children[i].id === e.target.id) {
+        for(let i = 0; i < tools1.resultContainer.children.length; i++) {
+            if(tools1.resultContainer.children[i].id === e.target.id) {
                 e.target.parentElement.remove();
                 e.target.remove();
-                tools.removeFromList(i);
-                listenForCalcOption(2, tools.calcOption.length);
+                tools1.removeFromList(i);
+                listenForCalcOption(2, tools1.calcOption.length);
                 validateSetAsides();
                 numberOfSetAside--;
                 counter--;
@@ -280,10 +215,10 @@ function listenForDeleteSetAside(deleteBtn) {
 
 // Listeners for user input in SetAside Inputs
 function listenForUserInput(start, end) {
-    tools.netIncome.setAttribute('onkeypress', 'if(this.value.length==8) return false;')
+    tools1.netIncome.setAttribute('onkeypress', 'if(this.value.length==8) return false;')
     for(let i = start; i < end; i++) {
-        tools.inputOptions.getIndex(i).value.setAttribute('onkeypress', 'if(this.value.length==7) return false;');
-        tools.inputOptions.getIndex(i).value.addEventListener('input', (e) => { validateSetAsides(); })
+        tools1.inputOptions.getIndex(i).value.setAttribute('onkeypress', 'if(this.value.length==7) return false;');
+        tools1.inputOptions.getIndex(i).value.addEventListener('input', (e) => { validateSetAsides(); })
     }
 }
 
@@ -291,7 +226,7 @@ function listenForUserInput(start, end) {
 // Listeners for user calculation preference change
 function listenForCalcOption(start, end) {
     for(let i = start; i < end; i++) {
-        tools.calcOption.getIndex(i).value.addEventListener('click', (e) => {
+        tools1.calcOption.getIndex(i).value.addEventListener('click', (e) => {
             const isForNewSetAside = counter - 1 < end + 1;
             if(isForNewSetAside) changeCalcOption(e);
             if(!(isForNewSetAside) && i < 2) changeCalcOption(e);
@@ -319,3 +254,34 @@ function getDate() {
     const date = new Date();
     return `${date.toUTCString().substring(0, 3)} ${date.toLocaleString()}`;
 } setInterval(getDate, 1000);
+
+
+function binarySearch(list, target) {
+    let left = 0;
+    let right = list.length - 1;
+
+    while(left <= right) {
+        // find the middle index
+        let middle = Math.floor((left + right) / 2);
+        const value = parseInt(list.getIndex(middle).value.id);
+
+        //check if the middle element is the target
+        if(value == target) {
+
+            // Target found return its index
+            return middle;
+        }
+        else if(value < target) {
+
+            // if the target is greater ignore the left half
+            left = middle + 1;
+        }
+        else {
+
+            // if the target is smaller ignore the right half
+            right = middle - 1;
+        }
+    }
+
+    return 0;
+}

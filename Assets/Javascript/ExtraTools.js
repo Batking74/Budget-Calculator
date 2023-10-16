@@ -8,7 +8,6 @@ export const calcResults = new LinkedList();
 export const setAsideMsg = new LinkedList();
 export const calcOption = new LinkedList();
 const date = new Date();
-export const empty = '';
 export const text = [
     'All inputs must be used!',
     'What is the name of this set aside?',
@@ -95,12 +94,12 @@ export function removeChar(stringInt) {
         if(letter === ',') letter = '';
         else if(letter === '$') letter = '';
         else newInt += letter;
-    } return parseFloat(newInt);
+    } return newInt;
 }
 
 // Returns an object of all the new SetAsides details before creating a new record in Database
 export function getCalcResults(i, netpays) {
-    if(inputOptions.getIndex(i).value.value == empty) return null;
+    if(inputOptions.getIndex(i).value.value == '') return null;
     const ele = calcResults.getIndex(i).value;
     const index1 = ele.textContent.indexOf('-');
     const index2 = ele.textContent.indexOf('Set Aside');
@@ -117,29 +116,13 @@ export function getCalcResults(i, netpays) {
     };
 }
 
-export function displayLoggedSetAsides() {
-    const months = getMonths();
-    months.forEach(month => {
-        const element = getElement();
-        element[0].setAttribute('class', 'disabled-collapse');
-        element[4].setAttribute('class', 'log-collapse-btn');
-        element[4].textContent = month;
-        tool.logContainer.append(element[4]);
-        tool.logContainer.append(element[0]);
-        element[4].addEventListener('click', (e) => {
-            e.target.nextElementSibling.classList.toggle('active');
-            displayOldLog(e);
-        })
-    })
-}
-
 export function getNodeFrom(list, index) { { return list.getIndex(index).value; } }
 export function getNewSetAside() { return setasideContainer.children[tool.counter - 1].children[1] }
 export function getInputDivs() { return setasideContainer.getElementsByTagName('div'); }
 
 // Validates netpay input feild
 export function hasNetIncome() {
-    if(netIncome.value === empty) { alert(text[2]); return false; } else return true;
+    if(netIncome.value === '') { alert(text[2]); return false; } else return true;
 }
 
 export function limitNotReached() {
