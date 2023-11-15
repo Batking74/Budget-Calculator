@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const mailgen = require('mailgen');
 const { createConnection } = require('mysql2');
-const Mailgen = require('mailgen');
 require('dotenv').config();
 const app = express();
 app.use(express.static('../Budget-Calculator'));
