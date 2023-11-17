@@ -9,6 +9,8 @@ const app = express();
 app.use(express.static('../Budget-Calculator'));
 app.use(express.json());
 
+const PORT = process.env.PORT || 7000;
+
 // Connecting to mySQL Database
 const database = createConnection({
     host: process.env.DB_HOST,
@@ -23,7 +25,7 @@ app.route('/setAside')
 .get(async (req, res) => res.send(await getAllRecords()))
 .post((req, res) => {
     createNewRecord(req.body);
-    res.send(JSON.stringify("Aria botoy hole!"));
+    res.send(JSON.stringify("hi no!"));
 })
 
 // Handling Delete SetAside Record Request (Deletes the Specified Record by the User from database)
@@ -33,7 +35,7 @@ app.delete('/setAside/:id', (req, res) => {
 })
 
 // Server Port
-app.listen(7000, () => {
+app.listen(PORT, () => {
     console.log('Listening on port 7000');
 })
 
