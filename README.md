@@ -39,3 +39,7 @@ I wanted to build something that would help me manage, and setaside/save for thi
 - fs
 - bcrypt
 - dotenv
+
+Deployed Site: https://test2-8b61559ca773.herokuapp.com/
+
+GitHub Repo: https://github.com/Batking74/Budget-Calculator/tree/frontend
