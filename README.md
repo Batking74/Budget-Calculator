@@ -4,7 +4,7 @@
 This is a Budget Calculator Application that will help you manage your net income and expenses.
 I wanted to build something that would help me manage, and setaside/save for things easily.
 
-![Image of Nazir's Budget Calculator Project](/assets/Budget_Calculator_Project.png)
+![Image of Nazir's Budget Calculator Project](./public/assets/Budget_Calculator_Project.png)
 
 ## How it works
   1. The user must have a Net Income.
