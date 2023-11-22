@@ -26,7 +26,10 @@ else {
 }
 
 // Setting up Routs
-app.get('/', (req, res) => { fs.readFile('./index.html', 'utf8', (err, HTML) => res.send(HTML)); });
+app.get('/', (req, res) => {
+    fs.readFile('./index.html', 'utf8', (err, HTML) => res.send(HTML));
+});
+
 app.route('/setAside')
 .get(async (req, res) => res.send(await getAllRecords()))
 .post((req, res) => {

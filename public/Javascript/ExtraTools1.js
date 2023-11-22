@@ -1,5 +1,5 @@
-import LinkedList from '../Javascript/linkedlist.js';
-import * as tool from '../Javascript/script.js';
+import LinkedList from './linkedlist.js';
+import * as tool from './script.js';
 export const setasideContainer = document.getElementById('setaside-container');
 export const resultContainer = document.getElementById('results-container');
 export let netIncome = document.getElementById('net-income');
@@ -21,7 +21,7 @@ export const text = [
 ];
 
 // Creating Dynamic Reusable HTML Elements 
-export function getElement() {
+export function getElements() {
     const div1 = document.createElement('div');
     const div2 = document.createElement('div');
     const div3 = document.createElement('div');

@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="This is a Budget Calculator Application that will help you manage your net income and expenses. I wanted to build something that would help me manage, and setaside/save for things easily.">
     <link rel="stylesheet" href="/assets/style.css">
-    <title>Budget Calculator</title>
-    <script src="https://kit.fontawesome.com/f2eb731954.js" crossorigin="anonymous"></script>
+    <title>Nazir's Budget Calculator</title>
+    <script defer src="https://kit.fontawesome.com/f2eb731954.js" crossorigin="anonymous"></script>
 </head>
 <body>
+
+    <!-- Hamburger Menu -->
+    <span class="menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </span>
 
     <!-- Start of Navigation -->
     <nav class="nav-container">
@@ -18,12 +25,13 @@
                 <i class="fa-solid fa-calculator" style="color: #000;"></i>
                 <a class="nav-link" href="/">Budget</a>
             </span>
-            <span class="nav-grouper"><a class="nav-link" href="/instructuions">How to use</a></span>
-            <span class="nav-grouper"><a class="nav-link" href="/contact">Contact</a></span>
-            <span class="nav-grouper">
+            <span class="nav-grouper"><a class="nav-link" href="https://github.com/Batking74/Budget-Calculator/blob/frontend/README.md">How to use</a></span>
+            <span class="nav-grouper"><a class="nav-link" href="mailto: nazirknuckles@gmail.com">Contact</a></span>
+            <!-- Still working on the Logs web page. -->
+            <!-- <span class="nav-grouper">
                 <a class="nav-link" href="/logs">All Logs </a>
                 <i class="fa-solid fa-calendar-days" style="color: #000;"></i>
-            </span>
+            </span> -->
         </div>
     </nav>
 
@@ -35,21 +43,21 @@
             <div id="setaside-container">
                 <div class="input-container">
                     <label for="Net Pay">Net Pay</label>
-                    <input id="net-income" type="number">
+                    <input maxlength="10" id="net-income" type="text">
                 </div>
 
                 <!-- SetAside 1 -->
                 <div class="input-container">
                     <label for="Save">Save</label>
                     <input id="0" data-setAside="savings" type="number">
-                    <span><button class="calc-option-btn" data-calc-option="">%</button></span>
+                    <span><button class="calc-option-btn" data-calc-option="save">%</button></span>
                 </div>
 
                 <!-- SetAside 2 -->
                 <div class="input-container">
                     <label for="Bills">Bills</label>
                     <input id="1" data-setAside="bills" type="number">
-                    <span><button class="calc-option-btn" data-calc-option="">%</button></span>
+                    <span><button class="calc-option-btn" data-calc-option="bills">%</button></span>
                 </div>
             </div>
 
@@ -59,7 +67,7 @@
                 <button class="main-btn" id="clear-btn">Clear</button>
                 <button class="main-btn" id="set-aside-btn">Add Set Aside</button>
             </span>
-            <span class="log-info">
+            <span class="paragraph">
                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque, nulla odio dolore fuga architecto enim iste, quasi temporibus reprehenderit corrupti fugiat laudantium aliquid quod omnis facere. Facilis saepe doloremque autem!</p>
             </span>
         </section>
@@ -76,7 +84,10 @@
 
     <!-- Start of Log Display Section -->
     <section id="log-container">
-        <h1>SetAside Logs</h1>
+        <h1>Setaside Logs</h1>
+        <div class="empty-log-container-msg">
+            <p>You have no Setasides</p>
+        </div>
     </section>
     <footer>
         <p>Nazir Knuckles copyright 2023</p>
