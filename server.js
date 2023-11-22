@@ -12,12 +12,18 @@ app.use(express.json());
 const PORT = process.env.PORT || 7000;
 
 // Connecting to mySQL Database
-const database = createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DATABASE
-}).promise();
+let database;
+if(process.env.JAWSDB_URL) {
+    database = createConnection(process.env.JAWSDB_URL).promise();
+}
+else {
+    database = createConnection({
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASS,
+        database: process.env.DATABASE
+    }).promise();
+}
 
 // Setting up Routs
 app.get('/', (req, res) => { fs.readFile('./index.html', 'utf8', (err, HTML) => res.send(HTML)); });
