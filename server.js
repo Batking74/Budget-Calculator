@@ -6,7 +6,7 @@ const mailgen = require('mailgen');
 const { createConnection } = require('mysql2');
 require('dotenv').config();
 const app = express();
-app.use(express.static('../Budget-Calculator'));
+app.use(express.static('public'));
 app.use(express.json());
 
 const PORT = process.env.PORT || 7000;
