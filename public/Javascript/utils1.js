@@ -115,7 +115,6 @@ export function getCalcResults(i, netpays) {
     let calcType = ele.textContent.substring(index2 + 10, index1 - 2);
     const name = ele.textContent.substring(0, index2 - 1);
     const option = calcOption.getIndex(i).value.textContent;
-    console.log(netpays[i])
     if(option === '#') calcType = '#';
     return {
         SetAside_Name: name,
