@@ -43,15 +43,18 @@ app.delete('/setAside/:id', (req, res) => {
     res.send(JSON.stringify('Deleted Sucessfully!'));
 })
 
+
 // Server Port
 app.listen(PORT, () => {
     console.log('Listening on port 7000');
 })
 
+
 // Retreives All SetAside Records in SQL Database
 async function getAllRecords() {
     const res = await database.execute(`SELECT * FROM ${process.env.TABLE_NAME}`); return res[0];
 }
+
 
 // Creates a new Record/SetAside in SQL Database
 async function createNewRecord(newSetAside) {
@@ -60,10 +63,12 @@ async function createNewRecord(newSetAside) {
     send(newSetAside);
 }
 
+
 // Deletes a Record/SetAside from SQL Database
 async function deleteRecord(id) {
     const res = await database.execute(`DELETE FROM ${process.env.TABLE_NAME} WHERE id=${id}`);
 }
+
 
 // Returns the current date and Time
 function getDate() {
@@ -77,7 +82,7 @@ const generator = new mailgen({
     product: {
         name: "Nazir Knuckles",
         link: "http://localhost:7000/",
-        logo: '/assets/Budget_Calculator_Project.png',
+        logo: './assets/Budget_Calculator_Project.png',
         copyright: `Nazir Knuckles`
     }
 })
