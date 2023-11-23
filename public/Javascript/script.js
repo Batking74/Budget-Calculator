@@ -4,13 +4,14 @@ import * as utils3 from './utils3.js';
 
 // Targeting Elements
 export let percentKeptResults = document.getElementById('total-percentage-kept-results');
-const collapseBody = document.querySelectorAll('disabled-collapse');
+export const logEmptyMsg = document.querySelector('.empty-log-container-msg');
 export let netPayResults = document.getElementById('netpay-aside-results');
 export const calcOptions = document.querySelectorAll('[data-calc-option]');
 export const setAsides = document.querySelectorAll('[data-setAside]');
 export const results = document.querySelectorAll('[data-results]');
-export const logEmptyMsg = document.querySelector('.empty-log-container-msg');
 export let logContainer = document.getElementById('log-container');
+export const navbar = document.querySelector('.nav-container');
+export const hamburgerMenu = document.querySelector('.menu');
 export let logs;
 export let numberOfSetAside = 1;
 export let counter = 3;
@@ -135,14 +136,13 @@ export function deleteSetAside(i) {
 // Algorithm for changing the users calulation preference (calcOption)
 export function changeCalcOption(e) {
     const isfixedNumCalculation = e.target.textContent != '#';
-    if(isfixedNumCalculation) {
-        e.target.textContent = '#';
-        validateSetAsides();
-    }
-    else {
-        e.target.textContent = '%';
-        validateSetAsides();
-    }
+    if(isfixedNumCalculation) change(e, '#', '36.1px');
+    else change(e, '%', '37px');
+}
+
+function change(e, option, width) {
+    e.target.style.width = width;
+    e.target.textContent = option; validateSetAsides();
 }
 
 

@@ -4,14 +4,16 @@ import * as utils1 from './utils1.js';
 // Displays All details in Log Container except for SetAsides
 export function showLogDetails(container, i) {
     // Create HTML Elements
-    let [logDiv,,,,deleteBtn,,date,netpay,spending,tst,,percentKept,reslog] = utils1.getElements();
+    let [logDiv,,,,deleteBtn,,date,netpay,spending,setasideContainer,,percentKept,reslog] = utils1.getElements();
     container.children[0].insertAdjacentElement('afterend', logDiv);
+    main.logEmptyMsg.style.display = 'none';
+    main.logContainer.style.height = 'fit-content';
     // Seting Element Attributes
-    logDiv.setAttribute('class', 'log-dropDown');
-    deleteBtn.setAttribute('class', 'delete-log-btn');
-    deleteBtn.setAttribute('id', main.logs[i].id);
+    setElementAttributes(i, logDiv, date, netpay, setasideContainer, reslog, deleteBtn);
+
     // Append Elements to log Container
-    appendLogElementsToContainer(logDiv, date, netpay, tst, reslog, deleteBtn);
+    appendLogElementsToContainer(logDiv, date, netpay, setasideContainer, reslog, deleteBtn);
+
     // Append SetAide Info to Elements
     appendSetAsideInfoToElements(i, date, netpay, reslog, spending, percentKept, deleteBtn);
 }
@@ -52,6 +54,18 @@ export function appendSetAsideInfoToElements(i, ...elements) {
     elements[3].append(`Spending Money: ${main.logs[i].Spending_Money} `);
     elements[4].append(`Percentage of Netpay kept: ${main.logs[i].Total_Percentage_Kept}`);
     elements[5].append(`Delete`);
+}
+
+
+// Sets All Log Container Element Attributes
+function setElementAttributes(i, ...elements) {
+    elements[0].setAttribute('class', 'log-dropDown');
+    elements[1].setAttribute('class', 'date-log');
+    elements[2].setAttribute('class', 'netpay-log');
+    elements[3].setAttribute('class', 'setAside-log-container');
+    elements[4].setAttribute('class', 'overall-calc-leftovers-container-log');
+    elements[5].setAttribute('class', 'delete-log-btn');
+    elements[5].setAttribute('id', main.logs[i].id);
 }
 
 

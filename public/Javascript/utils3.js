@@ -2,22 +2,6 @@ import * as main from './script.js';
 import * as utils1 from './utils1.js';
 import * as utils2 from './utils2.js';
 
-// Deletes A log from database if user confirms
-export async function deleteLog(id) {
-    if(confirm(utils1.text[7])) {
-        try {
-            const res = (await (await fetch(`/setAside/${id}`, {
-                method: 'DELETE',
-                headers: { 'Content-type': 'application/json' }
-            })).json())
-            return res;
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-}
-
 // Creates a new Record log in SQL Database
 export async function createLog(arr, finalResults) {
     if(!(arr.length == 0)) {
@@ -32,8 +16,28 @@ export async function createLog(arr, finalResults) {
                     Percentage_Kept: finalResults[1]
                 })
             })).json();
-            location.reload();
             return response;
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+// Deletes A log from database if user confirms
+export async function deleteLog(id) {
+    if(confirm(utils1.text[7])) {
+        try {
+            const res = (await (await fetch(`/setAside/${id}`, {
+                method: 'DELETE',
+                headers: { 'Content-type': 'application/json' }
+            })).json());
+            if(main.logs.length == 0) {
+                main.logEmptyMsg.style.display = 'block';
+                main.logContainer.style.height = '200px';
+            }
+            return res;
         }
         catch (error) {
             console.log(error);
@@ -57,6 +61,7 @@ export function setAllEventListeners() {
             try {
                 const res = await deleteLog(e.target.id);
                 e.target.parentElement.remove();
+                location.reload();
                 return res;
             }
             catch (error) {
@@ -79,12 +84,16 @@ export function setAllEventListeners() {
             const finalResults = utils2.getFinalNetPay();
             const arr = utils2.getSetAsides();
             const response = await createLog(arr, finalResults);
+            location.reload();
             return response;
         }
         catch (error) {
             console.log(error);
         }
     })
+
+    // Mobile Nav Menu
+    main.hamburgerMenu.addEventListener('click', () => {main.navbar.classList.toggle('active')});
 }
 
 

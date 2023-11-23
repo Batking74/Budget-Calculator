@@ -16,8 +16,6 @@
 body {
     background: linear-gradient(90deg, #bf3333, gold, #bf3333);
     text-align: center;
-    width: 100%;
-    overflow-x: hidden;
 }
 
 /* Start of Navigation/Header Styles */
@@ -134,7 +132,6 @@ input,
     position: relative;
     grid-template-columns: repeat(3, 256px);
     column-gap: 20px;
-    left: 10px;
 }
 
 .main-btn {
@@ -190,7 +187,6 @@ input,
     margin-top: 210px;
     background: var(--white);
     padding: 15px 0 0 0;
-    /* height: 200px; */
     color: #000;
     border: 10px solid #adadad;
 }
@@ -233,21 +229,6 @@ input,
 .delete-log-btn:hover {
     cursor: pointer;
 }
-
-/* .active {
-    display: block;
-}
-
-.log-collapse-btn {
-    display: block;
-    width: 100%;
-    padding: 20px 0 20px 0;
-    font-size: 20px;
-}
-
-.log-collapse-btn:hover {
-    cursor: pointer;
-} */
 
 .log-heading {
     font-size: 30px;
@@ -442,7 +423,7 @@ footer {
 }
 
 /* Tabet and Mobile View */
-@media screen and (max-width: 820px) and (min-width: 0px) {
+@media screen and (max-width: 865px) and (min-width: 0px) {
     .menu {
         display: grid;
         position: fixed;
@@ -550,27 +531,22 @@ footer {
         display: flex;
         flex-direction: column;
         align-items: center;
-
+        left: 0;
     }
 
     .main-btn {
         position: relative;
         margin-top: 30px;
-        right: 20px;
+        right: 0;
         height: 70px;
         font-size: 20px;
         width: calc(var(--input-container-items-width) + 80px);
     }
 
     /* Paragraph Section Styles */
-    .paragraph {
-        left: 20px;
-    }
-
     .paragraph p {
-        position: relative;
-        right: 5px;
-        width: calc((var(--input-container-items-width) + 270px) - 100px);
+        text-align: center;
+        width: 100%;
     }
 
     /* Start of Result Container Styles */
