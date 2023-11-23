@@ -40,6 +40,6 @@ I wanted to build something that would help me manage, and setaside/save for thi
 - bcrypt
 - dotenv
 
-Deployed Site: https://test2-8b61559ca773.herokuapp.com/
+Deployed Site: https://budgeting-calculator-878dd6a27579.herokuapp.com/
 
 GitHub Repo: https://github.com/Batking74/Budget-Calculator/tree/frontend
