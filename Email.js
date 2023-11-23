@@ -6,7 +6,7 @@ const generator = new mailgen({
     theme: 'cerberus',
     product: {
         name: "Nazir Knuckles",
-        link: "http://localhost:7000/",
+        link: "https://budgeting-calculator-878dd6a27579.herokuapp.com/",
         logo: './assets/Budget_Calculator_Project.png',
         copyright: `Nazir Knuckles`
     }
