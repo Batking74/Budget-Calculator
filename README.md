@@ -1,8 +1,7 @@
 # Budget-Calculator
 
 ### Description
-This Budget Calculator Application is crafted to streamline the management of net income and expenses, offering a versatile tool for users to allocate funds for various needs, including savings and other specific purposes. The motivation behind its creation was to develop a tool that simplifies budgeting, allowing for easy management and keeping track of where your money goes.
-
+This Budget Calculator Application is crafted to streamline the management of net income and expenses, offering a versatile tool for users to allocate funds for various needs, including savings and other specific purposes. The motivation behind its creation was to develop a tool that simplifies budgeting, allowing for easy management and keeping track of where my money goes.
 
 ![Image of Nazir's Budget Calculator Project](./public/assets/Budget_Calculator_Project.png)
 
