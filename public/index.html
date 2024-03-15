@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/assets/style.css">
     <title>Nazir's Budget Calculator</title>
     <script defer src="https://kit.fontawesome.com/f2eb731954.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> -->
+    <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 </head>
 <body>
 
@@ -25,8 +27,16 @@
                 <i class="fa-solid fa-calculator" style="color: #000;"></i>
                 <a class="nav-link" href="/">Budget</a>
             </span>
-            <span class="nav-grouper"><a class="nav-link" href="https://github.com/Batking74/Budget-Calculator/blob/frontend/README.md">How to use</a></span>
-            <span class="nav-grouper"><a class="nav-link" href="mailto: nazirknuckles@gmail.com">Contact</a></span>
+            <span class="nav-grouper">
+                <a class="nav-link" href="https://github.com/Batking74/Budget-Calculator/blob/frontend/README.md">
+                    How to use
+                </a>
+            </span>
+            <span class="nav-grouper">
+                <a class="nav-link" href="mailto: nazirknuckles@gmail.com">
+                    Contact
+                </a>
+            </span>
             <!-- Still working on the Logs web page. -->
             <!-- <span class="nav-grouper">
                 <a class="nav-link" href="/logs">All Logs </a>
@@ -34,30 +44,109 @@
             </span> -->
         </div>
     </nav>
-
+    <!-- <div>
+        <button>Tax Deduction</button>
+        <button>SetAsides</button>
+    </div> -->
     <!-- Start of Main Section -->
     <main class="main-container">
         <section>
-
+            <!-- <div>
+                <div class="input-container">
+                    <label for="net-income">Enter your gross income</label>
+                    <input maxlength="10" id="net-income" type="text">
+                </div>
+                <div class="input-container">
+                    <label>Per</label>
+                    <select name="" id="">
+                        <option value="Annual">Annual</option>
+                        <option value="Month">Month</option>
+                        <option value="Biweekly">Biweekly</option>
+                        <option value="Weekly">Weekly</option>
+                        <option value="Day">Day</option>
+                        <option value="Hour">Hour</option>
+                    </select>
+                </div>
+                <div class="input-container">
+                    <label for="1">Where do you work?</label>
+                    <select aria-label="state" id="states-dropdown-list">
+                        <option value="Select a state">Select a state</option>
+                        <option value="Alabama">Alabama</option>
+                        <option value="Alaska">Alaska</option>
+                        <option value="Arizona">Arizona</option>
+                        <option value="Arkansas">Arkansas</option>
+                        <option value="California">California</option>
+                        <option value="Colorado">Colorado</option>
+                        <option value="Connecticut">Connecticut</option>
+                        <option value="Delaware">Delaware</option>
+                        <option value="Florida">Florida</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Hawaii">Hawaii</option>
+                        <option value="Idaho">Idaho</option>
+                        <option value="Illinois">Illinois</option>
+                        <option value="Indiana">Indiana</option>
+                        <option value="Iowa">Iowa</option>
+                        <option value="Kansas">Kansas</option>
+                        <option value="Kentucky">Kentucky</option>
+                        <option value="Louisiana">Louisiana</option>
+                        <option value="Maine">Maine</option>
+                        <option value="Maryland">Maryland</option>
+                        <option value="Massachusetts">Massachusetts</option>
+                        <option value="Michigan">Michigan</option>
+                        <option value="Minnesota">Minnesota</option>
+                        <option value="Mississippi">Mississippi</option>
+                        <option value="Missouri">Missouri</option>
+                        <option value="Montana">Montana</option>
+                        <option value="Nebraska">Nebraska</option>
+                        <option value="Nevada">Nevada</option>
+                        <option value="New Hampshire">New Hampshire</option>
+                        <option value="New Jersey">New Jersey</option>
+                        <option value="New Mexico">New Mexico</option>
+                        <option value="New York">New York</option>
+                        <option value="North Carolina">North Carolina</option>
+                        <option value="North Dakota">North Dakota</option>
+                        <option value="Ohio">Ohio</option>
+                        <option value="Oklahoma">Oklahoma</option>
+                        <option value="Oregon">Oregon</option>
+                        <option value="Pennsylvania">Pennsylvania</option>
+                        <option value="Rhode Island">Rhode Island</option>
+                        <option value="South Carolina">South Carolina</option>
+                        <option value="South Dakota">South Dakota</option>
+                        <option value="Tennessee">Tennessee</option>
+                        <option value="Texas">Texas</option>
+                        <option value="Utah">Utah</option>
+                        <option value="Vermont">Vermont</option>
+                        <option value="Virginia">Virginia</option>
+                        <option value="Washington">Washington</option>
+                        <option value="West Virginia">West Virginia</option>
+                        <option value="Wisconsin">Wisconsin</option>
+                        <option value="Wyoming">Wyoming</option>
+                    </select>
+                </div>
+            </div> -->
             <!-- SetAside Container -->
             <div id="setaside-container">
-                <div class="input-container">
+                <div class="input-container not-draggable">
                     <label for="net-income">Net Pay</label>
-                    <input maxlength="10" id="net-income" type="text">
+                    <input maxlength="10" id="net-income" type="number">
                 </div>
 
                 <!-- SetAside 1 -->
-                <div class="input-container">
+                <div class="input-container sortable-item">
                     <label for="0">Save</label>
-                    <input id="0" data-setAside="savings" type="number">
-                    <span><button class="calc-option-btn" data-calc-option="save">%</button></span>
+                    <span>
+                        <input id="0" data-setAside="savings" type="number">
+                        <button class="calc-option-btn" data-calc-option="save">%</button>
+                    </span>
                 </div>
 
                 <!-- SetAside 2 -->
-                <div class="input-container">
+                <div class="input-container sortable-item">
                     <label for="1">Bills</label>
-                    <input id="1" data-setAside="bills" type="number">
-                    <span><button class="calc-option-btn" data-calc-option="bills">%</button></span>
+                    <span>
+                        <input id="1" data-setAside="bills" type="number">
+                        <button class="calc-option-btn" data-calc-option="bills">%</button>
+                    </span>
                 </div>
             </div>
 

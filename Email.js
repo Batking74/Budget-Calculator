@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const mailgen = require('mailgen');
+const fs = require('fs');
 require('dotenv').config();
 
 const generator = new mailgen({
@@ -22,30 +23,35 @@ const transporter = nodemailer.createTransport(
     }
 )
 
-function send(newSetAside) {
+function send(Netpay, SetAsides, Percentage_Kept, Spending_Money) {
     const gen = {
         body: {
             name: 'Naz!',
-            intro: `Congradulations on your new logged SetAside!! You have ${newSetAside.Spending_Money} left to spend for your self! Which means you kept ${newSetAside.Percentage_Kept} of your original Netpay (${newSetAside.Netpay})!`,
+            intro: `Congradulations on your new logged SetAside!! You have ${Spending_Money} left to spend for your self! Which means you kept ${Percentage_Kept} of your original Netpay (${Netpay})!`,
             table: {
-                data: newSetAside.SetAsides
+                data: SetAsides
             },
             signature: false
         }
     }
 
-    const options = {
-        to: process.env.RECIPIENT,
-        from: `Nazir's Budgeting Calculator <${process.env.USERNAME}>`,
-        subject: "Naz NEW SetAside Log Budget Review!!",
-        html: generator.generate(gen)
-    }
-
-    transporter.sendMail(options, (err, info) => {
-        if(err) console.log(err)
-        console.log(info.messageId)
+    // Creating Custom Invoice 
+    fs.readFile('./public/index.html', 'utf-8', (err, data) => {
+        if(err) throw err;
+        const options = {
+            to: process.env.RECIPIENT,
+            from: `Nazir's Budgeting Calculator <${process.env.USERNAME}>`,
+            subject: "Naz NEW SetAside Log Budget Review!!",
+            html: generator.generate(gen)
+        }
+    
+        transporter.sendMail(options, (err, info) => {
+            if(err) console.log(err)
+            console.log(info.messageId)
+        })
     })
 }
 
 
+// Exporting Module
 module.exports = { send }

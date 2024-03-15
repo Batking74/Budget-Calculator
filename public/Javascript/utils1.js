@@ -42,7 +42,8 @@ export function getElements() {
 
 // Setting new SetAside Attributes
 export function setAttributes(newDiv, newInput, newCalcOptionBtn, deleteBtn, newResult) {
-    newDiv.setAttribute('class', 'new-setaside')
+    newDiv.setAttribute('class', 'input-container');
+    newDiv.classList.add('sortable-item');
     newInput.setAttribute('type', 'number');
     newInput.setAttribute('data-setaside', 'newSetaside');
     newInput.setAttribute('id', tool.counter - 1);
@@ -61,11 +62,12 @@ export function setAttributes(newDiv, newInput, newCalcOptionBtn, deleteBtn, new
 export function appendNodes(newDiv, newLabel, newInput, newSpan, newCalcOptionBtn, deleteBtn, label) {
     setasideContainer.appendChild(newDiv);
     newDiv.appendChild(newLabel);
-    newDiv.appendChild(newInput);
     newDiv.appendChild(newSpan);
+    newSpan.appendChild(newInput);
     newSpan.appendChild(newCalcOptionBtn);
-    newDiv.appendChild(deleteBtn);
+    newSpan.appendChild(deleteBtn);
     newCalcOptionBtn.textContent = '%';
+    newLabel.setAttribute('for', tool.numberOfSetAside + 1);
     newLabel.textContent = label;
     deleteBtn.textContent = 'X';
 }

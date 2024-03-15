@@ -1,5 +1,5 @@
+import { initCalculator, showAllSetAsidesInLog, showLogDetails } from './utils2.js';
 import * as utils1 from './utils1.js';
-import * as utils2 from './utils2.js';
 import * as utils3 from './utils3.js';
 
 // Targeting Elements
@@ -12,10 +12,10 @@ export const results = document.querySelectorAll('[data-results]');
 export let logContainer = document.getElementById('log-container');
 export const navbar = document.querySelector('.nav-container');
 export const hamburgerMenu = document.querySelector('.menu');
-export let logs;
 export let numberOfSetAside = 1;
 export let counter = 3;
 export let netpays = [];
+export let logs;
 
 try { logs = await (await fetch('/setAside')).json(); }
 catch(error) { console.log(error); }
@@ -27,11 +27,9 @@ utils1.setAsideMsg.insertAtHead('Save Set Aside');
 export function displayAllLogs(container) {
     let i = 0, j = 0;
     while(i < logs.length) {
-        if(i < logs.length && j == 0) {
-            utils2.showLogDetails(container, i);
-        }
+        if(i < logs.length && j == 0) showLogDetails(container, i);
         if(j < logs[i].SetAsides.length) {
-            utils2.showAllSetAsidesInLog(container, i, j);
+            showAllSetAsidesInLog(container, i, j);
             j++;
             continue;
         }
@@ -42,7 +40,7 @@ export function displayAllLogs(container) {
 
 
 // Activating EventListeners
-utils2.initCalculator();
+initCalculator();
 utils3.listenForCalcOption(0, 2);
 utils3.listenForUserInput(0, 2);
 utils3.setAllEventListeners();
@@ -136,27 +134,49 @@ export function deleteSetAside(i) {
 // Algorithm for changing the users calulation preference (calcOption)
 export function changeCalcOption(e) {
     const isfixedNumCalculation = e.target.textContent != '#';
-    if(isfixedNumCalculation) change(e, '#', '36.1px');
-    else change(e, '%', '37px');
+    if(isfixedNumCalculation) change(e, '#');
+    else change(e, '%');
 }
 
-function change(e, option, width) {
-    e.target.style.width = width;
+function change(e, option) {
     e.target.textContent = option; validateSetAsides();
 }
 
 
-// Binary Search Algorithm (Better time complexity when searching O(Log n))
-function binarySearch(array, target) {
-    let start = 0;
-    let end = array.length - 1;
-
-    while(start <= end) {
-        let middlePosition = Math.floor((start + end) / 2);
-        let middleNumber = array[middlePosition];
-        if(middleNumber == target) return middleNumber - 1;
-        if(target < middleNumber) end = middlePosition - 1;
-        else start = middlePosition + 1;
-    }
-    return -1;
-}
+// $(function() {
+//     $("#setaside-container").sortable({
+//         cursor: "grabbing",
+//         containment: "#setaside-container",
+//         cancel: ".not-draggable",
+//         update: function(event, ui) {
+//             let count = 0;
+//             for(let i = 0; i < utils1.setasideContainer.children.length; i++) {
+//                 if(!utils1.setasideContainer.children[i].classList.contains('not-draggable')) {
+//                     const id = utils1.setasideContainer.children[i].children[0].getAttribute('for');
+//                     for(let j = 0; j < utils1.inputOptions.length; j++) {
+//                         if(utils1.inputOptions.getIndex(id) === utils1.inputOptions.getIndex(j)) {
+//                             if(count != 0) {
+//                                 console.log(`Old Index: ${id}`)
+//                                 console.log(`New Index: ${count - 1}`)
+//                             }
+//                             else {
+//                                 console.log(`Old Index: ${id}`)
+//                                 console.log(`New Index: ${count}`)
+//                             }
+//                             count = 0;
+//                             i++;
+//                             continue;
+//                         }
+//                         else {
+//                             count++;
+//                         }
+//                     }
+//                 }
+//             }
+//             // console.log(event)
+//             // console.log(ui)
+//             // console.log("Order changed:", $(this).sortable("toArray"));
+//         }
+//     });
+//     $("#sortable").disableSelection();
+// });

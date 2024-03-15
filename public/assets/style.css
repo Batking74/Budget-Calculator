@@ -59,6 +59,7 @@ body {
     text-decoration: none;
 }
 
+
 /* Start of Main Section Styles */
 .main-container {
     display: flex;
@@ -72,55 +73,38 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 270px);
     row-gap: 40px;
+    text-align: center;
 }
 
-label {
-    position: relative;
-    right: 20px;
+.input-container input,
+.calc-option-btn {
+    border: solid #000 1px;
 }
 
-input {
+.input-container input {
     font-size: 18px;
     width: 180px;
     padding: 10px 0 10px 5px;
+    outline: none;
 }
 
-.new-setaside input {
-    border-right: none;
-    border-radius: 0 4px 4px 0;
-}
-
-.new-setaside {
-    position: relative;
-    left: 27px;
-}
-
-input,
-.calc-option-btn {
-    border: solid #000 2px;
+.input-container span {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 
 .calc-option-btn {
-    position: relative;
-    right: 36px;
     font-size: 17px;
     padding: 11px 10px 10px 10px;
     border-left: none;
     background: #d9300e;
 }
 
-[data-calc-option="save"],
-[data-calc-option="bills"] {
-    position: relative;
-    right: 40.10px;
-    border-right: #000 solid 2px;
-    border-radius: 0 4px 4px 0;
-}
-
 .delete-set-aside {
     position: relative;
-    right: 30px;
+    left: 10px;
     background: red;
     padding: 4px 5px 4px 5px;
 }
@@ -239,11 +223,6 @@ label {
     display: block;
 }
 
-#save-option,
-#bills-option {
-    border-right: none;
-}
-
 ::-webkit-input-placeholder {
     text-align: end;
 }
@@ -278,57 +257,11 @@ footer {
         row-gap: 40px;
     }
 
-    label {
-        position: relative;
-        right: 20px;
-    }
-
     input {
         font-size: 18px;
         width: 180px;
         padding: 10px 0 10px 5px;
     }
-
-    .new-setaside input {
-        border-right: none;
-        border-radius: 0 4px 4px 0;
-    }
-
-    .new-setaside {
-        position: relative;
-        left: 27px;
-    }
-
-    input,
-    .calc-option-btn {
-        border: solid #000 2px;
-    }
-
-
-    .calc-option-btn {
-        position: relative;
-        right: 36px;
-        font-size: 17px;
-        padding: 11px 10px 10px 10px;
-        border-left: none;
-        background: #d9300e;
-    }
-
-    [data-calc-option="save"],
-    [data-calc-option="bills"] {
-        position: relative;
-        right: 40.10px;
-        border-right: #000 solid 2px;
-        border-radius: 0 4px 4px 0;
-    }
-
-    .delete-set-aside {
-        position: relative;
-        right: 30px;
-        background: red;
-        padding: 4px 5px 4px 5px;
-    }
-
 
     /* Start of Main buttons Container Styles (Log Results, Clear, Add SetAside) */
     #main-btn-container {
@@ -490,40 +423,6 @@ footer {
     input {
         font-size: 25px;
         width: var(--input-container-items-width);
-    }
-
-    .new-setaside {
-        left: 0;
-    }
-
-    .new-setaside span button {
-        border-left: solid #000 2px;
-        right: 2.5px;
-    }
-
-    .calc-option-btn {
-        border-right: solid #000 2px;
-        border-left: none;
-        position: relative;
-        height: 52px;
-        bottom: 2.6px;
-        width: 55px;
-        right: 0px;
-    }
-
-    [data-calc-option="save"],
-    [data-calc-option="bills"] {
-        right: 4px;
-        height: 52px;
-        bottom: 2.6px;
-    }
-
-    .delete-set-aside {
-        position: relative;
-        padding: 8px 9px 8px 9px;
-        right: 0;
-        left: 10px;
-        bottom: 6px;
     }
 
     /* Start of Main buttons Container Styles (Log Results, Clear, Add SetAside) */

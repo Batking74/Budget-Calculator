@@ -1,7 +1,10 @@
+// Importing Modules/Packages
 const { createConnection } = require('mysql2');
 const { send } = require('./Email');
+const Dayjs = require('dayjs');
 require('dotenv').config();
 const PORT = process.env.PORT || 7000;
+
 
 // Connecting to mySQL Database
 let database;
@@ -20,27 +23,25 @@ else {
 
 // Retreives All SetAside Records in SQL Database
 async function getAllRecords() {
-    const res = await database.execute(`SELECT * FROM ${process.env.TABLE_NAME}`); return res[0];
+    const res = await database.execute(`SELECT * FROM SetAsides`); return res[0];
 }
 
 
 // Creates a new Record/SetAside in SQL Database
-async function createNewRecord(newSetAside) {
-    const date = getDate();
-    database.execute(`INSERT INTO ${process.env.TABLE_NAME} (Date, Netpay, SetAsides, Spending_Money, Total_Percentage_Kept) VALUES('${date}', ${JSON.stringify(newSetAside.Netpay)}, '${JSON.stringify(newSetAside.SetAsides)}', ${JSON.stringify(newSetAside.Spending_Money)}, ${JSON.stringify(newSetAside.Percentage_Kept)});`);
-    send(newSetAside);
+async function createNewRecord({ Netpay, SetAsides, Spending_Money, Percentage_Kept }) {
+    const date = Dayjs().format('MMM DD, YYYY [at] hh:mm A');
+    const sqlQuery = `INSERT INTO SetAsides(Date, Netpay, SetAsides, Spending_Money, Total_Percentage_Kept) VALUES(?, ?, ?, ?, ?);`
+    console.log(SetAsides)
+    database.execute(sqlQuery, [date, Netpay, SetAsides, Spending_Money, Percentage_Kept]);
+    send(Netpay, SetAsides, Spending_Money, Percentage_Kept);
 }
 
 
 // Deletes a Record/SetAside from SQL Database
 async function deleteRecord(id) {
-    const res = await database.execute(`DELETE FROM ${process.env.TABLE_NAME} WHERE id=${id}`);
+    const res = await database.execute(`DELETE FROM SetAsides WHERE id=${id}`);
 }
 
-// Returns the current date and Time
-function getDate() {
-    const date = new Date();
-    return `${date.toUTCString().substring(0, 3)} ${date.toLocaleString()}`;
-} setInterval(getDate, 1000);
 
+// Exporting Modules
 module.exports = { getAllRecords, createNewRecord, deleteRecord, PORT }
