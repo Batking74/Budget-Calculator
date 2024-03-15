@@ -10,6 +10,7 @@ export async function createLog(arr, finalResults) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    Date: dayjs().format('MMM DD, YYYY [at] hh:mm a'),
                     Netpay: `$${parseFloat(utils1.netIncome.value).toLocaleString()}`,
                     SetAsides: arr,
                     Spending_Money: finalResults[0],

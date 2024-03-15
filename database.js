@@ -1,7 +1,6 @@
 // Importing Modules/Packages
 const { createConnection } = require('mysql2');
 const { send } = require('./Email');
-const Dayjs = require('dayjs');
 require('dotenv').config();
 const PORT = process.env.PORT || 7000;
 
@@ -28,11 +27,10 @@ async function getAllRecords() {
 
 
 // Creates a new Record/SetAside in SQL Database
-async function createNewRecord({ Netpay, SetAsides, Spending_Money, Percentage_Kept }) {
-    const date = Dayjs().format('MMM DD, YYYY [at] hh:mm A');
+async function createNewRecord({ Netpay, SetAsides, Spending_Money, Percentage_Kept, Date }) {
     const sqlQuery = `INSERT INTO SetAsides(Date, Netpay, SetAsides, Spending_Money, Total_Percentage_Kept) VALUES(?, ?, ?, ?, ?);`
     console.log(SetAsides)
-    database.execute(sqlQuery, [date, Netpay, SetAsides, Spending_Money, Percentage_Kept]);
+    database.execute(sqlQuery, [Date, Netpay, SetAsides, Spending_Money, Percentage_Kept]);
     send(Netpay, SetAsides, Spending_Money, Percentage_Kept);
 }
 
