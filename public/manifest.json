@@ -1,0 +1,53 @@
+{
+    "name": "Budget Calculator",
+    "short_name": "BudgetCalc",
+    "start_url": "./index.html",
+    "id": "./index.html",
+    "display": "standalone",
+    "description": "My App!",
+    "background_color": "red",
+    "theme_color": "blue",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "./assets/Images/App_Icons/BudgetCalc_Icon-72X72.webp",
+            "type": "image/webp",
+            "sizes": "72x72"
+        },
+        {
+            "src": "./assets/Images/App_Icons/BudgetCalc_Icon-96X96.webp",
+            "type": "image/webp",
+            "sizes": "96x96"
+        },
+        {
+            "src": "./assets/Images/App_Icons/BudgetCalc_Icon-128X128.webp",
+            "type": "image/webp",
+            "sizes": "128x128"
+        },
+        {
+            "src": "./assets/Images/App_Icons/BudgetCalc_Icon-144X144.webp",
+            "type": "image/webp",
+            "sizes": "144x144"
+        },
+        {
+            "src": "./assets/Images/App_Icons/BudgetCalc_Icon-152X152.webp",
+            "type": "image/webp",
+            "sizes": "152x152"
+        },
+        {
+            "src": "./assets/Images/App_Icons/BudgetCalc_Icon-192X192.webp",
+            "type": "image/webp",
+            "sizes": "192x192"
+        },
+        {
+            "src": "./assets/Images/App_Icons/BudgetCalc_Icon-384X384.webp",
+            "type": "image/webp",
+            "sizes": "384x384"
+        },
+        {
+            "src": "./assets/Images/App_Icons/BudgetCalc_Icon-512X512.webp",
+            "type": "image/webp",
+            "sizes": "512x512"
+        }
+    ]
+}

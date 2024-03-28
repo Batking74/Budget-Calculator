@@ -12,4 +12,4 @@ app.use('/', api);
 // Server Port
 app.listen(PORT, () => {
     console.log('Listening on port 7000');
-})
+});

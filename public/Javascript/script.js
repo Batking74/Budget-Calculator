@@ -18,7 +18,7 @@ export let netpays = [];
 export let logs;
 
 try { logs = await (await fetch('/setAside')).json(); }
-catch(error) { console.log(error); }
+catch (error) { console.log(error); }
 
 utils1.setAsideMsg.insertAtHead('Bills Set Aside');
 utils1.setAsideMsg.insertAtHead('Save Set Aside');
@@ -26,9 +26,9 @@ utils1.setAsideMsg.insertAtHead('Save Set Aside');
 // Displaying All Record Log SetAsides in Database Time Complexity: O(n)
 export function displayAllLogs(container) {
     let i = 0, j = 0;
-    while(i < logs.length) {
-        if(i < logs.length && j == 0) showLogDetails(container, i);
-        if(j < logs[i].SetAsides.length) {
+    while (i < logs.length) {
+        if (i < logs.length && j == 0) showLogDetails(container, i);
+        if (j < logs[i].SetAsides.length) {
             showAllSetAsidesInLog(container, i, j);
             j++;
             continue;
@@ -49,14 +49,14 @@ utils3.setAllEventListeners();
 // This function makes sure the user has a Netpay before calculating
 export function validateSetAsides() {
     netpays.length = utils1.inputOptions.length + 1;
-    if(utils1.hasNetIncome()) {
+    if (utils1.hasNetIncome()) {
         const msg = utils1.text[6];
         const num = (msg.length) + 2;
         netPayResults.textContent = `${msg}: $${utils1.netIncome.value}`;
-        for(let i = 0; i < utils1.inputOptions.length; i++) {
+        for (let i = 0; i < utils1.inputOptions.length; i++) {
             const label = utils1.setAsideMsg.getIndex(i).value;
             let inputData = utils1.inputOptions.getIndex(i).value;
-            if(inputData.value === utils1.empty) {
+            if (inputData.value === utils1.empty) {
                 utils1.calcResults.getIndex(i).textContent = utils1.empty;
             }
             else calculate(utils1.netIncome.value, inputData, label, num, i);
@@ -74,7 +74,7 @@ function calculate(netPayValue, inputData, label, num, i) {
     let setAsideAmount = (inputData.value);
     let value = calculateNewNetPay(netPay, netPayValue, setAsideAmount);
     let string = `${label}: -$${parseFloat(setAsideAmount).toLocaleString()}`;
-    if(calcOptionSysmbol != '%') displayCalcResults(value[0], value[1], string, i);
+    if (calcOptionSysmbol != '%') displayCalcResults(value[0], value[1], string, i);
     else {
         // Percent Calculation: %
         setAsideAmount = (netPay * (inputData.value / 100)).toFixed(2);
@@ -104,7 +104,7 @@ function displayCalcResults(newNetPay, percentageSaved, string, i) {
 
 // This function creates a new SetAside Specified by user
 export function addSetAside(label) {
-    if(label === null || label === utils1.empty) return;
+    if (label === null || label === utils1.empty) return;
     const newElement = utils1.getElements();
     const [div, input, calcType, deleteBtn, resultsEle] = utils1.setAttributes(newElement[0], newElement[2], newElement[4], newElement[5], newElement[6]);
     utils1.appendNodes(div, newElement[1], input, newElement[3], calcType, deleteBtn, label);
@@ -119,7 +119,7 @@ export function addSetAside(label) {
 
 // Deletes SetAside Inputs and their eventlisteners
 export function deleteSetAside(i) {
-    if(utils1.resultContainer.children[i].id === e.target.id) {
+    if (utils1.resultContainer.children[i].id === e.target.id) {
         e.target.parentElement.remove();
         e.target.remove();
         utils1.removeFromList(i);
@@ -134,7 +134,7 @@ export function deleteSetAside(i) {
 // Algorithm for changing the users calulation preference (calcOption)
 export function changeCalcOption(e) {
     const isfixedNumCalculation = e.target.textContent != '#';
-    if(isfixedNumCalculation) change(e, '#');
+    if (isfixedNumCalculation) change(e, '#');
     else change(e, '%');
 }
 
@@ -180,3 +180,5 @@ function change(e, option) {
 //     });
 //     $("#sortable").disableSelection();
 // });
+
+// Mainifest file provides info about my app to the browser
