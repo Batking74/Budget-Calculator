@@ -182,3 +182,18 @@ function change(e, option) {
 // });
 
 // Mainifest file provides info about my app to the browser
+
+async function registerServiceWorker() {
+    if('serviceWorker' in navigator) {
+        try {
+            const res = await navigator.serviceWorker.register('../sw.js');
+            console.log(res)
+        }
+        catch(error) {
+            console.error('Service Worker not registered: ', error);
+            throw error;
+        }
+    }
+}
+
+registerServiceWorker();
