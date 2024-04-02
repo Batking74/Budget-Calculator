@@ -2,7 +2,7 @@
 const { createConnection } = require('mysql2');
 const { send } = require('./Email');
 require('dotenv').config();
-const PORT = process.env.PORT || 7000;
+const PORT = process.env.PORT || 6000;
 
 
 // Connecting to mySQL Database
