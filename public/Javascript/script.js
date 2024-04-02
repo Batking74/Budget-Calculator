@@ -187,7 +187,6 @@ async function registerServiceWorker() {
     if('serviceWorker' in navigator) {
         try {
             const res = await navigator.serviceWorker.register('../sw.js');
-            console.log(res)
         }
         catch(error) {
             console.error('Service Worker not registered: ', error);
