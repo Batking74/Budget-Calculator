@@ -1,7 +1,7 @@
 // Importing Modules/Packages
-const express = require('express');
 const api = require('./routes/SetAside');
 const { PORT } = require('./database');
+const express = require('express');
 const app = express();
 
 // Middleware
@@ -11,5 +11,5 @@ app.use('/', api);
 
 // Server Port
 app.listen(PORT, () => {
-    console.log('Listening on port 7000');
+    console.log('Listening on port', PORT);
 });

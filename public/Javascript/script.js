@@ -17,7 +17,7 @@ export let counter = 3;
 export let netpays = [];
 export let logs;
 
-try { logs = await (await fetch('/setAside')).json(); }
+try { logs = await (await fetch('/api/setAside')).json(); }
 catch (error) { console.log(error); }
 
 utils1.setAsideMsg.insertAtHead('Bills Set Aside');

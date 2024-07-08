@@ -1,8 +1,11 @@
+// Importing Modules/Packages
 const nodemailer = require('nodemailer');
 const mailgen = require('mailgen');
 const fs = require('fs');
 require('dotenv').config();
 
+
+// Configuring Mail Templates
 const generator = new mailgen({
     theme: 'cerberus',
     product: {
@@ -13,6 +16,8 @@ const generator = new mailgen({
     }
 })
 
+
+// Configuring nodemailer for sending emails
 const transporter = nodemailer.createTransport(
     {
         host: process.env.HOST,
@@ -23,11 +28,13 @@ const transporter = nodemailer.createTransport(
     }
 )
 
+
 function send(Netpay, SetAsides, Percentage_Kept, Spending_Money) {
+    // Designing email markup 
     const gen = {
         body: {
             name: 'Naz!',
-            intro: `Congradulations on your new logged SetAside!! You have ${Spending_Money} left to spend for your self! Which means you kept ${Percentage_Kept} of your original Netpay (${Netpay})!`,
+            intro: `Congratulations on your new logged SetAside!! You have ${Spending_Money} left to spend for your self! Which means you kept ${Percentage_Kept} of your original Netpay (${Netpay})!`,
             table: {
                 data: SetAsides
             },
@@ -35,21 +42,22 @@ function send(Netpay, SetAsides, Percentage_Kept, Spending_Money) {
         }
     }
 
-    // Creating Custom Invoice 
+    // Creating Custom Invoice
     fs.readFile('./public/index.html', 'utf-8', (err, data) => {
         if(err) throw err;
         const options = {
-            to: process.env.RECIPIENT,
-            from: `Nazir's Budgeting Calculator <${process.env.USERNAME}>`,
+            to: process.env.RECIPIENTS.split(', '),
+            from: `Nazir's Budgeting Calculator <${process.env.EMAIL}>`,
             subject: "Naz NEW SetAside Log Budget Review!!",
             html: generator.generate(gen)
         }
-    
-        transporter.sendMail(options, (err, info) => {
-            if(err) console.log(err)
-            console.log(info.messageId)
-        })
-    })
+
+        // Transporting Email over TCP/IP
+        transporter.sendMail(options, (error, info) => {
+            if(error) throw error;
+            console.log(info.messageId);
+        });
+    });
 }
 
 

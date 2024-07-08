@@ -5,7 +5,7 @@ import * as utils2 from './utils2.js';
 // Creates a new Record log in SQL Database
 export function createLog(arr, finalResults) {
     if (!(arr.length == 0)) {
-        fetch('/setAside', {
+        fetch('/api/setAside', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -24,7 +24,7 @@ export function createLog(arr, finalResults) {
 export async function deleteLog(id) {
     if (confirm(utils1.text[7])) {
         try {
-            const res = (await (await fetch(`/setAside/${id}`, {
+            const res = (await (await fetch(`/api/setAside/${id}`, {
                 method: 'DELETE',
                 headers: { 'Content-type': 'application/json' }
             })).json());

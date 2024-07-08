@@ -2,7 +2,7 @@
 const { createConnection } = require('mysql2');
 const { send } = require('./Email');
 require('dotenv').config();
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 5000;
 
 
 // Connecting to mySQL Database
@@ -20,7 +20,7 @@ else {
 }
 
 
-// Retreives All SetAside Records in SQL Database
+// Retrieves All SetAside Records in SQL Database
 async function getAllRecords() {
     const res = await database.execute(`SELECT * FROM SetAsides`); return res[0];
 }
